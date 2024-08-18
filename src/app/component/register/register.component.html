@@ -1,0 +1,209 @@
+<div class="w-screen h-screen flex justify-center items-center">
+  <img
+    src="/img_backgound_app.png"
+    alt="fixed z-0"
+    class="absolute top-0 left-0 w-full h-full object-cover z-0"
+  />
+  <div
+    class="relative flex min-h-fit flex-col justify-center px-6 py-12 lg:px-8 w-2/4 rounded-md border border-neutral-500"
+  >
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm z-10">
+      <img
+        class="mx-auto h-10 w-auto object-cover"
+        src="/img_logo_primary.png"
+        alt="Your Company"
+      />
+      <h2
+        class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white"
+      >
+        Get Started Now
+      </h2>
+    </div>
+
+    <div class="mt-10">
+      <form action="#" method="POST">
+        <div class="flex flex-col lg:flex-row justify-between">
+          <div class="w-full">
+            <div class="mb-6">
+              <label
+                for="name"
+                class="block text-sm font-medium leading-6 text-white"
+                >Name</label
+              >
+              <div class="mt-2">
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div class="mb-6">
+              <label
+                for="email"
+                class="block text-sm font-medium leading-6 text-white"
+                >Email</label
+              >
+              <div class="mt-2">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <div class="flex items-center justify-between">
+                <label
+                  for="password"
+                  class="block text-sm font-medium leading-6 text-white"
+                  >Password</label
+                >
+              </div>
+              <div class="mt-2">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                  class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="w-10"></div>
+          <div class="w-full">
+            <div class="mb-6">
+              <label
+                for="phone-number"
+                class="block text-sm font-medium leading-6 text-white"
+                >Birth Date</label
+              >
+              <div class="mt-2">
+                <div class="relative max-w-sm">
+                  <div
+                    class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                  >
+                    <svg
+                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    datepicker
+                    datepicker-autohide
+                    id="default-datepicker"
+                    type="text"
+                    class="block w-full rounded-md border-0 py-1.5 px-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
+                    placeholder="Select date"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="mb-6">
+              <label
+                for="phone-number"
+                class="block text-sm font-medium leading-6 text-white"
+                >Phone Number</label
+              >
+              <div class="mt-2">
+                <input
+                  id="phone-number"
+                  name="phone-number"
+                  type="number"
+                  required
+                  class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label
+                for="phone-number"
+                class="block text-sm font-medium leading-6 text-white"
+                >Gender</label
+              >
+              <div class="mt-2 flex flex-row w-full py-2">
+                <div class="flex items-center mr-6">
+                  <input
+                    id="default-radio-1"
+                    type="radio"
+                    value=""
+                    name="default-radio"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="default-radio-1"
+                    class="ms-2 text-sm font-medium text-white dark:text-gray-300"
+                    >Male</label
+                  >
+                </div>
+                <div class="flex items-center mr-6">
+                  <input
+                    checked
+                    id="default-radio-2"
+                    type="radio"
+                    value=""
+                    name="default-radio"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="default-radio-2"
+                    class="ms-2 text-sm font-medium text-white dark:text-gray-300"
+                    >Female</label
+                  >
+                </div>
+                <div class="flex items-center mr-6">
+                  <input
+                    checked
+                    id="default-radio-3"
+                    type="radio"
+                    value=""
+                    name="default-radio"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="default-radio-3"
+                    class="ms-2 text-sm font-medium text-white dark:text-gray-300"
+                    >Other</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            class="flex w-2/4 justify-center rounded-md bg-gradient-to-r from-primary-light to-primary-dark px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            Register
+          </button>
+        </div>
+      </form>
+
+      <p class="mt-10 text-center text-sm text-gray-100">
+        Already has an account?
+        <a
+          href="#"
+          class="font-semibold leading-6 text-primary hover:text-primary-light"
+          >Login</a
+        >
+      </p>
+    </div>
+  </div>
+</div>
