@@ -1,19 +1,43 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CarouselModule } from 'primeng/carousel';
+
+import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { CarouselModule } from 'primeng/carousel';
 import { TagModule } from 'primeng/tag';
+import { FooterComponent } from '../../common/footer/footer.component';
+import { HeaderComponent } from '../../common/header/header.component';
+
+interface City {
+  name: string;
+  image: string;
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CarouselModule, ButtonModule, TagModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    CarouselModule,
+    ButtonModule,
+    TagModule,
+    FooterComponent,
+    HeaderComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
+  cities!: City[];
+  responsiveOptions: any[] | undefined;
+  withSpecialEventItem = 0;
   sliderSpecialEvents: any;
   defaultTransformSpecialEvent: any;
   sliderTrendingEvents: any;
   defaultTransformTrendingEvent: any;
+  selectedCity!: City;
+
   goNextSpecialEvent() {
     this.defaultTransformSpecialEvent = this.defaultTransformSpecialEvent - 398;
     if (
@@ -61,5 +85,31 @@ export class HomeComponent implements OnInit {
     this.defaultTransformSpecialEvent = 0;
     this.sliderTrendingEvents = document.getElementById('sliderTrendingEvents');
     this.defaultTransformTrendingEvent = 0;
+
+    this.cities = [
+      { name: 'New York', image: 'bamboo-watch.jpg' },
+      { name: 'Rome', image: 'bamboo-watch.jpg' },
+      { name: 'London', image: 'bamboo-watch.jpg' },
+      { name: 'Istanbul', image: 'bamboo-watch.jpg' },
+      { name: 'Paris', image: 'bamboo-watch.jpg' },
+    ];
+
+    this.responsiveOptions = [
+      {
+        breakpoint: '1199px',
+        numVisible: 1,
+        numScroll: 1,
+      },
+      {
+        breakpoint: '991px',
+        numVisible: 2,
+        numScroll: 1,
+      },
+      {
+        breakpoint: '767px',
+        numVisible: 1,
+        numScroll: 1,
+      },
+    ];
   }
 }

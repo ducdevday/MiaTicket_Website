@@ -21,9 +21,9 @@
     </div>
 
     <div class="mt-10">
-      <form action="#" method="POST">
+      <form [formGroup]="registerForm" (submit)="onSubmit()">
         <div class="flex flex-col lg:flex-row justify-between">
-          <div class="w-full">
+          <div class="w-full flex-1">
             <div class="mb-6">
               <label
                 for="name"
@@ -35,7 +35,7 @@
                   id="name"
                   name="name"
                   type="text"
-                  required
+                  formControlName="name"
                   class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                 />
               </div>
@@ -51,8 +51,7 @@
                   id="email"
                   name="email"
                   type="email"
-                  autocomplete="email"
-                  required
+                  formControlName="email"
                   class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                 />
               </div>
@@ -71,15 +70,14 @@
                   id="password"
                   name="password"
                   type="password"
-                  autocomplete="current-password"
-                  required
+                  formControlName="password"
                   class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
           </div>
           <div class="w-10"></div>
-          <div class="w-full">
+          <div class="w-full flex-1">
             <div class="mb-6">
               <label
                 for="phone-number"
@@ -87,31 +85,10 @@
                 >Birth Date</label
               >
               <div class="mt-2">
-                <div class="relative max-w-sm">
-                  <div
-                    class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
-                  >
-                    <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    datepicker
-                    datepicker-autohide
-                    id="default-datepicker"
-                    type="text"
-                    class="block w-full rounded-md border-0 py-1.5 px-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
-                    placeholder="Select date"
-                  />
-                </div>
+                <p-calendar
+                  styleClass="block w-full input-calendar"
+                  formControlName="birthDate"
+                />
               </div>
             </div>
             <div class="mb-6">
@@ -124,8 +101,8 @@
                 <input
                   id="phone-number"
                   name="phone-number"
-                  type="number"
-                  required
+                  type="tel"
+                  formControlName="phoneNumber"
                   class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                 />
               </div>
@@ -133,51 +110,52 @@
 
             <div class="mb-6">
               <label
-                for="phone-number"
+                for="gender"
                 class="block text-sm font-medium leading-6 text-white"
                 >Gender</label
               >
               <div class="mt-2 flex flex-row w-full py-2">
                 <div class="flex items-center mr-6">
                   <input
-                    id="default-radio-1"
+                    id="male"
                     type="radio"
-                    value=""
-                    name="default-radio"
+                    value="0"
+                    name="gender"
+                    formControlName="gender"
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label
-                    for="default-radio-1"
+                    for="male"
                     class="ms-2 text-sm font-medium text-white dark:text-gray-300"
                     >Male</label
                   >
                 </div>
                 <div class="flex items-center mr-6">
                   <input
-                    checked
-                    id="default-radio-2"
+                    id="female"
                     type="radio"
-                    value=""
-                    name="default-radio"
+                    value="1"
+                    name="gender"
+                    formControlName="gender"
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label
-                    for="default-radio-2"
+                    for="female"
                     class="ms-2 text-sm font-medium text-white dark:text-gray-300"
                     >Female</label
                   >
                 </div>
                 <div class="flex items-center mr-6">
                   <input
-                    checked
-                    id="default-radio-3"
+                    id="other"
                     type="radio"
-                    value=""
-                    name="default-radio"
+                    value="2"
+                    name="gender"
+                    formControlName="gender"
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label
-                    for="default-radio-3"
+                    for="other"
                     class="ms-2 text-sm font-medium text-white dark:text-gray-300"
                     >Other</label
                   >
@@ -189,21 +167,25 @@
         <div class="flex justify-center">
           <button
             type="submit"
-            class="flex w-2/4 justify-center rounded-md bg-gradient-to-r from-primary-light to-primary-dark px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            pButton
+            pRipple
+            class="flex w-1/2 justify-center linear-button"
           >
             Register
           </button>
         </div>
       </form>
 
-      <p class="mt-10 text-center text-sm text-gray-100">
+      <p class="mt-10 text-center text-sm text-gray-100 select-none">
         Already has an account?
         <a
-          href="#"
-          class="font-semibold leading-6 text-primary hover:text-primary-light"
+          routerLink="/login"
+          routerLinkActive="active"
+          class="font-semibold leading-6 text-primary hover:text-primary-light cursor-pointer"
           >Login</a
         >
       </p>
     </div>
   </div>
 </div>
+<p-toast />

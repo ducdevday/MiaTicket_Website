@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [],
+  imports: [ButtonModule],
   templateUrl: './change-password.component.html',
-  styleUrl: './change-password.component.scss'
+  styleUrl: './change-password.component.scss',
 })
-export class ChangePasswordComponent {
-
-}
+export class ChangePasswordComponent {}

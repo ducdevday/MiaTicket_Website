@@ -1,0 +1,32 @@
+// ::ng-deep .p-carousel-next {
+//   position: absolute;
+//   right: 0;
+// }
+// ::ng-deep .p-carousel-prev {
+//   position: absolute;
+//   left: 0;
+// }
+
+::ng-deep .p-carousel .p-carousel-indicators {
+  padding: 0 0;
+}
+::ng-deep .p-carousel .p-carousel-indicators .p-carousel-indicator button {
+  background-color: #e9ecef;
+  width: 0.5rem;
+  height: 0.5rem;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
+  border-radius: 50%;
+}
+
+::ng-deep .p-carousel .p-carousel-indicators .p-highlight button {
+  background-color: #f7a911;
+  width: 0.5rem;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
+  border-radius: 50%;
+}

@@ -1,0 +1,144 @@
+<app-menu-layout>
+  <div>
+    <h2 class="text-2xl font-bold mb-2">My Profile</h2>
+    <p class="text-gray-500">Manage and protect your account</p>
+    <div class="w-full border-[1px] border-gray-200 my-4"></div>
+    <form>
+      <div class="flex flex-row w-full">
+        <div class="flex flex-col w-3/5 gap-y-4">
+          <div>
+            <label for="name" class="block text-gray-700 mb-2 font-semibold"
+              >Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none text-gray-900 font-normal"
+              placeholder="Enter Your Name"
+            />
+          </div>
+          <div>
+            <label for="email" class="block text-gray-700 mb-2 font-semibold"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none text-gray-900 font-normal"
+              placeholder="Enter your email"
+              disabled
+            />
+          </div>
+
+          <div>
+            <label
+              for="confirmPassword"
+              class="block text-gray-700 mb-2 font-semibold"
+              >Birth Date</label
+            >
+            <p-calendar
+              styleClass="block w-full input-calendar text-gray-900 font-normal"
+              formControlName="birthDate"
+              placeholder="MM/dd/yyyy"
+            />
+          </div>
+          <div>
+            <label
+              for="phone-number"
+              class="block text-gray-700 mb-2 font-semibold"
+              >Phone Number</label
+            >
+            <input
+              id="phone-number"
+              name="phone-number"
+              type="tel"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none text-gray-900 font-normal"
+              placeholder="Enter your phone number"
+            />
+          </div>
+          <div>
+            <label for="gender" class="block text-gray-700 mb-2 font-semibold"
+              >Gender</label
+            >
+
+            <div class="flex flex-row w-full py-2 px-2">
+              <div class="flex items-center mr-6">
+                <input
+                  id="male"
+                  type="radio"
+                  value="0"
+                  name="gender"
+                  class="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label for="male" class="ms-2 text-sm font-medium text-gray-900"
+                  >Male</label
+                >
+              </div>
+              <div class="flex items-center mr-6">
+                <input
+                  id="female"
+                  type="radio"
+                  value="1"
+                  name="gender"
+                  class="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  for="female"
+                  class="ms-2 text-sm font-medium text-gray-900"
+                  >Female</label
+                >
+              </div>
+              <div class="flex items-center mr-6">
+                <input
+                  id="other"
+                  type="radio"
+                  value="2"
+                  name="gender"
+                  class="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  for="other"
+                  class="ms-2 text-sm font-medium text-gray-900"
+                  >Other</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-200 h-auto w-[1px] ml-20"></div>
+        <div class="flex flex-col w-2/5 items-center">
+          <div class="w-24 h-24 rounded-full overflow-hidden mb-4">
+            <img
+              src="https://salt.tkbcdn.com/ts/ds/83/2b/0f/becd6c6b87118396026bdc447ac52457.jpg"
+              alt="Avatar"
+              class="object-cover w-full h-full"
+            />
+          </div>
+
+          <!-- Upload Button -->
+          <label
+            class="cursor-pointer flex items-center text-primary border border-primary rounded-lg px-2 py-1 hover:bg-[#ffe2b7]"
+          >
+            <input
+              type="file"
+              class="hidden"
+              (change)="onFileSelected($event)"
+            />
+            <span class="ml-2 text-sm">Upload Avatar</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-4">
+        <button
+          type="submit"
+          pButton
+          pRipple
+          class="flex w-1/2 justify-center linear-button t"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</app-menu-layout>

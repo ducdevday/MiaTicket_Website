@@ -1,0 +1,49 @@
+// Customize date picker
+::ng-deep .p-inputtext {
+  padding-top: 0.33rem /* 6px */;
+  padding-bottom: 0.33rem /* 6px */;
+  padding-left: 1rem /* 16px */;
+  padding-right: 1rem;
+
+  border-radius: 0.375rem;
+  &:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: none;
+    border-color: inherit;
+  }
+  &:hover {
+    border-color: inherit;
+  }
+}
+::ng-deep .p-datepicker table td {
+  padding: 0.2rem !important;
+}
+
+::ng-deep .p-datepicker table td > span {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+::ng-deep .p-datepicker table {
+  font-size: 10pt;
+  margin: -0.143rem 0;
+}
+
+::ng-deep .p-datepicker .p-datepicker-header {
+  padding: 0.2rem;
+}
+
+.linear-button {
+  background-image: linear-gradient(to right, #f6b027, #b27600);
+  padding-top: 0.375rem /* 6px */;
+  padding-bottom: 0.375rem /* 6px */;
+  border: none;
+  font-size: 0.875rem /* 14px */;
+  line-height: 1.5rem /* 24px */;
+  font-weight: 600;
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
