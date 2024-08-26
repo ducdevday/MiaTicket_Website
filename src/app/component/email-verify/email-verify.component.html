@@ -14,15 +14,23 @@
         alt="Your Company"
       />
       <h2
+        *ngIf="verifyType == 'Register'"
+        class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white"
+      >
+        Email Verification
+      </h2>
+      <h2
+        *ngIf="verifyType == 'ResetPassword'"
         class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white"
       >
         Email Verification
       </h2>
       <p class="mt-4 text-center text-base text-gray-100">
-        We have sent a code to your email mingducdocode&#64;gmail.com
+        We have sent an mail to your email {{ email }}
       </p>
     </div>
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm flex justify-center">
+    <!-- OTP BOX -->
+    <!-- <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm flex justify-center">
       <div class="card flex justify-content-center">
         <p-inputOtp [(ngModel)]="value">
           <ng-template pTemplate="input" let-token let-events="events">
@@ -38,24 +46,26 @@
           </ng-template>
         </p-inputOtp>
       </div>
-    </div>
+    </div> -->
     <div class="mt-10 flex justify-center">
       <button
         type="submit"
         pButton
         pRipple
         class="flex w-1/2 justify-center linear-button t"
+        (click)="onOpenMailClick()"
       >
-        Verify
+        Open Mail Box
       </button>
     </div>
     <p class="mt-10 text-center text-sm text-gray-100">
-      Didn't recieve code?
-      <a
-        href="#"
-        class="font-semibold leading-6 text-primary hover:text-primary-light"
-        >Resend</a
+      Didn't recieve a mail?
+      <span
+        class="font-semibold leading-6 text-primary hover:text-primary-light cursor-pointer select-none"
+        (click)="onResendClicked()"
+        >Resend</span
       >
     </p>
   </div>
 </div>
+<p-toast></p-toast>

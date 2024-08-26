@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,15 +6,21 @@ import {
   Validators,
 } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
 
-import { ToastService } from '../../service/toast.service';
-import { AccountService } from '../../service/account.service';
-import { LoginRequest } from '../../dto/request/login-request';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { EMAIL_VERIFY_PATH, HOME_PATH, REGISTER_PATH } from '../../app.routes';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../const/regex';
+import { VerifyType } from '../../dto/enum/verify-type';
+import { LoginRequest } from '../../dto/request/login-request';
+import { AccountService } from '../../service/account.service';
+import { LocalStorageService } from '../../service/local-storage.service';
+import { ToastService } from '../../service/toast.service';
+import { VerifyCodeService } from '../../service/verify-code.service';
+import SendVerifyCodeRequest from '../../dto/request/send-verify-code-request';
 
 @Component({
   selector: 'app-login',
@@ -28,15 +34,25 @@ import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../const/regex';
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  providers: [ToastService, MessageService, AccountService],
+  providers: [
+    ToastService,
+    MessageService,
+    AccountService,
+    VerifyCodeService,
+    LocalStorageService,
+  ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  forgotPasswordForm!: FormGroup;
   isShowForgotPassDialog: boolean = false;
   constructor(
     private fb: FormBuilder,
     private toastService: ToastService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private verifyCodeService: VerifyCodeService,
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
@@ -45,9 +61,17 @@ export class LoginComponent {
         [Validators.required, Validators.pattern(PASSWORD_PATTERN)],
       ],
     });
+    this.forgotPasswordForm = this.fb.group({
+      email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+    });
+  }
+  ngOnInit(): void {
+    const token = this.localStorageService.getAccessToken();
+    if (token !== null && token !== undefined && token.length > 0)
+      this.router.navigate(['']);
   }
 
-  onSubmit() {
+  onLogin() {
     var isEmailValid = this.loginForm.controls['email'].valid;
     var isPasswordValid = this.loginForm.controls['password'].valid;
 
@@ -57,21 +81,58 @@ export class LoginComponent {
       var loginRequest = new LoginRequest(email, password);
       this.accountService.login(loginRequest).subscribe({
         next: (response) => {
-          console.log(response);
           this.toastService.showSuccess('Login Successfully');
+          this.localStorageService.saveIsAuthenticated(true);
+          this.localStorageService.saveUser(response.data.user);
+          this.localStorageService.saveAccessToken(response.data.accessToken);
+          this.router.navigate([HOME_PATH]);
         },
         error: (err) => {
-          console.log(err);
-          this.toastService.showError('Invalid email or password');
+          this.toastService.showError(err.error.message);
+          if (err.error.statusCode == 403) {
+            setTimeout(() => {
+              this.router.navigate([EMAIL_VERIFY_PATH], {
+                queryParams: {
+                  email: this.loginForm.controls['email'].value,
+                  verifyType: `${VerifyType[VerifyType.Register]}`,
+                },
+              });
+            }, 3000); //
+          }
         },
       });
-    } else
-      this.toastService.showError('Login failed, invalid email or password');
+    } else this.toastService.showError('Invalid email or password');
+  }
+
+  onForgotPassword() {
+    var isEmailValid = this.forgotPasswordForm.controls['email'].valid;
+    if (isEmailValid) {
+      var email = this.forgotPasswordForm.controls['email'].value;
+      var sendVerifyCodeRequest = new SendVerifyCodeRequest(
+        email,
+        VerifyType.ResetPassword
+      );
+      this.verifyCodeService.sendVerifyCode(sendVerifyCodeRequest).subscribe({
+        next: (response) => {
+          this.router.navigate([EMAIL_VERIFY_PATH], {
+            queryParams: {
+              email: email,
+              verifyType: `${VerifyType[VerifyType.ResetPassword]}`,
+            },
+          });
+        },
+        error: (err) => {
+          this.toastService.showError(err.error.message);
+        },
+      });
+    } else this.toastService.showError('Invalid email');
   }
 
   showForgotPassDialog() {
-    console.log('showForgotPassDialog');
-
     this.isShowForgotPassDialog = true;
+  }
+
+  onRegisterClicked() {
+    this.router.navigate([REGISTER_PATH]);
   }
 }

@@ -176,15 +176,15 @@
         </div>
       </form>
 
-      <p class="mt-10 text-center text-sm text-gray-100 select-none">
+      <div class="mt-10 text-center text-sm text-gray-100 select-none">
         Already has an account?
-        <a
-          routerLink="/login"
-          routerLinkActive="active"
+        <span
+          (click)="onLoginClicked()"
           class="font-semibold leading-6 text-primary hover:text-primary-light cursor-pointer"
-          >Login</a
         >
-      </p>
+          Login
+        </span>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,9 @@
+::ng-deep .p-paginator .p-paginator-element {
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: 5px;
+  &.p-highlight {
+    background: #ffe2b7;
+    color: #f7a911;
+  }
+}

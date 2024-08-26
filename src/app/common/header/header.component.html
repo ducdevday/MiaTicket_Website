@@ -56,12 +56,37 @@
           <i class="fa-solid fa-ticket mr-2"></i>
           <span class="">My Tickets </span>
         </div>
+      </div>
+      <ng-template [ngIf]="isAuthenticated" [ngIfElse]="notAuthenticated">
+        <div class="card flex justify-content-center items-center">
+          <p-menu #menu [model]="items" [popup]="true" />
+          <div class="flex items-center gap-1" (click)="menu.toggle($event)">
+            <img
+              src="https://salt.tkbcdn.com/ts/ds/83/2b/0f/becd6c6b87118396026bdc447ac52457.jpg"
+              alt="Profile"
+              class="w-8 h-8 rounded-full object-cover object-center"
+            />
+            <span
+              class="text-sm text-white cursor-pointer select-none truncate max-w-36"
+              >Nguyễn Minh Đức
+            </span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #notAuthenticated>
         <div
           class="flex flex-row justify-center items-center cursor-pointer select-none"
         >
-          <span class="text-sm text-white font-medium">Log in | Register </span>
+          <div class="card flex justify-content-center">
+            <span
+              class="text-sm text-white font-medium truncate max-w-36"
+              (click)="onLoginOrRegisterClicked()"
+              >Log in | Register
+            </span>
+          </div>
         </div>
-      </div>
+      </ng-template>
     </header>
   </div>
 </div>
+<p-toast></p-toast>

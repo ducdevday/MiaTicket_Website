@@ -20,6 +20,9 @@ import {
 } from '../../const/regex';
 import { TimeUtil } from '../../utils/time-util';
 import { CreateAccountRequest } from '../../dto/request/create-account-request';
+import { Router } from '@angular/router';
+import { EMAIL_VERIFY_PATH, LOGIN_PATH } from '../../app.routes';
+import { VerifyType } from '../../dto/enum/verify-type';
 
 @Component({
   selector: 'app-register',
@@ -34,7 +37,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private toastService: ToastService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router
   ) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(255)]],
@@ -93,17 +97,16 @@ export class RegisterComponent {
         birthDate,
         gender
       );
-      console.log(name);
-      console.log(email);
-      console.log(password);
-      console.log(birthDate);
-      console.log(phoneNumber);
-      console.log(gender);
-
       this.accountService.createAccount(createAccountRequest).subscribe({
         next: (response) => {
           console.log(response);
           this.toastService.showSuccess('Register Successfully');
+          this.router.navigate([EMAIL_VERIFY_PATH], {
+            queryParams: {
+              email: this.registerForm.controls['email'].value,
+              verifyType: `${VerifyType[VerifyType.Register]}`,
+            },
+          });
         },
         error: (err) => {
           console.log(err);
@@ -113,5 +116,9 @@ export class RegisterComponent {
     } else {
       this.toastService.showError('Register Failed! Please try again');
     }
+  }
+
+  onLoginClicked() {
+    this.router.navigate([LOGIN_PATH]);
   }
 }

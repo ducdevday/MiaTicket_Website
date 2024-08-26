@@ -1,0 +1,11 @@
+::ng-deep .p-steps-item {
+  .p-steps-number {
+    border: 1px solid #f7a911;
+  }
+}
+
+::ng-deep .p-steps-item.p-highlight {
+  .p-steps-number {
+    background: #f7a911;
+  }
+}

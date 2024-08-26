@@ -21,7 +21,7 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form class="space-y-6" [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <div>
           <label
             for="email"
@@ -85,7 +85,7 @@
               <span class="p-text-secondary block mb-5 text-start"
                 >Enter your email and we send code to verify</span
               >
-              <form>
+              <form [formGroup]="forgotPasswordForm">
                 <div class="flex align-items-center gap-3 mb-5 items-center">
                   <label for="email" class="font-semibold w-6rem">Email</label>
                   <input
@@ -93,6 +93,7 @@
                     id="email"
                     class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                     autocomplete="off"
+                    formControlName="email"
                   />
                 </div>
               </form>
@@ -108,7 +109,7 @@
                   label="Continue"
                   [text]="true"
                   severity="secondary"
-                  (onClick)="isShowForgotPassDialog = false"
+                  (onClick)="isShowForgotPassDialog = false; onForgotPassword()"
                 />
               </ng-template>
             </p-dialog>
@@ -127,16 +128,17 @@
         </div>
       </form>
 
-      <p class="mt-10 text-center text-sm text-gray-100 select-none">
+      <div class="mt-10 text-center text-sm text-gray-100 select-none">
         Don't have account?
-        <a
-          class="font-semibold leading-6 text-primary hover:text-primary-light cursor-pointer"
-          routerLink="/register"
+        <span
+          class="font-semibold leading-6 text-primary hover:text-primary-light hover:cursor-pointer"
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
-          >Register</a
+          (click)="onRegisterClicked()"
         >
-      </p>
+          Register
+        </span>
+      </div>
     </div>
   </div>
 </div>
