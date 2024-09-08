@@ -85,7 +85,7 @@ export class RegisterComponent {
       var email = this.registerForm.controls['email'].value;
       var password = this.registerForm.controls['password'].value;
       var phoneNumber = this.registerForm.controls['phoneNumber'].value;
-      var birthDate = TimeUtil.convertToISOString(
+      var birthDate = TimeUtil.formatToISOString(
         this.registerForm.controls['birthDate'].value
       );
       var gender = this.registerForm.controls['gender'].value;

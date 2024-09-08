@@ -1,12 +1,19 @@
 <div class="">
   <!-- Search and Tabs -->
-  <div class="flex items-center mb-4 gap-2">
-    <input
-      type="text"
-      placeholder="Search event"
-      class="rounded-lg py-2 px-4 w-1/3 border border-spacing-6 border-gray-400 focus:outline-none text-sm"
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center gap-2">
+      <input
+        type="text"
+        placeholder="Search event"
+        class="rounded-lg py-2 px-4 border border-spacing-6 border-gray-400 focus:outline-none text-sm"
+      />
+      <p-button icon="pi pi-search" styleClass="primary-button" />
+    </div>
+    <p-tabMenu
+      [model]="eventStatuses"
+      [activeItem]="activeEventStatus"
+      (activeItemChange)="onActiveEventStatusChange($event)"
     />
-    <p-button icon="pi pi-search" styleClass="primary-button" />
   </div>
 
   <!-- Event Card -->

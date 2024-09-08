@@ -55,8 +55,8 @@ export class AccountComponent implements OnInit {
   }
 
   setSelectedMenuItemIndex(): void {
-    const currentUrl = this.router.url.slice(1);
-
+    const currentUrl = this.router.url.split('?')[0].substring(1);
+    console.log(currentUrl);
     // Find the index of the current URL in the menuItems array
     this.selectedMenuItemIndex = this.menuItems.indexOf(currentUrl);
 

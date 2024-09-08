@@ -95,7 +95,6 @@ export class ProfileComponent implements OnInit {
 
   initData() {
     var user = this.localStorageService.getUser();
-    console.log(user);
     if (user != null) {
       this.profileForm.controls['name'].setValue(user.name);
       this.profileForm.controls['email'].setValue(user.email);
@@ -120,7 +119,7 @@ export class ProfileComponent implements OnInit {
       var userId = this.localStorageService.getUser()?.id;
       var name = this.profileForm.controls['name'].value;
       var phone = this.profileForm.controls['phoneNumber'].value;
-      var birthDate = TimeUtil.convertToISOString(
+      var birthDate = TimeUtil.formatToISOString(
         this.profileForm.controls['birthDate'].value
       );
       var gender = this.profileForm.controls['gender'].value;

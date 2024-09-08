@@ -38,10 +38,10 @@ export class AccountService {
     );
   }
 
-  logout(logoutRequest: LogoutRequest) {
+  logout() {
     return this.http.post<LogoutResponse>(
       `${this.BASE_ACCOUNT_URL}/${this.LOGOUT_URL}`,
-      logoutRequest
+      null
     );
   }
 

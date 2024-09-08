@@ -1,0 +1,131 @@
+<p-sidebar
+  [(visible)]="isCreateShowTimeFormVisible"
+  [fullScreen]="true"
+  (onHide)="onFormClose()"
+  [blockScroll]="true"
+>
+  <ng-template pTemplate="header">
+    <span class="font-semibold text-xl text-center">
+      {{ this.showTimeInput ? "Update Show" : "Add Show" }}
+    </span>
+  </ng-template>
+  <form [formGroup]="createShowTimeForm" class="flex justify-center">
+    <div class="w-3/4 flex justify-center gap">
+      <div
+        class="border shadow-2xl rounded-lg border-gray-400 p-4 flex-1 flex flex-col gap-2"
+      >
+        <p class="text-lg font-medium">Time</p>
+        <div class="flex gap-2 w-full">
+          <div class="flex flex-col flex-1">
+            <p class="text-sm mb-2 font-medium">
+              <span class="text-red-600">*</span> Show Time Start
+            </p>
+            <p-calendar
+              inputId="calendar-24h"
+              [showTime]="true"
+              hourFormat="24"
+              placeholder="Select Date"
+              styleClass="w-full"
+              formControlName="showStartAt"
+            />
+          </div>
+          <div class="flex flex-col flex-1">
+            <p class="text-sm mb-2 font-medium">
+              <span class="text-red-600">*</span> Show Time End
+            </p>
+            <p-calendar
+              inputId="calendar-24h"
+              [showTime]="true"
+              hourFormat="24"
+              placeholder="Select Date"
+              styleClass="w-full"
+              formControlName="showEndAt"
+            />
+          </div>
+        </div>
+        <div class="flex gap-2 w-full">
+          <div class="flex flex-col flex-1">
+            <p class="text-sm mb-2 font-medium">
+              <span class="text-red-600">*</span> Sale Time Start
+            </p>
+            <p-calendar
+              inputId="calendar-24h"
+              [showTime]="true"
+              hourFormat="24"
+              placeholder="Select Date"
+              styleClass="w-full"
+              formControlName="saleStartAt"
+            />
+          </div>
+          <div class="flex flex-col flex-1">
+            <p class="text-sm mb-2 font-medium">
+              <span class="text-red-600">*</span> Sale Time End
+            </p>
+            <p-calendar
+              inputId="calendar-24h"
+              [showTime]="true"
+              hourFormat="24"
+              placeholder="Select Date"
+              styleClass="w-full"
+              formControlName="saleEndAt"
+            />
+          </div>
+        </div>
+        <div class="flex justify-between place-items-baseline">
+          <p class="text-lg font-medium mt-4">Ticket Type</p>
+          <div
+            class="flex justify-center gap-2 text-primary items-center select-none cursor-pointer"
+            (click)="showCreateTicketForm()"
+          >
+            <i class="fa-solid fa-circle-plus"></i><span>Add Ticket Type</span>
+          </div>
+        </div>
+        <div class="">
+          <div *ngIf="ticketTypes.length == 0">
+            <app-empty
+              imageUrl="https://img.icons8.com/officel/80/ticket.png"
+              content="No Ticket Types"
+            ></app-empty>
+          </div>
+          <div
+            *ngFor="let item of ticketTypes; index as index"
+            class="flex items-center justify-between bg-gray-700 px-4 py-2 rounded-md mb-2"
+          >
+            <div class="flex items-center space-x-2">
+              <i class="pi pi-ticket text-white"></i>
+              <span class="text-white text-sm">{{ item.name }}</span>
+            </div>
+            <div class="flex space-x-2">
+              <button
+                class="p-2 text-green-400"
+                (click)="showEditTicketForm(index)"
+              >
+                <i class="pi pi-pencil"></i>
+              </button>
+              <button
+                class="p-2 text-red-400"
+                (click)="showDeleteTicketConfirmDialog($event, index)"
+              >
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <button
+          pButton
+          class="w-full linear-button flex justify-center gap-2"
+          (click)="onSubmit()"
+        >
+          <i class="fa-regular fa-floppy-disk"></i><span>Save</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</p-sidebar>
+<!-- Add Ticket Form -->
+<app-create-ticket
+  [(isCreateTicketFormVisible)]="isCreateTicketFormVisible"
+  (ticketCreateOutput)="onTicketCreate($event)"
+  (ticketEditOutput)="onTicketEdit($event)"
+  [ticketInput]="selectedTicket"
+></app-create-ticket>

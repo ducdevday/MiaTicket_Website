@@ -1,10 +1,376 @@
 <h2 class="text-2xl font-bold mb-2">Create Event</h2>
 <div class="w-full border border-gray-200 my-4"></div>
-<div>
+<form [formGroup]="createForm">
   <p-steps
-    [model]="items"
+    [model]="steps"
     [readonly]="false"
     [activeIndex]="activeIndex"
     (activeIndexChange)="onActiveIndexChange($event)"
   />
-</div>
+  <container-element [ngSwitch]="activeIndex">
+    <div *ngSwitchCase="0" class="flex flex-col gap-3 mt-3">
+      <div class="border shadow-sm rounded-lg p-4">
+        <p class="text-xs mb-2">
+          <span class="text-red-600">*</span> Upload Image
+        </p>
+        <div class="flex flex-row gap-2">
+          <div class="flex flex-col w-1/4 items-center">
+            <div
+              class="w-full h-[300px] rounded-lg overflow-hidden mb-4 border-2 border-dashed border-gray-400"
+            >
+              <img
+                [src]="this.createForm.controls['eventLogoUrl'].value"
+                alt="Logo Event"
+                class="object-cover w-full h-full"
+              />
+            </div>
+
+            <!-- Upload Button -->
+            <label
+              class="cursor-pointer flex items-center text-primary border border-primary rounded-lg px-2 py-1 hover:bg-[#ffe2b7]"
+            >
+              <input
+                type="file"
+                accept="image/*"
+                class="hidden"
+                (change)="onEventLogoFileSelected($event)"
+              />
+              <span class="text-sm">Upload Logo Event</span>
+            </label>
+          </div>
+          <div class="flex flex-col w-3/4 items-center">
+            <div
+              class="w-full h-[300px] rounded-lg overflow-hidden mb-4 border-2 border-dashed border-gray-400"
+            >
+              <img
+                [src]="this.createForm.controls['eventBackgroundUrl'].value"
+                alt="Avatar"
+                class="object-cover w-full h-full"
+              />
+            </div>
+
+            <!-- Upload Button -->
+            <label
+              class="cursor-pointer flex items-center text-primary border border-primary rounded-lg px-2 py-1 hover:bg-[#ffe2b7]"
+            >
+              <input
+                type="file"
+                accept="image/*"
+                class="hidden"
+                (change)="onEventBackgroundFileSelected($event)"
+              />
+              <span class="text-sm">Upload Background Event</span>
+            </label>
+          </div>
+        </div>
+        <p class="text-xs mt-4 mb-2">
+          <span class="text-red-600">*</span> Event Name
+        </p>
+        <input
+          type="text"
+          placeholder="Event Name"
+          class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+          formControlName="eventName"
+        />
+      </div>
+      <div class="border shadow-sm rounded-lg p-4">
+        <p class="text-xs mb-2">
+          <span class="text-red-600">*</span> Event Address
+        </p>
+        <div class="flex flex-row w-full py-2 px-2">
+          <div class="flex items-center mr-6">
+            <input
+              id="offline-event"
+              type="radio"
+              [value]="true"
+              formControlName="isEventOffline"
+              class="w-4 h-4 bg-gray-100 border-gray-300 checked:bg-primary dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              for="offline-event"
+              class="ms-2 text-sm font-medium text-gray-900 select-none cursor-pointer"
+            >
+              Offline Event
+            </label>
+          </div>
+          <div class="flex items-center mr-6">
+            <input
+              id="online-event"
+              type="radio"
+              [value]="false"
+              formControlName="isEventOffline"
+              class="w-4 h-4 bg-gray-100 border-gray-300 checked:bg-primary dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              for="online-event"
+              class="ms-2 text-sm font-medium text-gray-900 select-none cursor-pointer"
+            >
+              Online Event
+            </label>
+          </div>
+        </div>
+        <div *ngIf="this.createForm.controls['isEventOffline'].value == true">
+          <p class="text-xs mt-4 mb-2">
+            <span class="text-red-600">*</span> Venue Name
+          </p>
+          <input
+            type="text"
+            placeholder="Venue Name"
+            class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+            formControlName="addressName"
+          />
+          <div class="flex flex-row gap-2">
+            <div class="flex flex-col w-1/2">
+              <p class="text-xs mt-4 mb-2">
+                <span class="text-red-600">*</span> City/Province
+              </p>
+              <p-dropdown
+                formControlName="addressProvince"
+                optionLabel="province_name"
+                [options]="provinces"
+                placeholder="City/Province"
+                styleClass="w-full "
+              />
+            </div>
+            <div class="flex flex-col w-1/2">
+              <p class="text-xs mt-4 mb-2">
+                <span class="text-red-600">*</span> District
+              </p>
+              <p-dropdown
+                formControlName="addressDistrict"
+                optionLabel="district_name"
+                [options]="districts"
+                placeholder="District"
+                styleClass="w-full"
+              />
+            </div>
+          </div>
+          <div class="flex flex-row gap-2">
+            <div class="flex flex-col w-1/2">
+              <p class="text-xs mt-4 mb-2">
+                <span class="text-red-600">*</span> Ward
+              </p>
+              <p-dropdown
+                formControlName="addressWard"
+                optionLabel="ward_name"
+                [options]="wards"
+                placeholder="Ward"
+                styleClass="w-full "
+              />
+            </div>
+            <div class="flex flex-col w-1/2">
+              <p class="text-xs mt-4 mb-2">
+                <span class="text-red-600">*</span> No & Street
+              </p>
+              <input
+                type="text"
+                placeholder="No & Street"
+                class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+                formControlName="addressNo"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border shadow-sm rounded-lg p-4">
+        <p class="text-xs mb-2">
+          <span class="text-red-600">*</span> Event Category
+        </p>
+        <p-dropdown
+          formControlName="category"
+          optionLabel="name"
+          [options]="categories"
+          placeholder="Please Select"
+          styleClass="w-full"
+        />
+      </div>
+      <div class="border shadow-sm rounded-lg p-4">
+        <p class="text-xs mb-2">
+          <span class="text-red-600">*</span> Event Description
+        </p>
+        <p-editor
+          [style]="{ height: '320px' }"
+          formControlName="eventDescription"
+        />
+      </div>
+      <div class="border shadow-sm rounded-lg p-4">
+        <div class="flex flex-row gap-2">
+          <div class="w-full md:w-1/5 flex flex-col">
+            <div
+              class="w-full h-0 pb-[100%] rounded-lg overflow-hidden mb-4 relative border-2 border-dashed border-gray-400"
+            >
+              <img
+                [src]="this.createForm.controls['organizerLogoUrl'].value"
+                alt="Organizer Logo"
+                class="object-cover w-full h-full absolute top-0 left-0"
+              />
+            </div>
+
+            <!-- Upload Button -->
+            <label
+              class="cursor-pointer flex justify-center items-center text-primary border border-primary rounded-lg px-1 py-1 hover:bg-[#ffe2b7]"
+            >
+              <input
+                type="file"
+                accept="image/*"
+                class="hidden"
+                (change)="onOrganizerFileSelected($event)"
+              />
+              <span class="text-xs">Upload Organizer Logo</span>
+            </label>
+          </div>
+          <div class="flex-1 flex flex-col">
+            <p class="text-xs mb-2">
+              <span class="text-red-600">*</span> Organizer name
+            </p>
+            <input
+              type="text"
+              placeholder="Organizer name"
+              class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+              formControlName="organizerName"
+            />
+            <p class="text-xs mt-4 mb-2">
+              <span class="text-red-600">*</span> Organizer information
+            </p>
+            <input
+              type="text"
+              placeholder="Organizer information"
+              class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+              formControlName="organizerInformation"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="1" class="flex flex-col gap-3 mt-3">
+      <div class="flex justify-between">
+        <p class="text-lg font-semibold">Show</p>
+        <label
+          class="cursor-pointer flex justify-center items-center text-primary border border-primary rounded-lg px-1 py-1 hover:bg-[#ffe2b7]"
+        >
+          <div
+            class="flex text-sm justify-center items-center gap-2"
+            (click)="showCreateShowTimeForm()"
+          >
+            <i class="fa-solid fa-plus"></i>
+            <span>Add another show</span>
+          </div>
+        </label>
+      </div>
+      <div *ngIf="showTimes.length == 0; else showTimeTable">
+        <app-empty imageUrl="/icon_info.png" content="No Show Times">
+        </app-empty>
+      </div>
+      <ng-template #showTimeTable>
+        <p-table [value]="showTimes" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="text-sm font-semibold">No</th>
+              <th class="text-sm font-semibold">Time</th>
+              <th class="text-sm font-semibold">Number of Ticket Type</th>
+              <th class="text-sm font-semibold">Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-showTime let-rowIndex="rowIndex">
+            <tr>
+              <td class="text-sm">{{ rowIndex }}</td>
+              <td class="text-sm">
+                {{ formatToShortDateString(showTime.showStartAt) }}
+              </td>
+              <td class="text-sm">{{ showTime.tickets.length }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    class="btn btn-success btn-sm"
+                    (click)="showEditShowTimeForm(rowIndex)"
+                  >
+                    <i class="pi pi-pencil text-green-700"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="showDeleteShowTimeConfirmDialog($event, rowIndex)"
+                  >
+                    <i class="pi pi-trash text-red-700"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-template>
+
+      <!-- Add Show SideBar-->
+      <app-create-show-time
+        [(isCreateShowTimeFormVisible)]="isCreateShowTimeFormVisible"
+        [showTimeInput]="selectedShowTime"
+        (showTimeCreateOutput)="onCreateShowTime($event)"
+        (showTimeEditOutput)="onEditShowTime($event)"
+      ></app-create-show-time>
+    </div>
+    <div *ngSwitchCase="2" class="flex flex-col mt-3">
+      <p class="text-lg font-semibold">Payment information</p>
+      <p class="text-sm font-normal text-gray-800">
+        Ticketbox will transfer money collected from selling tickets to your
+        bank account
+      </p>
+      <div class="flex flex-col gap-3 mt-2">
+        <div>
+          <p class="text-xs mb-2">
+            <span class="text-red-600">*</span> Account owner
+          </p>
+          <input
+            type="text"
+            placeholder="Account owner"
+            class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+            formControlName="paymentAccount"
+          />
+        </div>
+        <div>
+          <p class="text-xs mb-2">
+            <span class="text-red-600">*</span> Account number
+          </p>
+          <input
+            type="text"
+            placeholder="Account number"
+            class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+            formControlName="paymentNumber"
+          />
+        </div>
+        <div>
+          <p class="text-xs mb-2"><span class="text-red-600">*</span> Bank</p>
+          <input
+            type="text"
+            placeholder="Bank"
+            class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+            formControlName="paymentBankName"
+          />
+        </div>
+        <div>
+          <p class="text-xs mb-2"><span class="text-red-600">*</span> Branch</p>
+          <input
+            type="text"
+            placeholder="Branch"
+            class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+            formControlName="paymentBankBranch"
+          />
+        </div>
+      </div>
+    </div>
+  </container-element>
+  <div class="flex flex-row w-full gap-2 mt-3">
+    <button
+      pButton
+      class="w-3/12 primary-button flex justify-center gap-2"
+      (click)="onSaveEvent($event)"
+    >
+      <i class="fa-regular fa-floppy-disk"></i><span>Save</span>
+    </button>
+    <button
+      pButton
+      class="flex-1 primary-button flex justify-center gap-2"
+      (click)="onContinue($event)"
+    >
+      <i class="fa-solid fa-arrow-right"></i><span>Continue</span>
+    </button>
+  </div>
+</form>

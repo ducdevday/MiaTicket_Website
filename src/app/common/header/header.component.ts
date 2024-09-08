@@ -61,20 +61,16 @@ export class HeaderComponent {
   }
 
   onLogoutClicked() {
-    const user = this.localStorageService.getUser();
-    if (user !== null && user !== undefined) {
-      const userId = user.id;
-      this.accountService.logout(new LogoutRequest(userId)).subscribe({
-        next: (response) => {
-          this.toastService.showSuccess('Logout Successfully');
-          this.localStorageService.clear();
-          this.router.navigate([HOME_PATH]);
-          window.location.reload();
-        },
-        error: (err) => {
-          this.toastService.showError('Logout Failed');
-        },
-      });
-    }
+    this.accountService.logout().subscribe({
+      next: (response) => {
+        this.toastService.showSuccess('Logout Successfully');
+        this.localStorageService.clear();
+        this.router.navigate([HOME_PATH]);
+        window.location.reload();
+      },
+      error: (err) => {
+        this.toastService.showError('Logout Failed');
+      },
+    });
   }
 }

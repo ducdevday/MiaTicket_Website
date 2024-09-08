@@ -1,0 +1,92 @@
+<p-dialog
+  [(visible)]="isCreateTicketFormVisible"
+  [modal]="true"
+  draggable="false"
+  [style]="{ width: '75%', height: '75%' }"
+  (onHide)="onFormClose()"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <span class="font-bold white-space-nowrap">
+        {{ this.ticketInput ? "Update Ticket Type" : "Add Ticket Type" }}
+      </span>
+    </div>
+  </ng-template>
+  <form [formGroup]="createTicketForm">
+    <p class="text-sm mt-4 mb-2">
+      <span class="text-red-600">*</span> Ticket Name
+    </p>
+    <input
+      type="text"
+      placeholder="Ticket Name"
+      class="rounded-lg py-2 px-4 w-full border border-gray-400 border-spacing-6 focus:outline-primary text-sm"
+      formControlName="ticketName"
+    />
+    <div class="flex gap-2">
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">
+          <span class="text-red-600">*</span> Price
+        </p>
+        <input
+          type="number"
+          placeholder="Price"
+          class="rounded-lg py-2 px-4 w-full border border-gray-400 border-spacing-6 focus:outline-primary text-sm"
+          formControlName="ticketPrice"
+        />
+      </div>
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">
+          <span class="text-red-600">*</span> Total number of ticket
+        </p>
+        <input
+          type="number"
+          placeholder="Total number of ticket"
+          class="rounded-lg py-2 px-4 w-full border border-gray-400 border-spacing-6 focus:outline-primary text-sm"
+          formControlName="ticketQuantity"
+        />
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">
+          <span class="text-red-600">*</span> Minimum number of tickets for one
+          purchase
+        </p>
+        <input
+          type="number"
+          placeholder="Minimum"
+          class="rounded-lg py-2 px-4 w-full border border-gray-400 border-spacing-6 focus:outline-primary text-sm"
+          formControlName="ticketMinimumPurchase"
+        />
+      </div>
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">
+          <span class="text-red-600">*</span> Maximum number of tickets for one
+          purchase
+        </p>
+        <input
+          type="number"
+          placeholder="Maximum"
+          class="rounded-lg py-2 px-4 w-full border border-gray-400 border-spacing-6 focus:outline-primary text-sm"
+          formControlName="ticketMaximumPurchase"
+        />
+      </div>
+    </div>
+    <p class="text-sm mt-4 mb-2">Ticket Description</p>
+    <textarea
+      type="text"
+      placeholder="Ticket Description"
+      class="rounded-lg py-2 px-4 h-24 w-full border border-gray-400 border-spacing-6 focus:outline-primary text-sm resize-none"
+      formControlName="ticketDescription"
+    ></textarea>
+  </form>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      class="w-full linear-button flex justify-center gap-2"
+      (click)="onSubmit()"
+    >
+      <i class="fa-regular fa-floppy-disk"></i><span>Save</span>
+    </button></ng-template
+  >
+</p-dialog>

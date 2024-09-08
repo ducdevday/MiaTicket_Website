@@ -7,3 +7,17 @@
     color: #f7a911;
   }
 }
+
+::ng-deep .p-tabmenuitem.p-highlight {
+  .p-menuitem-link {
+    border-color: #f7a911;
+    color: #f7a911;
+  }
+
+  .p-menuitem-icon {
+    color: #f7a911;
+  }
+  .p-menuitem-text {
+    color: #f7a911;
+  }
+}
