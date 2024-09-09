@@ -383,6 +383,6 @@ export class CreateEventComponent implements OnInit {
   }
 
   formatToShortDateString(date: Date): string {
-    return TimeUtil.formatToShortDateString(date);
+    return TimeUtil.formatShortDateTime(date);
   }
 }
