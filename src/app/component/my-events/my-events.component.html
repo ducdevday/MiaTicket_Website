@@ -21,7 +21,7 @@
     />
   </form>
 
-  <div class="flex flex-col gap-3">
+  <div class="flex flex-col gap-3 min-h-[600px]">
     <div
       class="border shadow-lg rounded-lg p-4 mb-4"
       *ngFor="let event of myEvents"
@@ -72,13 +72,20 @@
         </button>
       </div>
     </div>
+
+    <div
+      *ngIf="myEvents.length == 0"
+      class="h-[600px] flex justify-center items-center"
+    >
+      <app-empty imageUrl="/icon_event.png" content="No Events"></app-empty>
+    </div>
   </div>
 
   <!-- Pagination -->
   <p-paginator
     class="paginator"
     (onPageChange)="onPageChange($event)"
-    [rows]="this.pagination.currentSize"
+    [rows]="this.pagination.currentPageSize"
     [totalRecords]="this.pagination.totalRecords"
   />
 </div>

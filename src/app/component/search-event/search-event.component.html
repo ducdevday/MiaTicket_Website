@@ -1,0 +1,199 @@
+<div class="bg-background">
+  <!-- HEADER -->
+  <app-header></app-header>
+
+  <!-- BODY -->
+  <div class="w-full flex flex-col justify-center items-center">
+    <div class="w-full lg:max-w-7xl min-h-[600px]">
+      <div
+        class="flex flex-row justify-between rounded-lg bg-white px-3 py-4 mt-4 items-center"
+      >
+        <p class="w-2/5 font-semibold text-sm">
+          Kết quả tìm kiếm cho "{{ keyword }}"
+        </p>
+        <div class="flex gap-2">
+          <button
+            pButton
+            class="option-button flex justify-center gap-2"
+            (click)="opCategory.toggle($event)"
+          >
+            <i class="pi pi-bars text-xs"></i
+            ><span class="text-xs">{{ categoriesStringValue() }}</span>
+          </button>
+          <p-overlayPanel #opCategory>
+            <p class="text-bast text-gray-700 mb-3">Category</p>
+            <div class="flex flex-col gap-4">
+              <label
+                class="flex items-center space-x-2"
+                *ngFor="let cate of categories"
+              >
+                <input
+                  type="checkbox"
+                  class="form-checkbox text-primary-600"
+                  [checked]="isCateSelected(cate)"
+                  (change)="toggleCategory(cate)"
+                />
+                <span class="text-sm">{{ cate.name }}</span>
+              </label>
+            </div>
+          </p-overlayPanel>
+          <button
+            pButton
+            class="option-button flex justify-center gap-2"
+            (click)="opLocation.toggle($event)"
+          >
+            <i class="pi pi-map text-xs"></i
+            ><span class="text-xs">{{ locationStringValue() }}</span>
+          </button>
+          <p-overlayPanel #opLocation>
+            <p class="text-bast text-gray-700 mb-3">Location</p>
+            <div class="flex flex-col gap-4">
+              <label
+                class="flex items-center space-x-2"
+                *ngFor="let location of locations"
+              >
+                <input
+                  type="radio"
+                  class="form-radio text-primary-600"
+                  [value]="location"
+                  [checked]="selectedLocation === location.value"
+                  (change)="selectLocation(location.value)"
+                />
+                <span class="text-sm">{{ location.name }}</span>
+              </label>
+            </div>
+          </p-overlayPanel>
+          <button
+            pButton
+            class="option-button flex justify-center gap-2"
+            (click)="opPrice.toggle($event)"
+          >
+            <i class="pi pi-money-bill text-xs"></i
+            ><span class="text-xs">{{ pricesRangesName() }}</span>
+          </button>
+          <p-overlayPanel #opPrice>
+            <p class="text-bast text-gray-700 mb-3">Price Range</p>
+            <div class="flex items-center gap-2">
+              <input
+                type="number"
+                placeholder="₫ MIN"
+                [(ngModel)]="minPrice"
+                class="border border-gray-300 text-sm px-2 py-1 w-20 rounded focus:outline-none focus:border-primary-600"
+                min="0"
+              />
+              <span class="text-gray-500">—</span>
+              <input
+                type="number"
+                placeholder="₫ MAX"
+                [(ngModel)]="maxPrice"
+                class="border border-gray-300 text-sm px-2 py-1 w-20 rounded focus:outline-none focus:border-primary-600"
+                min="0"
+              />
+            </div>
+            <div class="flex gap-2 mt-4">
+              <button
+                p-button
+                class="w-full outline-button flex justify-center"
+                (click)="resetPriceRange()"
+              >
+                Reset
+              </button>
+              <button
+                p-button
+                class="w-full primary-button flex justify-center text-white"
+                (click)="applyPriceRange()"
+              >
+                Apply
+              </button>
+            </div>
+          </p-overlayPanel>
+          <button
+            pButton
+            class="option-button flex justify-center gap-2"
+            (click)="opSortBy.toggle($event)"
+          >
+            <i class="pi pi-sort-alt text-xs"></i
+            ><span class="text-xs">{{ sortByName() }}</span>
+          </button>
+          <p-overlayPanel #opSortBy>
+            <p class="text-bast text-gray-700 mb-3">Sort By</p>
+            <div class="flex flex-col gap-4">
+              <label
+                class="flex items-center space-x-2"
+                *ngFor="let sortType of sortTypes"
+              >
+                <input
+                  type="radio"
+                  class="form-radio text-primary-600"
+                  [value]="sortType"
+                  [checked]="sortBy === sortType"
+                  (change)="selectSortType(sortType)"
+                />
+                <span class="text-sm">{{ nameOfSortType(sortType) }}</span>
+              </label>
+            </div>
+          </p-overlayPanel>
+        </div>
+      </div>
+      <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
+        <div class="w-full relative flex items-center justify-center">
+          <div
+            class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
+          >
+            <div
+              class="h-full grid sm:grid-cols-2 lg:grid-cols-4 gap-8 items-start justify-start transition ease-out duration-700"
+            >
+              <div
+                class="flex flex-col gap-2 flex-shrink-0 w-full"
+                *ngFor="let event of searchEvents"
+              >
+                <img
+                  [src]="event.imageUrl"
+                  [alt]="event.slug"
+                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
+                />
+                <div class="flex flex-col gap-1">
+                  <span
+                    class="text-white w-full overflow-hidden line-clamp-2 font-bold h-10 text-sm"
+                  >
+                    {{ event.name }}
+                  </span>
+                  <span class="font-semibold text-primary text-sm"
+                    >From {{ formatEventPrice(event.price) }}</span
+                  >
+                  <span class="relative text-white text-xs font-normal">
+                    <i class="fa-regular fa-calendar mr-2"></i>
+                    <span>{{ formatEventDate(event.startDate) }}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-center mt-10" *ngIf="isCanShowMore">
+              <button
+                pButton
+                class="primary-button flex justify-center gap-2"
+                (click)="onShowMoreEvents()"
+              >
+                <i class="pi pi-arrow-down text-xs"></i>
+                <span class="text-xs">Show more</span>
+              </button>
+            </div>
+
+            <div
+              *ngIf="searchEvents.length == 0"
+              class="flex items-center justify-center"
+            >
+              <app-empty
+                imageUrl="/icon_event.png"
+                content="No Events Found"
+                [textWhite]="true"
+              ></app-empty>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+</div>

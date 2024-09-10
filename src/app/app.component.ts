@@ -11,6 +11,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmService } from './service/confirm.service';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProcessingService } from './service/processing.service';
+import { ProcessingComponent } from './common/processing/processing.component';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +25,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     RouterModule,
     ToastModule,
     ConfirmDialogModule,
+    ProcessingComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -31,6 +34,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     MessageService,
     ConfirmService,
     ConfirmationService,
+    ProcessingService,
   ],
 })
 export class AppComponent {

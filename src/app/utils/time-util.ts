@@ -37,4 +37,16 @@ export class TimeUtil {
       dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)
     } ${day}/${month}/${year} (${hours}:${minutes})`;
   }
+
+  static formatHomeDateTime(date: Date): string {
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'short' });
+    const year = date.getFullYear();
+
+    return `${day} ${month}, ${year}`;
+  }
+
+  static formatCurrency(value: number): string {
+    return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
+  }
 }

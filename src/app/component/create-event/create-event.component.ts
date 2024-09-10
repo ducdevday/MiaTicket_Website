@@ -35,6 +35,9 @@ import CreateEventRequest from '../../dto/request/create-event-request';
 import { LocalStorageService } from '../../service/local-storage.service';
 import { EventService } from '../../service/event.service';
 import CreateEventResponse from '../../dto/response/create-event-response';
+import { ProcessingService } from '../../service/processing.service';
+import { Router } from '@angular/router';
+import { MY_EVENTS_PATH } from '../../app.routes';
 @Component({
   selector: 'app-create-event',
   standalone: true,
@@ -82,13 +85,15 @@ export class CreateEventComponent implements OnInit {
   selectedShowTimeIndex: number = -1;
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private toastService: ToastService,
     private confirmService: ConfirmService,
     private location: Location,
     private addressService: VnAddressService,
     private categoryService: CategoryService,
     private eventService: EventService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private processingService: ProcessingService
   ) {
     this.createForm = this.fb.group({
       eventLogoFile: [null, [Validators.required]],
@@ -367,12 +372,16 @@ export class CreateEventComponent implements OnInit {
         event,
         'Are you sure to create this event',
         () => {
+          this.processingService.show();
           this.eventService.createEvent(request).subscribe({
             next: (response: CreateEventResponse) => {
               this.toastService.showSuccess('Create Event Succeed');
+              this.processingService.hide();
+              this.router.navigate([MY_EVENTS_PATH]);
             },
             error: (err: HttpErrorResponse) => {
               this.toastService.showError('Create Event Failed');
+              this.processingService.hide();
             },
           });
         }

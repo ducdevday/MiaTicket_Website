@@ -4,7 +4,6 @@ import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
 import { HomeComponent } from './component/home/home.component';
-import { SearchComponent } from './component/search/search.component';
 import { EventDetailComponent } from './component/event-detail/event-detail.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { ChangePasswordComponent } from './component/change-password/change-password.component';
@@ -14,6 +13,7 @@ import { AuthGuardService } from './service/auth-guard.service';
 import { MyTicketsComponent } from './component/my-tickets/my-tickets.component';
 import { AccountComponent } from './component/account/account.component';
 import { EmailVerifyFinishComponent } from './component/email-verify-finish/email-verify-finish.component';
+import { SearchEventComponent } from './component/search-event/search-event.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -38,7 +38,7 @@ export const routes: Routes = [
   { path: RESET_PASSWORD_PATH, component: ResetPasswordComponent },
   {
     path: SEARCH_PATH,
-    component: SearchComponent,
+    component: SearchEventComponent,
     canActivate: [AuthGuardService],
   },
   {

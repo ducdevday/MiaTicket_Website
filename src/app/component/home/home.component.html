@@ -7,32 +7,12 @@
       class="flex flex-row w-full h-full lg:max-w-7xl justify-between items-center"
     >
       <ul>
-        <li class="inline-block mx-4">
+        <li class="inline-block mx-4" *ngFor="let category of categories">
           <span
             class="text-sm text-white cursor-pointer hover:text-primary transition-colors"
+            (click)="onCategoryPressed(category.id)"
           >
-            Music
-          </span>
-        </li>
-        <li class="inline-block mx-4">
-          <span
-            class="text-sm text-white cursor-pointer hover:text-primary transition-colors"
-          >
-            Theaters & Art
-          </span>
-        </li>
-        <li class="inline-block mx-4">
-          <span
-            class="text-sm text-white cursor-pointer hover:text-primary transition-colors"
-          >
-            Sport
-          </span>
-        </li>
-        <li class="inline-block mx-4">
-          <span
-            class="text-sm text-white cursor-pointer hover:text-primary transition-colors"
-          >
-            Others
+            {{ category.name }}
           </span>
         </li>
       </ul>
@@ -44,22 +24,20 @@
     <!-- banner -->
     <div class="lg:max-w-7xl">
       <p-carousel
-        [value]="cities"
+        [value]="banners"
         [numVisible]="2"
         [numScroll]="1"
         [responsiveOptions]="responsiveOptions"
         [circular]="true"
       >
-        <ng-template let-product pTemplate="item">
+        <ng-template let-banner pTemplate="item">
           <div class="border-1 surface-border border-round m-2 p-3">
             <div class="mb-3">
               <div class="relative mx-auto">
                 <img
-                  src="https://primefaces.org/cdn/primeng/images/demo/product/{{
-                    product.image
-                  }}"
-                  [alt]="product.name"
-                  class="w-full border-round"
+                  [src]="banner.imageUrl"
+                  [alt]="banner.name"
+                  class="w-full rounded-xl object-cover object-center"
                 />
               </div>
             </div>
@@ -69,14 +47,14 @@
     </div>
 
     <div class="w-full lg:max-w-7xl">
-      <!-- Special events -->
-      <p class="font-semibold text-lg text-white">Special events</p>
+      <!-- Latest events -->
+      <p class="font-semibold text-lg text-white">Latest events</p>
       <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
         <div class="w-full relative flex items-center justify-center">
           <button
             aria-label="slide backward"
             class="absolute z-30 left-0 ml-8 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer"
-            (click)="goPrevSpecialEvent()"
+            (click)="goPrevLatestEvent()"
           >
             <svg
               width="8"
@@ -95,72 +73,20 @@
             </svg>
           </button>
           <div
+            #sliderLatestEvents
             class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
           >
             <div
-              id="sliderSpecialEvents"
-              class="h-full flex lg:gap-6 md:gap-4 gap-14 items-center justify-start transition ease-out duration-700"
+              id="sliderLatestEvents"
+              class="h-full flex gap-6 items-center justify-start transition ease-out duration-700"
             >
               <div
                 class="flex flex-shrink-0 relative w-full sm:w-[calc(20%_-_1.25rem)]"
+                *ngFor="let event of latestEvents"
               >
                 <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl"
-                />
-              </div>
-              <div
-                class="flex flex-shrink-0 relative w-full sm:w-[calc(20%_-_1.25rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl"
-                />
-              </div>
-              <div
-                class="flex flex-shrink-0 relative w-full sm:w-[calc(20%_-_1.25rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl"
-                />
-              </div>
-              <div
-                class="flex flex-shrink-0 relative w-full sm:w-[calc(20%_-_1.25rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl"
-                />
-              </div>
-              <div
-                class="flex flex-shrink-0 relative w-full sm:w-[calc(20%_-_1.25rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl"
-                />
-              </div>
-              <div
-                class="flex flex-shrink-0 relative w-full sm:w-[calc(20%_-_1.25rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl"
-                />
-              </div>
-              <div
-                class="flex flex-shrink-0 relative w-full sm:w-[calc(20%_-_1.25rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
+                  [src]="event.imageUrl"
+                  [alt]="event.slug"
                   class="object-cover object-center w-full rounded-xl"
                 />
               </div>
@@ -169,7 +95,7 @@
           <button
             aria-label="slide forward"
             class="absolute z-30 right-0 mr-8 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-            (click)="goNextSpecialEvent()"
+            (click)="goNextLatestEvent()"
           >
             <svg
               width="8"
@@ -190,568 +116,145 @@
         </div>
       </div>
       <!-- Trending events -->
-      <p class="font-semibold text-lg text-white">Trending events</p>
-      <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
-        <div class="w-full relative flex items-center justify-center">
-          <button
-            aria-label="slide backward"
-            class="absolute z-30 left-0 ml-8 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer"
-            (click)="goPrevTrendingEvent()"
-          >
-            <svg
-              width="8"
-              height="14"
-              viewBox="0 0 8 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+      <div *ngIf="trendingEvents.length != 0">
+        <p class="font-semibold text-lg text-white">Trending events</p>
+        <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
+          <div class="w-full relative flex items-center justify-center">
+            <button
+              aria-label="slide backward"
+              class="absolute z-30 left-0 ml-8 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer"
+              (click)="goPrevTrendingEvent()"
             >
-              <path
-                d="M7 1L1 7L7 13"
-                stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-          <div
-            class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
-          >
+              <svg
+                width="8"
+                height="14"
+                viewBox="0 0 8 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 1L1 7L7 13"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
             <div
-              id="sliderTrendingEvents"
-              class="h-full flex lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700"
+              #sliderTrendingEvents
+              class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
             >
               <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
+                id="sliderTrendingEvents"
+                class="h-full flex gap-8 items-center justify-start transition ease-out duration-700"
               >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
+                <div
+                  class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
+                  *ngFor="let event of trendingEvents"
+                >
+                  <img
+                    [src]="event.imageUrl"
+                    [alt]="event.slug"
+                    class="object-cover object-center w-full rounded-xl md:h-[166px]"
+                  />
+                  <div class="flex flex-col gap-2">
+                    <span
+                      class="text-white w-full overflow-hidden line-clamp-2 font-bold"
+                    >
+                      {{ event.name }}
+                    </span>
+                    <span class="font-semibold text-primary"
+                      >From {{ formatEventPrice(event.price) }}</span
+                    >
+                    <span class="relative text-white text-sm font-normal">
+                      <i class="fa-regular fa-calendar mr-2"></i>
+                      <span>{{ formatEventDate(event.startDate) }}</span>
+                    </span>
+                  </div>
+                  <div></div>
                 </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
               </div>
             </div>
-          </div>
-          <button
-            aria-label="slide forward"
-            class="absolute z-30 right-0 mr-8 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-            (click)="goNextTrendingEvent()"
-          >
-            <svg
-              width="8"
-              height="14"
-              viewBox="0 0 8 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            <button
+              aria-label="slide forward"
+              class="absolute z-30 right-0 mr-8 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+              (click)="goNextTrendingEvent()"
             >
-              <path
-                d="M1 1L7 7L1 13"
-                stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
+              <svg
+                width="8"
+                height="14"
+                viewBox="0 0 8 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 1L7 7L1 13"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       <!-- Music -->
-      <div class="flex flex-row justify-between">
-        <p class="font-semibold text-lg text-white">Music</p>
-        <span
-          class="flex flex-row text-sm text-gray-300 justify-center items-center relative gap-2"
-        >
-          <span class="mb-[0.2rem]">View more</span>
-          <i class="fa-solid fa-angle-right"></i>
-        </span>
-      </div>
-      <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
-        <div class="w-full relative flex items-center justify-center">
-          <div
-            class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
+      <div *ngIf="musicEvents.length != 0">
+        <div class="flex flex-row justify-between">
+          <p class="font-semibold text-lg text-white">Music</p>
+          <span
+            class="flex flex-row text-sm text-gray-300 justify-center items-center relative gap-2"
           >
+            <span
+              class="mb-[0.2rem] select-none cursor-pointer"
+              (click)="onCategoryPressed(categories[0].id)"
+              >View more</span
+            >
+            <i class="fa-solid fa-angle-right"></i>
+          </span>
+        </div>
+        <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
+          <div class="w-full relative flex items-center justify-center">
             <div
-              class="h-full flex lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700"
+              class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
             >
               <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
+                class="h-full flex gap-8 items-center justify-start transition ease-out duration-700"
               >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
+                <div
+                  class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
+                  *ngFor="let event of musicEvents"
+                >
+                  <img
+                    [src]="event.imageUrl"
+                    [alt]="event.slug"
+                    class="object-cover object-center w-full rounded-xl md:h-[166px]"
+                  />
+                  <div class="flex flex-col gap-2">
+                    <span
+                      class="text-white w-full overflow-hidden line-clamp-2 font-bold h-12"
+                    >
+                      {{ event.name }}
+                    </span>
+                    <span class="font-semibold text-primary"
+                      >From {{ formatEventPrice(event.price) }}</span
+                    >
+                    <span class="relative text-white text-sm font-normal">
+                      <i class="fa-regular fa-calendar mr-2"></i>
+                      <span>{{ formatEventDate(event.startDate) }}</span>
+                    </span>
+                  </div>
                 </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- Theaters & Art -->
-      <div class="flex flex-row justify-between">
-        <p class="font-semibold text-lg text-white">Theaters & Art</p>
-        <span
-          class="flex flex-row text-sm text-gray-300 justify-center items-center relative gap-2"
-        >
-          <span class="mb-[0.2rem]">View more</span>
-          <i class="fa-solid fa-angle-right"></i>
-        </span>
-      </div>
-      <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
-        <div class="w-full relative flex items-center justify-center">
-          <div
-            class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
-          >
-            <div
-              class="h-full flex lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700"
-            >
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <!-- Others -->
-      <div class="flex flex-row justify-between">
-        <p class="font-semibold text-lg text-white">Others</p>
-        <span
-          class="flex flex-row text-sm text-gray-300 justify-center items-center relative gap-2"
-        >
-          <span class="mb-[0.2rem]">View more</span>
-          <i class="fa-solid fa-angle-right"></i>
-        </span>
-      </div>
-      <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
-        <div class="w-full relative flex items-center justify-center">
-          <div
-            class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
-          >
-            <div
-              class="h-full flex lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700"
-            >
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-              <div
-                class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-              >
-                <img
-                  src="https://i.ibb.co/fDngH9G/carosel-1.png"
-                  alt="black chair and white table"
-                  class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                />
-                <div class="flex flex-col gap-2">
-                  <span
-                    class="text-white w-full overflow-hidden line-clamp-2 font-bold"
-                  >
-                    Nhà Hát Kịch IDECAF: Đức Thượng Công Tả Quân LÊ VĂN DUYỆT
-                  </span>
-                  <span class="font-semibold text-primary">From 100.000đ</span>
-                  <span class="relative text-white text-sm font-normal">
-                    <i class="fa-regular fa-calendar mr-2"></i>
-                    <span>02 Sep, 2024</span>
-                  </span>
-                </div>
-                <div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <!-- FOOTER -->

@@ -1,9 +1,9 @@
 export abstract class BaseApiRequest {
-  page!: number;
-  size!: number;
+  pageIndex!: number;
+  pageSize!: number;
 
-  constructor(page: number, size: number) {
-    this.page = page;
-    this.size = size;
+  constructor(pageIndex: number, pageSize: number) {
+    this.pageIndex = pageIndex;
+    this.pageSize = pageSize;
   }
 }
