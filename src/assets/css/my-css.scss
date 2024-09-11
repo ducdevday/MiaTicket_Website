@@ -16,6 +16,13 @@
     outline: none;
     box-shadow: none;
   }
+  &.disabled {
+    background-color: rgba(53, 52, 52, 0.314);
+    color: rgba(0, 0, 0, 0.5);
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
 .primary-button {
@@ -34,6 +41,13 @@
   &:hover {
     opacity: 0.9;
   }
+  &.disabled {
+    background-color: rgba(53, 52, 52, 0.314);
+    color: rgba(0, 0, 0, 0.5);
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
 .option-button {
@@ -51,6 +65,13 @@
   }
   &:hover {
     opacity: 0.9;
+  }
+  &.disabled {
+    background-color: rgba(53, 52, 52, 0.314);
+    color: rgba(0, 0, 0, 0.5);
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 
@@ -74,5 +95,12 @@
   &:hover {
     background-color: #fce0a9; /* Fill background with the primary color */
     opacity: 0.9;
+  }
+  &.disabled {
+    background-color: rgba(53, 52, 52, 0.314);
+    color: rgba(0, 0, 0, 0.5);
+    &:hover {
+      opacity: 1;
+    }
   }
 }

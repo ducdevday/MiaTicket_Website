@@ -39,12 +39,10 @@ export const routes: Routes = [
   {
     path: SEARCH_PATH,
     component: SearchEventComponent,
-    canActivate: [AuthGuardService],
   },
   {
     path: EVENTS_PATH,
     component: EventDetailComponent,
-    canActivate: [AuthGuardService],
   },
   {
     path: '',

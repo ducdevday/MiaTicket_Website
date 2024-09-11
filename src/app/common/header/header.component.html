@@ -1,8 +1,6 @@
 <div class="bg-gradient-to-r from-primary-light to-primary-dark">
   <div class="w-full flex justify-center items-center">
-    <header
-      class="flex flex-row w-full lg:max-w-7xl h-[76px] justify-between items-center"
-    >
+    <header class="flex flex-row w-full lg:max-w-7xl h-[76px] items-center">
       <a href="#" class=""
         ><img
           src="/img_logo_white.png"
@@ -11,7 +9,7 @@
         />
       </a>
       <form
-        class="w-1/3 max-w-lg mx-auto"
+        class="w-1/3 ml-36 mr-auto"
         [formGroup]="searchForm"
         (ngSubmit)="onSearch()"
       >
@@ -50,20 +48,6 @@
           <button type="submit" style="display: none"></button>
         </div>
       </form>
-      <div class="flex flex-row">
-        <div
-          class="flex flex-row justify-center items-center mr-5 text-sm text-white cursor-pointer select-none"
-        >
-          <i class="fa-regular fa-calendar-days mr-2"></i>
-          <span class="">Create Event</span>
-        </div>
-        <div
-          class="flex flex-row justify-center items-center mr-5 text-sm text-white cursor-pointer select-none"
-        >
-          <i class="fa-solid fa-ticket mr-2"></i>
-          <span class="">My Tickets </span>
-        </div>
-      </div>
       <ng-template [ngIf]="isAuthenticated" [ngIfElse]="notAuthenticated">
         <div class="card flex justify-content-center items-center">
           <p-menu #menu [model]="items" [popup]="true" />

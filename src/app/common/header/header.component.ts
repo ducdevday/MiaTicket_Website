@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -12,16 +18,9 @@ import {
   SEARCH_PATH,
 } from '../../app.routes';
 import { AccountService } from '../../service/account.service';
+import { EventService } from '../../service/event.service';
 import { LocalStorageService } from '../../service/local-storage.service';
 import { ToastService } from '../../service/toast.service';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { EventService } from '../../service/event.service';
-import SearchEventRequest from '../../dto/request/search-event-request';
 @Component({
   selector: 'app-header',
   standalone: true,

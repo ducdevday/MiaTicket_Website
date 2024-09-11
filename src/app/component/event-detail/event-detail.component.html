@@ -1,1 +1,154 @@
-<p>event-detail works!</p>
+<div class="bg-background">
+  <!-- HEADER -->
+  <app-header></app-header>
+  <!-- Category -->
+  <div class="w-full bg-black h-14 flex justify-center items-center">
+    <div
+      class="flex flex-row w-full h-full lg:max-w-7xl justify-between items-center"
+    >
+      <ul>
+        <li class="inline-block mx-4" *ngFor="let category of categories">
+          <span
+            class="text-sm text-white cursor-pointer hover:text-primary transition-colors"
+            (click)="onCategoryPressed(category.id)"
+          >
+            {{ category.name }}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="w-full flex flex-col justify-center items-center">
+    <div class="w-full lg:max-w-7xl min-h-[600px] px-4 lg:px-0">
+      <div
+        class="flex flex-col md:flex-row bg-gray-900 text-white rounded-3xl overflow-hidden shadow-lg my-4 mx-0 md:mx-20"
+      >
+        <!-- Left Section -->
+        <div class="w-full md:w-2/5 p-4 bg-gray-800 gap-3">
+          <h4 class="text-lg text-white mb-1 font-bold">
+            [BẾN THÀNH] Đêm nhạc Lâm Bảo Ngọc - Phạm Anh Duy
+          </h4>
+          <p class="text-xs flex items-center gap-2 mb-1">
+            <i class="pi pi-clock"></i>
+            <span class="text-primary">20:00 - 22:00, 22 Sep, 2024</span>
+          </p>
+          <div class="">
+            <p class="text-xs flex items-center gap-2 mb-2">
+              <i class="pi pi-map-marker"></i>
+              <span class="text-primary">Nhà hát Bến Thành</span>
+            </p>
+            <p class="text-xs text-gray-300 mb-4">
+              Số 6 Mạc Đĩnh Chi, Ben Nghe Ward, 1 District, Ho Chi Minh City
+            </p>
+          </div>
+          <div class="flex-1"></div>
+          <div class="">
+            <p class="text-lg font-bold mb-1">
+              From <span class="text-primary">150.000 đ</span>
+            </p>
+            <button
+              pButton
+              pRipple
+              class="flex w-full justify-center linear-button"
+            >
+              Buy now
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="w-0 md:w-3/5 relative">
+          <img
+            src="https://salt.tkbcdn.com/ts/ds/a7/ae/bc/e7afa1edefbe62385e49ed9e2a82d010.jpg"
+            alt="Event Image"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+
+      <!-- Description Section -->
+      <div
+        class="flex flex-col bg-white rounded-lg overflow-hidden shadow-lg my-4 p-4 mx-0 md:mx-20"
+      >
+        <p class="text-base font-medium">About</p>
+        <div class="inline-block h-[0.5px] bg-gray-300 w-full mt-1 mb-3"></div>
+
+        <div></div>
+        <p class="text-base font-medium mt-4">Ticket Information</p>
+        <div class="inline-block h-[0.5px] bg-gray-300 w-full mt-1 mb-3"></div>
+        <p-accordion class="w-full">
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <span class="flex items-center gap-2 w-full">
+                <span class="text-xs white-space-nowrap">
+                  20:00 - 22:00, 28 Sep, 2024
+                </span>
+                <button
+                  p-button
+                  class="ml-auto mr-2 primary-button px-2 text-white disabled"
+                >
+                  Buy now
+                </button>
+              </span>
+            </ng-template>
+            <ul>
+              <li
+                class="flex flex-col gap-2 border-b border-gray-200 last:border-none my-2"
+              >
+                <div class="flex justify-between items-center">
+                  <span class="text-base font-semibold">Nhớ Nhung</span>
+                  <span class="text-primary text-sm font-semibold"
+                    >660.000đ</span
+                  >
+                </div>
+                <p class="text-xs text-gray-400 mb-2">
+                  Số 6 Mạc Đĩnh Chi, Ben Nghe Ward, 1 District, Ho Chi Minh City
+                </p>
+              </li>
+              <li
+                class="flex flex-col gap-2 border-b border-gray-200 last:border-none"
+              >
+                <div class="flex justify-between items-center">
+                  <span class="text-base font-semibold">Nhớ Nhung</span>
+                  <span class="text-primary text-sm font-semibold"
+                    >660.000đ</span
+                  >
+                </div>
+                <p class="text-xs text-gray-400">
+                  Số 6 Mạc Đĩnh Chi, Ben Nghe Ward, 1 District, Ho Chi Minh City
+                </p>
+              </li>
+            </ul>
+          </p-accordionTab>
+        </p-accordion>
+
+        <!-- Organizer Section -->
+        <p class="text-base font-medium mt-4">Organizer</p>
+        <div class="inline-block h-[0.5px] bg-gray-300 w-full mt-1 mb-3"></div>
+        <div class="flex flex-col md:flex-row gap-4">
+          <img
+            src="https://salt.tkbcdn.com/ts/ds/26/85/6d/03e886369122ff0f69b90bcf657ff38e.png"
+            class="w-full md:w-52 h-52 object-cover"
+          />
+          <div class="flex flex-col">
+            <p class="font-semibold">1900 Lé Theâtre</p>
+            <p class="font-normal text-sm">
+              1900 Le Théâtre là điểm đến quen thuộc để giải trí cuối tuần, là
+              nơi tụ tập của những người yêu nghệ thuật. Không chỉ nổi tiếng
+              trong giới trẻ thủ đô, 1900 còn là thương hiệu nightlife thời
+              thượng với các trang fan hâm mộ trên Facebook, Instagram, TikTok
+              với hơn 800.000 người theo dõi, khẳng định vị trí số 1 ngành
+              Nightlife tại Việt Nam. Năm 2023, 1900 đứng thứ 40 trong danh sách
+              Top 100 Club của tạp chí nổi tiếng DJ Mag, là đại diện duy nhất
+              của Việt Nam trong danh sách này.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+</div>

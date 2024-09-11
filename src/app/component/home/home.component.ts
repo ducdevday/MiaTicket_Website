@@ -22,7 +22,9 @@ import { EventService } from '../../service/event.service';
 import { TimeUtil } from '../../utils/time-util';
 import { Router } from '@angular/router';
 import { SEARCH_PATH } from '../../app.routes';
-
+import { SkeletonModule } from 'primeng/skeleton';
+import { forkJoin, map } from 'rxjs';
+import { ProcessingService } from '../../service/processing.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -35,6 +37,7 @@ import { SEARCH_PATH } from '../../app.routes';
     FooterComponent,
     HeaderComponent,
     ProcessingComponent,
+    SkeletonModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -54,13 +57,14 @@ export class HomeComponent implements OnInit {
   NUM_OF_LATEST_EVENT: number = 12;
   NUM_OF_TRENDING_EVENT: number = 12;
   NUM_OF_BY_CATE_EVENT: number = 4;
-
   constructor(
     private categoryService: CategoryService,
     private bannerService: BannerService,
     private eventService: EventService,
+    private processingService: ProcessingService,
     private router: Router
   ) {}
+
   ngOnInit() {
     this.responsiveOptions = [
       {
@@ -74,16 +78,19 @@ export class HomeComponent implements OnInit {
         numScroll: 1,
       },
     ];
-    this.fetchCategoriesData();
-    this.fetchBannersData();
-    this.fetchLatestEventsData();
-    this.fetchTrendingEventsData();
-  }
+    this.processingService.show();
+    forkJoin({
+      categories: this.fetchCategoriesData(),
+      banners: this.fetchBannersData(),
+      latestEvents: this.fetchLatestEventsData(),
+      trendingEvents: this.fetchTrendingEventsData(),
+    }).subscribe({
+      next: ({ categories, banners, latestEvents, trendingEvents }) => {
+        this.categories = categories;
+        this.banners = banners;
+        this.latestEvents = latestEvents;
+        this.trendingEvents = trendingEvents;
 
-  fetchCategoriesData() {
-    this.categoryService.getCategoriesDiscovery().subscribe({
-      next: (response) => {
-        this.categories = Array.from(response.data);
         this.fetchByCategoriesEvents(
           this.categories[0].id,
           (data) => (this.musicEvents = data)
@@ -96,38 +103,42 @@ export class HomeComponent implements OnInit {
           this.categories[3].id,
           (data) => (this.othersEvents = data)
         );
+        this.processingService.hide();
+      },
+      error: (err) => {
+        this.processingService.hide();
       },
     });
   }
 
+  fetchCategoriesData() {
+    return this.categoryService
+      .getCategoriesDiscovery()
+      .pipe(map((response) => Array.from(response.data)));
+  }
+
   fetchBannersData() {
-    this.bannerService.getBannersDiscovery().subscribe({
-      next: (response) => {
-        this.banners = Array.from(response.data);
-      },
-    });
+    return this.bannerService
+      .getBannersDiscovery()
+      .pipe(map((response) => Array.from(response.data)));
   }
 
   fetchLatestEventsData() {
     const getLatestEventsRequest = new GetLatestEventsRequest(
       this.NUM_OF_LATEST_EVENT
     );
-    this.eventService.getGetLatestEvents(getLatestEventsRequest).subscribe({
-      next: (response) => {
-        this.latestEvents = Array.from(response.data);
-      },
-    });
+    return this.eventService
+      .getGetLatestEvents(getLatestEventsRequest)
+      .pipe(map((response) => Array.from(response.data)));
   }
 
   fetchTrendingEventsData() {
     const getTrendingEventsRequest = new GetTrendingEventsRequest(
       this.NUM_OF_TRENDING_EVENT
     );
-    this.eventService.getTrendingEvents(getTrendingEventsRequest).subscribe({
-      next: (response) => {
-        this.trendingEvents = Array.from(response.data);
-      },
-    });
+    return this.eventService
+      .getTrendingEvents(getTrendingEventsRequest)
+      .pipe(map((response) => Array.from(response.data)));
   }
 
   fetchByCategoriesEvents(
@@ -138,12 +149,11 @@ export class HomeComponent implements OnInit {
       categoryId,
       this.NUM_OF_BY_CATE_EVENT
     );
-
     this.eventService.getByCategoryEvents(request).subscribe({
       next: (response) => {
         callback(response.data);
       },
-      error: (err) => {
+      error: () => {
         callback([]);
       },
     });
