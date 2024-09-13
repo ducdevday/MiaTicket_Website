@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -41,6 +41,7 @@ import { ToastService } from '../../service/toast.service';
   ],
 })
 export class HeaderComponent {
+  @Input() isShowSearchBar: boolean = true;
   items: any[] | undefined;
   isAuthenticated: boolean = false;
   searchForm!: FormGroup;

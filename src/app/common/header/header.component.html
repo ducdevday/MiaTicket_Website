@@ -1,15 +1,20 @@
 <div class="bg-gradient-to-r from-primary-light to-primary-dark">
   <div class="w-full flex justify-center items-center">
-    <header class="flex flex-row w-full lg:max-w-7xl h-[76px] items-center">
-      <a href="#" class=""
-        ><img
+    <header
+      class="flex flex-row w-full lg:max-w-7xl h-[76px] items-center px-4 lg:px-0"
+    >
+      <a href="#" class="">
+        <img
           src="/img_logo_white.png"
           alt="MiaTicket"
           class="h-[76px] object-contain p-3"
         />
       </a>
+
+      <!-- Search Bar -->
       <form
-        class="w-1/3 ml-36 mr-auto"
+        *ngIf="isShowSearchBar"
+        class="hidden sm:flex sm:w-2/3 md:w-1/2 lg:w-1/3 ml-0 sm:ml-10 md:ml-20 lg:ml-36 mr-auto"
         [formGroup]="searchForm"
         (ngSubmit)="onSearch()"
       >
@@ -18,7 +23,7 @@
           class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
           >Search</label
         >
-        <div class="relative">
+        <div class="relative w-full">
           <div
             class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
           >
@@ -40,40 +45,40 @@
           </div>
           <input
             id="default-search"
-            class="inline-block w-full py-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
+            class="w-full py-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"
             placeholder="What are you looking for today?"
             formControlName="keyword"
           />
-          <!-- Hidden button to trigger submit when Enter is pressed -->
           <button type="submit" style="display: none"></button>
         </div>
       </form>
+
       <ng-template [ngIf]="isAuthenticated" [ngIfElse]="notAuthenticated">
-        <div class="card flex justify-content-center items-center">
-          <p-menu #menu [model]="items" [popup]="true" />
+        <div class="card flex justify-content-center items-center ml-auto">
+          <p-menu #menu [model]="items" [popup]="true"></p-menu>
           <div class="flex items-center gap-1" (click)="menu.toggle($event)">
             <img
               src="https://salt.tkbcdn.com/ts/ds/83/2b/0f/becd6c6b87118396026bdc447ac52457.jpg"
               alt="Profile"
               class="w-8 h-8 rounded-full object-cover object-center"
             />
-            <span
-              class="text-sm text-white cursor-pointer select-none truncate max-w-36"
-              >Nguyễn Minh Đức
-            </span>
+            <span class="text-sm text-white cursor-pointer truncate max-w-36"
+              >Nguyễn Minh Đức</span
+            >
           </div>
         </div>
       </ng-template>
+
       <ng-template #notAuthenticated>
         <div
-          class="flex flex-row justify-center items-center cursor-pointer select-none"
+          class="flex flex-row justify-center items-center cursor-pointer select-none ml-auto"
         >
           <div class="card flex justify-content-center">
             <span
               class="text-sm text-white font-medium truncate max-w-36"
               (click)="onLoginOrRegisterClicked()"
-              >Log in | Register
-            </span>
+              >Log in | Register</span
+            >
           </div>
         </div>
       </ng-template>

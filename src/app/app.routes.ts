@@ -14,6 +14,8 @@ import { MyTicketsComponent } from './component/my-tickets/my-tickets.component'
 import { AccountComponent } from './component/account/account.component';
 import { EmailVerifyFinishComponent } from './component/email-verify-finish/email-verify-finish.component';
 import { SearchEventComponent } from './component/search-event/search-event.component';
+import { BookingComponent } from './component/booking/booking.component';
+import { PaymentComponent } from './component/payment/payment.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -23,6 +25,9 @@ export const EMAIL_VERIFY_FINISH_PATH: string = 'email-verify-finish';
 export const RESET_PASSWORD_PATH: string = 'reset-password';
 export const SEARCH_PATH: string = 'search';
 export const EVENTS_PATH: string = 'events';
+// export const BOOKING_PATH: string = 'events/:eventId/booking/:showTimeId/';
+export const BOOKING_PATH: string = 'booking';
+export const PAYMENT_PATH: string = 'payment';
 export const PROFILE_PATH: string = 'account/profile';
 export const CHANGE_PASSWORD_PATH: string = 'account/change-password';
 export const MY_TICKETS_PATH: string = 'account/my-tickets';
@@ -43,6 +48,14 @@ export const routes: Routes = [
   {
     path: EVENTS_PATH,
     component: EventDetailComponent,
+  },
+  {
+    path: BOOKING_PATH,
+    component: BookingComponent,
+  },
+  {
+    path: PAYMENT_PATH,
+    component: PaymentComponent,
   },
   {
     path: '',
