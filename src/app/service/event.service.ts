@@ -13,6 +13,7 @@ import GetByCategoryEventsRequest from '../dto/request/get-by-category-events-re
 import GetByCategoryEventsResponse from '../dto/response/get-by-category-events-response';
 import SearchEventRequest from '../dto/request/search-event-request';
 import SearchEventsResponse from '../dto/response/search-events-response';
+import GetEventDetailResponse from '../dto/response/get-event-detail-response';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,7 @@ export class EventService {
   private TRENDING_EVENTS_URL = `trending`;
   private BY_CATEGORY_EVENTS_URL = `by-category`;
   private SEARCH_EVENT_URL = `search`;
+  private EVENT_DETAIL_URL = `detail`;
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -71,8 +73,6 @@ export class EventService {
   }
   searchEvent(searchEventRequest: SearchEventRequest) {
     let params = new HttpParams();
-
-    // Add non-null, non-undefined properties to HttpParams
     for (const [key, value] of Object.entries(searchEventRequest)) {
       if (value !== undefined && value !== null) {
         params = params.set(key, value.toString());
@@ -82,6 +82,11 @@ export class EventService {
     return this.http.get<SearchEventsResponse>(
       `${this.BASE_EVENT_URL}/${this.SEARCH_EVENT_URL}`,
       { params }
+    );
+  }
+  getEventDetail(eventId: string) {
+    return this.http.get<GetEventDetailResponse>(
+      `${this.BASE_EVENT_URL}/${this.EVENT_DETAIL_URL}/${eventId}`
     );
   }
 }

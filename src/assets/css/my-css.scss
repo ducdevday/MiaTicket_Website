@@ -21,8 +21,8 @@ body {
     box-shadow: none;
   }
   &.disabled {
-    background-color: rgba(53, 52, 52, 0.314);
-    color: rgba(0, 0, 0, 0.5);
+    background-image: linear-gradient(to right, #8f8f8e, #3d3d3c);
+    color: rgba(255, 255, 255, 0.5);
     &:hover {
       opacity: 1;
     }
@@ -46,7 +46,7 @@ body {
     opacity: 0.9;
   }
   &.disabled {
-    background-color: rgba(53, 52, 52, 0.314);
+    background-color: #35343450;
     color: rgba(0, 0, 0, 0.5);
     &:hover {
       opacity: 1;

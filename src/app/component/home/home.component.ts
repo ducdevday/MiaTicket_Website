@@ -21,7 +21,7 @@ import { CategoryService } from '../../service/category.service';
 import { EventService } from '../../service/event.service';
 import { TimeUtil } from '../../utils/time-util';
 import { Router } from '@angular/router';
-import { SEARCH_PATH } from '../../app.routes';
+import { EVENTS_PATH, SEARCH_PATH } from '../../app.routes';
 import { SkeletonModule } from 'primeng/skeleton';
 import { forkJoin, map } from 'rxjs';
 import { ProcessingService } from '../../service/processing.service';
@@ -212,5 +212,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate([SEARCH_PATH], {
       queryParams: { categories: categoryId },
     });
+  }
+
+  onEventPressed(slug: string) {
+    const path = EVENTS_PATH.replace(':eventSlug', slug); // Replace the parameter with the actual slug
+    this.router.navigate([path]);
   }
 }

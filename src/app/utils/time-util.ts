@@ -38,6 +38,57 @@ export class TimeUtil {
     } ${day}/${month}/${year} (${hours}:${minutes})`;
   }
 
+  static formatDateTimeRange(date1: Date, date2: Date): string {
+    const formatTime = (date: Date) => {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    };
+
+    const formatDate = (date: Date) => {
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'short' });
+      const year = date.getFullYear();
+      return `${day} ${month}, ${year}`;
+    };
+
+    const time1 = formatTime(date1);
+    const time2 = formatTime(date2);
+    const date1Formatted = formatDate(date1);
+    const date2Formatted = formatDate(date2);
+
+    // So sánh nếu cùng ngày, tháng hoặc năm
+    if (date1.getFullYear() === date2.getFullYear()) {
+      if (date1.getMonth() === date2.getMonth()) {
+        if (date1.getDate() === date2.getDate()) {
+          // Cùng ngày
+          return `${time1} - ${time2}, ${date1Formatted}`;
+        }
+        // Cùng tháng
+        const day1 = date1.getDate();
+        const day2 = date2.getDate();
+        const monthYear = date1.toLocaleString('default', {
+          month: 'short',
+          year: 'numeric',
+        });
+        return `${time1}, ${day1} - ${time2}, ${day2} ${monthYear}`;
+      }
+      // Cùng năm
+      const monthDay1 = date1.toLocaleString('default', {
+        day: 'numeric',
+        month: 'short',
+      });
+      const monthDay2 = date2.toLocaleString('default', {
+        day: 'numeric',
+        month: 'short',
+      });
+      return `${time1}, ${monthDay1} - ${time2}, ${monthDay2} ${date1.getFullYear()}`;
+    }
+
+    // Khác năm
+    return `${time1}, ${date1Formatted} - ${time2}, ${date2Formatted}`;
+  }
+
   static formatHomeDateTime(date: Date): string {
     const day = date.getDate();
     const month = date.toLocaleString('default', { month: 'short' });
