@@ -1,0 +1,48 @@
+<div
+  class="bg-background w-full flex flex-col items-center"
+  style="min-height: calc(100vh - 76px)"
+>
+  <!-- BODY -->
+  <div
+    class="w-full lg:max-w-3xl flex justify-center items-center mx-10"
+    *ngIf="isPaymentError() == false"
+  >
+    <div
+      class="p-7 bg-white shadow-lg rounded-lg flex flex-col items-center w-full my-20 mx-10"
+    >
+      <div class="text-base font-semibold mb-2 text-gray-800">
+        Payment Information
+      </div>
+      <img [src]="getPaymentImage()" class="w-20 object-cover object-center" />
+      <div class="text-sm mb-2 text-gray-700 mt-4 font-medium">
+        {{ getPaymentContent() }}
+      </div>
+      <div
+        class="flex justify-between text-sm text-gray-600 font-normal w-full"
+      >
+        <span>Transaction Code:</span>
+        <span>{{ vnPayInformation?.transactionCode }}</span>
+      </div>
+      <div
+        class="flex justify-between text-sm text-gray-600 font-normal w-full"
+      >
+        <span>Transaction Create At:</span>
+        <span>{{ formattedCreatedAt() }}</span>
+      </div>
+      <div
+        class="flex justify-between text-sm text-gray-600 font-normal w-full"
+      >
+        <span>Total Amount:</span>
+        <span>{{ formattedTotalAmount() }}</span>
+      </div>
+      <div class="flex w-full gap-2 mt-4">
+        <button pButton class="primary-button flex-1" (click)="goToHome()">
+          Go To Home Page
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Page -->
+  <app-not-found *ngIf="isPaymentError()"></app-not-found>
+</div>

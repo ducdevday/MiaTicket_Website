@@ -17,10 +17,11 @@ import {
   PROFILE_PATH,
   SEARCH_PATH,
 } from '../../app.routes';
-import { AccountService } from '../../service/account.service';
 import { EventService } from '../../service/event.service';
 import { LocalStorageService } from '../../service/local-storage.service';
 import { ToastService } from '../../service/toast.service';
+import { AccountService } from '../../service/account.service';
+import { UserModel } from '../../dto/model/user-model';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -45,6 +46,7 @@ export class HeaderComponent {
   items: any[] | undefined;
   isAuthenticated: boolean = false;
   searchForm!: FormGroup;
+  user!: UserModel;
   constructor(
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
@@ -69,7 +71,14 @@ export class HeaderComponent {
       },
     ];
     const isAuth = this.localStorageService.getIsAuthenticated();
-    if (isAuth) this.isAuthenticated = true;
+    if (isAuth) {
+      this.isAuthenticated = true;
+      this.accountService.getAccountInformation().subscribe({
+        next: (response) => {
+          this.user = response.data;
+        },
+      });
+    }
   }
 
   onLoginOrRegisterClicked() {

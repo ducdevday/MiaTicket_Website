@@ -8,7 +8,6 @@ import {
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { MenuLayoutComponent } from '../../common/menu-layout/menu-layout.component';
 import { PASSWORD_PATTERN } from '../../const/regex';
 import ChangePasswordRequest from '../../dto/request/change-password-request';
 import { AccountService } from '../../service/account.service';
@@ -21,12 +20,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [
-    MenuLayoutComponent,
-    ButtonModule,
-    ReactiveFormsModule,
-    ToastModule,
-  ],
+  imports: [ButtonModule, ReactiveFormsModule, ToastModule],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
   providers: [
@@ -84,10 +78,10 @@ export class ChangePasswordComponent implements OnInit {
       var confirmPassword =
         this.changePasswordForm.controls['confirmPassword'].value;
 
-      var user = this.localStorageService.getUser();
-      if (user) {
+      var userId = this.localStorageService.getUserId();
+      if (userId) {
         var changePasswordRequest = new ChangePasswordRequest(
-          user.id,
+          userId,
           currentPassword,
           newPassword,
           confirmPassword

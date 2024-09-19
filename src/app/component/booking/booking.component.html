@@ -1,11 +1,9 @@
 <div class="bg-background h-screen w-screen flex flex-col">
-  <!-- HEADER -->
-  <app-header [isShowSearchBar]="false"></app-header>
-
   <!-- BODY -->
   <div class="w-full flex flex-col justify-center items-center">
     <div
       class="w-full lg:max-w-7xl max-h-[300px] md:min-h-[600px] px-4 lg:px-0 flex flex-wrap gap-4"
+      *ngIf="isPageSuccess()"
     >
       <!-- Left Section: Ticket Selection -->
       <div class="p-7 bg-white shadow-lg rounded-lg mt-4 flex-1 flex flex-col">
@@ -17,11 +15,18 @@
           <div class="text-sm font-medium">Quantity</div>
         </div>
         <ul class="max-h-[300px] md:max-h-[600px] overflow-auto">
-          <li class="py-5 px-3 border-b-[0.5px] border-dashed border-gray-400">
+          <li
+            class="py-5 px-3 border-b-[0.5px] border-dashed border-gray-400"
+            *ngFor="let ticket of currentTickets"
+          >
             <div class="flex justify-between">
               <div>
-                <div class="text-base text-primary font-medium">NHỚ NHUNG</div>
-                <div class="text-gray-700 text-sm">550.000đ</div>
+                <div class="text-base text-primary font-medium">
+                  {{ ticket.name }}
+                </div>
+                <div class="text-gray-700 text-sm">
+                  {{ formatPrice(ticket.price) }}
+                </div>
               </div>
               <div class="flex gap-3 items-center">
                 <p-button
@@ -30,11 +35,15 @@
                   severity="secondary"
                   [outlined]="true"
                   class="minus-plus-button"
+                  (onClick)="removeOrderTicket(ticket)"
+                  [disabled]="disableRemoveOrderTicket(ticket)"
                 ></p-button>
                 <div
                   class="min-w-8 h-8 border rounded-sm border-gray-400 flex items-center justify-center"
                 >
-                  <span class="text-primary text-base font-medium">0</span>
+                  <span class="text-primary text-base font-medium">{{
+                    ticket.quantity
+                  }}</span>
                 </div>
                 <p-button
                   icon="pi pi-plus"
@@ -42,12 +51,17 @@
                   severity="secondary"
                   [outlined]="true"
                   class="minus-plus-button"
+                  (onClick)="addOrderTicket(ticket)"
+                  [disabled]="disableAddOrderTicket(ticket)"
                 ></p-button>
               </div>
             </div>
-            <span class="flex items-center text-gray-500 text-xs gap-2 mt-2">
+            <span
+              class="flex items-center text-gray-500 text-xs gap-2 mt-2"
+              *ngIf="ticket.description"
+            >
               <i class="pi pi-info-circle"></i>
-              <span>Tặng 1 đồ uống trái cây</span>
+              <span>{{ ticket.description }}</span>
             </span>
           </li>
         </ul>
@@ -58,19 +72,24 @@
         class="p-7 bg-white shadow-lg rounded-lg mt-4 h-fit w-full md:w-3/12"
       >
         <div class="text-base font-semibold mb-2">
-          Workshop thư pháp "Nét Bình Yên"
+          {{ eventBooking.name }}
         </div>
         <p class="text-xs flex items-center gap-2 mb-2">
           <i class="pi pi-clock"></i>
-          <span class="text-primary">20:00 - 22:00, 22 Sep, 2024</span>
+          <span class="text-primary">{{
+            formatDateRage(
+              eventBooking.showTime.showStartAt,
+              eventBooking.showTime.showEndAt
+            )
+          }}</span>
         </p>
         <div class="">
           <p class="text-xs flex items-center gap-2 mb-1">
             <i class="pi pi-map-marker"></i>
-            <span class="text-primary">Nhà hát Bến Thành</span>
+            <span class="text-primary">{{ eventBooking.addressName }}</span>
           </p>
           <p class="text-xs text-gray-700">
-            Số 6 Mạc Đĩnh Chi, Ben Nghe Ward, 1 District, Ho Chi Minh City
+            {{ eventBooking.addressDetail }}
           </p>
           <div class="inline-block h-[0.5px] bg-gray-300 w-full"></div>
 
@@ -78,19 +97,25 @@
           <div class="flex items-center justify-between mb-2">
             <div class="flex text-sm items-center gap-1">
               <i class="pi pi-ticket"></i>
-              <span>x3</span>
+              <span>x{{ totalNumberOrderTicket() }}</span>
             </div>
-            <p class="text-sm font-extrabold text-primary">1.000.000đ</p>
+            <p class="text-sm font-extrabold text-primary">
+              {{ formattedTotalPrice() }}
+            </p>
           </div>
           <button
             pButton
             pRipple
             class="flex w-full justify-center linear-button text-white"
+            (click)="onGoToPaymentButtonPressed()"
+            [disabled]="isGoToPaymentDisabled()"
+            [ngClass]="{ disabled: isGoToPaymentDisabled() }"
           >
             Go To Payment
           </button>
         </div>
       </div>
     </div>
+    <app-not-found *ngIf="isPageError()"></app-not-found>
   </div>
 </div>

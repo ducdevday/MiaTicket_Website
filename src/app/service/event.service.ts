@@ -14,6 +14,7 @@ import GetByCategoryEventsResponse from '../dto/response/get-by-category-events-
 import SearchEventRequest from '../dto/request/search-event-request';
 import SearchEventsResponse from '../dto/response/search-events-response';
 import GetEventDetailResponse from '../dto/response/get-event-detail-response';
+import GetEventBookingResponse from '../dto/response/get-event-booking-response';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,7 @@ export class EventService {
   private BY_CATEGORY_EVENTS_URL = `by-category`;
   private SEARCH_EVENT_URL = `search`;
   private EVENT_DETAIL_URL = `detail`;
+  private SHOWTIME_URL = `showtime`;
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -87,6 +89,20 @@ export class EventService {
   getEventDetail(eventId: string) {
     return this.http.get<GetEventDetailResponse>(
       `${this.BASE_EVENT_URL}/${this.EVENT_DETAIL_URL}/${eventId}`
+    );
+  }
+  getEventBooking(eventId: string, showTimeId: string, ticketIds?: number[]) {
+    let params = new HttpParams();
+
+    if (ticketIds && ticketIds.length > 0) {
+      ticketIds.forEach((id) => {
+        params = params.append('ticketIds', id.toString());
+      });
+    }
+
+    return this.http.get<GetEventBookingResponse>(
+      `${this.BASE_EVENT_URL}/${this.EVENT_DETAIL_URL}/${eventId}/${this.SHOWTIME_URL}/${showTimeId}`,
+      { params }
     );
   }
 }

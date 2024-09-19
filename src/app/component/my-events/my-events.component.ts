@@ -10,7 +10,6 @@ import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { TabMenuModule } from 'primeng/tabmenu';
-import { MenuLayoutComponent } from '../../common/menu-layout/menu-layout.component';
 import { ProcessingComponent } from '../../common/processing/processing.component';
 import { EventStatus } from '../../dto/enum/event-status';
 import MyEventModel from '../../dto/model/my-event-model';
@@ -26,7 +25,6 @@ import { EmptyComponent } from '../../common/empty/empty.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MenuLayoutComponent,
     PaginatorModule,
     ButtonModule,
     TabMenuModule,

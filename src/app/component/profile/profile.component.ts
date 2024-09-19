@@ -14,8 +14,6 @@ import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ToastModule } from 'primeng/toast';
-import { PROFILE_PATH } from '../../app.routes';
-import { MenuLayoutComponent } from '../../common/menu-layout/menu-layout.component';
 import { EMAIL_PATTERN, PHONE_NUMBER_PATTERN } from '../../const/regex';
 import { Gender } from '../../dto/enum/gender';
 import UpdateAccountRequest from '../../dto/request/update-account-request';
@@ -28,7 +26,6 @@ import { TimeUtil } from '../../utils/time-util';
   selector: 'app-profile',
   standalone: true,
   imports: [
-    MenuLayoutComponent,
     CalendarModule,
     AvatarModule,
     FileUploadModule,
@@ -80,7 +77,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.initData();
-    // this.location.replaceState(PROFILE_PATH);
   }
 
   pastDateValidator(control: AbstractControl): ValidationErrors | null {
@@ -94,15 +90,19 @@ export class ProfileComponent implements OnInit {
   }
 
   initData() {
-    var user = this.localStorageService.getUser();
-    if (user != null) {
-      this.profileForm.controls['name'].setValue(user.name);
-      this.profileForm.controls['email'].setValue(user.email);
-      this.profileForm.controls['phoneNumber'].setValue(user.phoneNumber);
-      this.profileForm.controls['birthDate'].setValue(new Date(user.birthDate));
-      this.profileForm.controls['gender'].setValue(user.gender);
-      this.profileForm.controls['avatarUrl'].setValue(user.avatarUrl);
-    }
+    this.accountService.getAccountInformation().subscribe({
+      next: (response) => {
+        var user = response.data;
+        this.profileForm.controls['name'].setValue(user.name);
+        this.profileForm.controls['email'].setValue(user.email);
+        this.profileForm.controls['phoneNumber'].setValue(user.phoneNumber);
+        this.profileForm.controls['birthDate'].setValue(
+          new Date(user.birthDate)
+        );
+        this.profileForm.controls['gender'].setValue(user.gender);
+        this.profileForm.controls['avatarUrl'].setValue(user.avatarUrl);
+      },
+    });
   }
 
   onSubmit() {
@@ -116,7 +116,7 @@ export class ProfileComponent implements OnInit {
       isBirthDateValid &&
       isGenderValid
     ) {
-      var userId = this.localStorageService.getUser()?.id;
+      var userId = this.localStorageService.getUserId();
       var name = this.profileForm.controls['name'].value;
       var phone = this.profileForm.controls['phoneNumber'].value;
       var birthDate = TimeUtil.formatToISOString(
@@ -137,7 +137,6 @@ export class ProfileComponent implements OnInit {
           .subscribe({
             next: (response) => {
               this.toastService.showSuccess(response.message);
-              this.localStorageService.saveUser(response.data);
             },
             error: (err) => {
               this.toastService.showError(err?.message);

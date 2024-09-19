@@ -19,6 +19,7 @@ import SearchEventRequest from '../../dto/request/search-event-request';
 import SearchEventModel from '../../dto/model/search-event-model';
 import { TimeUtil } from '../../utils/time-util';
 import { EmptyComponent } from '../../common/empty/empty.component';
+import CurrencyUtil from '../../utils/currency-util';
 
 @Component({
   selector: 'app-search-event',
@@ -255,6 +256,6 @@ export class SearchEventComponent implements OnInit {
   }
 
   formatEventPrice(price: number): string {
-    return TimeUtil.formatCurrency(price);
+    return CurrencyUtil.formatCurrency(price);
   }
 }

@@ -14,6 +14,8 @@ import { TimeUtil } from '../../utils/time-util';
 import ShowTimeDetailDto from '../../dto/model/show-time-detail-dto';
 import { NotFoundComponent } from '../../common/not-found/not-found.component';
 import { PageState } from '../../dto/enum/page-state';
+import CurrencyUtil from '../../utils/currency-util';
+import { LocalStorageService } from '../../service/local-storage.service';
 @Component({
   selector: 'app-event-detail',
   standalone: true,
@@ -36,6 +38,7 @@ export class EventDetailComponent implements OnInit {
     private eventService: EventService,
     private categoryService: CategoryService,
     private processService: ProcessingService,
+    private localStorageService: LocalStorageService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -98,11 +101,10 @@ export class EventDetailComponent implements OnInit {
   }
 
   formatPrice(price: number) {
-    return TimeUtil.formatCurrency(price);
+    return CurrencyUtil.formatCurrency(price);
   }
 
   isCanBuyNow(showTime: ShowTimeDetailDto): boolean {
-    console.log(showTime);
     const currentTime = new Date();
     const saleStartAt = TimeUtil.convertUtcTimeToLocalTime(
       showTime.saleStartAt.toString()
@@ -136,8 +138,6 @@ export class EventDetailComponent implements OnInit {
     if (currentTime < saleStartAt) {
       return 'Not In Sale Time';
     }
-    console.log(currentTime);
-    console.log(saleEndDate);
     if (currentTime > saleEndDate) {
       return 'Over Sale Time';
     }

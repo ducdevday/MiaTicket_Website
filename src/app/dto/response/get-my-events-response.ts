@@ -3,4 +3,6 @@ import MyEventModel from '../model/my-event-model';
 
 export default class GetMyEventResponse extends BaseApiResponse<
   MyEventModel[]
-> {}
+> {
+  totalRecords: number = 0;
+}

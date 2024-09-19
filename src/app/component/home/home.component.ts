@@ -25,6 +25,7 @@ import { EVENTS_PATH, SEARCH_PATH } from '../../app.routes';
 import { SkeletonModule } from 'primeng/skeleton';
 import { forkJoin, map } from 'rxjs';
 import { ProcessingService } from '../../service/processing.service';
+import CurrencyUtil from '../../utils/currency-util';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -205,7 +206,7 @@ export class HomeComponent implements OnInit {
   }
 
   formatEventPrice(price: number): string {
-    return TimeUtil.formatCurrency(price);
+    return CurrencyUtil.formatCurrency(price);
   }
 
   onCategoryPressed(categoryId: number) {

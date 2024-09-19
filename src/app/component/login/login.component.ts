@@ -11,7 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EMAIL_VERIFY_PATH, HOME_PATH, REGISTER_PATH } from '../../app.routes';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../const/regex';
 import { VerifyType } from '../../dto/enum/verify-type';
@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit {
     private accountService: AccountService,
     private verifyCodeService: VerifyCodeService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
@@ -83,9 +84,9 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           this.toastService.showSuccess('Login Successfully');
           this.localStorageService.saveIsAuthenticated(true);
-          this.localStorageService.saveUser(response.data.user);
+          this.localStorageService.saveUserId(response.data.userId);
           this.localStorageService.saveAccessToken(response.data.accessToken);
-          this.router.navigate([HOME_PATH]);
+          this.onHandleNavigate();
         },
         error: (err) => {
           this.toastService.showError(err.error.message);
@@ -102,6 +103,12 @@ export class LoginComponent implements OnInit {
         },
       });
     } else this.toastService.showError('Invalid email or password');
+  }
+
+  onHandleNavigate() {
+    const redirectUrl =
+      this.route.snapshot.queryParamMap.get('redirectUrl') || HOME_PATH;
+    this.router.navigate([redirectUrl]);
   }
 
   onForgotPassword() {

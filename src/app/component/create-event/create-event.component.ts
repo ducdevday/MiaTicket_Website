@@ -9,7 +9,6 @@ import { EditorModule } from 'primeng/editor';
 import { SidebarModule } from 'primeng/sidebar';
 import { StepsModule } from 'primeng/steps';
 import { TableModule } from 'primeng/table';
-import { MenuLayoutComponent } from '../../common/menu-layout/menu-layout.component';
 import { VnAddressService } from '../../service/vn-address.service';
 import { ToastService } from '../../service/toast.service';
 import GetListProvinceResponse from '../../dto/response/get-list-province-response';
@@ -42,7 +41,6 @@ import { MY_EVENTS_PATH } from '../../app.routes';
   selector: 'app-create-event',
   standalone: true,
   imports: [
-    MenuLayoutComponent,
     StepsModule,
     CommonModule,
     DropdownModule,
@@ -107,7 +105,6 @@ export class CreateEventComponent implements OnInit {
         [Validators.required],
       ],
       eventName: ['', [Validators.required, Validators.maxLength(255)]],
-      isEventOffline: [true, [Validators.required]],
       addressName: [''],
       addressProvince: [null],
       addressDistrict: [null],
@@ -308,12 +305,13 @@ export class CreateEventComponent implements OnInit {
   }
 
   onSubmit(event: Event) {
+    var userId = this.localStorageService.getUserId();
+    if (!userId) return;
     if (this.createForm.valid) {
       var {
         eventLogoFile,
         eventBackgroundFile,
         eventName,
-        isEventOffline,
         addressName,
         addressProvince,
         addressDistrict,
@@ -329,28 +327,11 @@ export class CreateEventComponent implements OnInit {
         paymentBankName,
         paymentBankBranch,
       } = this.createForm.value;
-      if (
-        isEventOffline &&
-        (addressName == '' ||
-          addressProvince == null ||
-          addressDistrict == null ||
-          addressWard == null ||
-          addressNo == '')
-      ) {
-        this.toastService.showError('Offline Event Must Have Address');
-        return;
-      }
-      addressName = isEventOffline ? addressName : '';
-      addressProvince = isEventOffline ? addressProvince.province_name : '';
-      addressDistrict = isEventOffline ? addressDistrict.district_name : '';
-      addressWard = isEventOffline ? addressWard.ward_name : '';
-      addressNo = isEventOffline ? addressNo : '';
 
       var request = new CreateEventRequest(
         eventName,
         eventLogoFile,
         eventBackgroundFile,
-        isEventOffline,
         addressName,
         addressProvince,
         addressDistrict,
@@ -365,7 +346,7 @@ export class CreateEventComponent implements OnInit {
         paymentBankName,
         paymentBankBranch,
         category.id,
-        this.localStorageService.getUser()?.id!,
+        userId,
         this.showTimes
       );
       this.confirmService.confirmInfo(

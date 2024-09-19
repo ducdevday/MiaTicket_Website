@@ -16,6 +16,7 @@ import { EmailVerifyFinishComponent } from './component/email-verify-finish/emai
 import { SearchEventComponent } from './component/search-event/search-event.component';
 import { BookingComponent } from './component/booking/booking.component';
 import { PaymentComponent } from './component/payment/payment.component';
+import { PaymentInformationComponent } from './component/payment-information/payment-information.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -28,6 +29,7 @@ export const EVENTS_PATH: string = 'events/:eventSlug';
 export const BOOKING_PATH: string = 'events/:eventId/booking/:showTimeId';
 // export const BOOKING_PATH: string = 'booking';
 export const PAYMENT_PATH: string = 'payment';
+export const PAYMENT_INFORMATION_PATH: string = 'payment-information';
 export const PROFILE_PATH: string = 'account/profile';
 export const CHANGE_PASSWORD_PATH: string = 'account/change-password';
 export const MY_TICKETS_PATH: string = 'account/my-tickets';
@@ -36,11 +38,34 @@ export const CREATE_EVENTS_PATH: string = 'account/create-event';
 
 export const routes: Routes = [
   { path: HOME_PATH, component: HomeComponent },
-  { path: LOGIN_PATH, component: LoginComponent },
-  { path: REGISTER_PATH, component: RegisterComponent },
-  { path: EMAIL_VERIFY_PATH, component: EmailVerifyComponent },
-  { path: EMAIL_VERIFY_FINISH_PATH, component: EmailVerifyFinishComponent },
-  { path: RESET_PASSWORD_PATH, component: ResetPasswordComponent },
+  {
+    path: LOGIN_PATH,
+    component: LoginComponent,
+    data: { showHeader: false, showFooter: false },
+  },
+  {
+    path: REGISTER_PATH,
+    component: RegisterComponent,
+
+    data: { showHeader: false, showFooter: false },
+  },
+  {
+    path: EMAIL_VERIFY_PATH,
+    component: EmailVerifyComponent,
+
+    data: { showHeader: false, showFooter: false },
+  },
+  {
+    path: EMAIL_VERIFY_FINISH_PATH,
+    component: EmailVerifyFinishComponent,
+    data: { showHeader: false, showFooter: false },
+  },
+  {
+    path: RESET_PASSWORD_PATH,
+    component: ResetPasswordComponent,
+    data: { showHeader: false, showFooter: false },
+  },
+
   {
     path: SEARCH_PATH,
     component: SearchEventComponent,
@@ -52,10 +77,19 @@ export const routes: Routes = [
   {
     path: BOOKING_PATH,
     component: BookingComponent,
+    data: { showSearchBar: false, showFooter: false },
   },
   {
     path: PAYMENT_PATH,
     component: PaymentComponent,
+    canActivate: [AuthGuardService],
+    data: { showSearchBar: false, showFooter: false },
+  },
+  {
+    path: PAYMENT_INFORMATION_PATH,
+    component: PaymentInformationComponent,
+    canActivate: [AuthGuardService],
+    data: { showSearchBar: false, showFooter: false },
   },
   {
     path: '',

@@ -5,7 +5,6 @@ export default class CreateEventRequest extends FormData {
     name: string,
     logoFile: File,
     backgroundFile: File,
-    isOffline: boolean,
     addressName: string,
     addressProvince: string,
     addressDistrict: string,
@@ -25,7 +24,6 @@ export default class CreateEventRequest extends FormData {
   ) {
     super();
     this.appendData('Name', name);
-    this.appendData('IsOffline', isOffline);
     this.appendData('Description', description);
     this.appendData('AddressName', addressName);
     this.appendData('AddressNo', addressNo);

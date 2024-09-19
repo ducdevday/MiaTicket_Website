@@ -69,6 +69,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.localStorageService.clear();
           this.router.navigate([LOGIN_PATH]);
           this.isRefreshing = false;
+          console.log('Interceptor catchError');
           return throwError(error);
         }),
         tap((data: GenerateTokenResponse) => {
@@ -76,13 +77,14 @@ export class AuthInterceptor implements HttpInterceptor {
           this.isRefreshing = false;
           // ! Notify that generateToken is complete
           // this.refreshToken$.next(data.data.refreshToken);
-          this.refreshToken$.next('GENERATED');
+          this.refreshToken$.next(data.data.accessToken);
         }),
         switchMap((data: GenerateTokenResponse) => {
           var newRequest = this.addTokenToHeader(
             data.data.accessToken,
             request
           );
+          console.log('Interceptor switchMap');
           return next.handle(newRequest);
         })
       );
@@ -93,6 +95,7 @@ export class AuthInterceptor implements HttpInterceptor {
       take(1),
       switchMap((token) => {
         const newRequest = this.addTokenToHeader(token, request);
+        console.log('Interceptor newRequest');
         return next.handle(newRequest);
       })
     );
