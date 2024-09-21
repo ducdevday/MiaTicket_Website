@@ -1,0 +1,169 @@
+<div class="bg-background h-screen flex flex-col">
+  <!-- BODY -->
+  <div class="w-full flex flex-col justify-center items-center mt-4">
+    <div
+      class="w-full lg:max-w-7xl max-h-[300px] md:min-h-[600px] px-4 lg:px-0 flex flex-row gap-4"
+      *ngIf="isPageLoadSuccess()"
+    >
+      <!-- Left Section: Ticket Selection -->
+      <div class="w-full p-7 bg-white shadow-lg rounded-lg flex flex-col">
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <img
+              src="/img_logo_primary.png"
+              class="object-cover object-centers w-4/6 mb-1"
+            />
+            <span class="text-primary text-center text-sm"
+              >Thanks you for choosing
+            </span>
+            <span class="text-primary font-bold">Miaticket.com</span>
+          </div>
+          <div class="w-4/5">
+            <img
+              [src]="order.image"
+              class="rounded-lg object-center object-cover w-full h-32 md:h-40 lg:h-52"
+            />
+            <div class="text-base font-semibold mb-2">
+              {{ order.eventName }}
+            </div>
+            <p class="text-xs flex items-center gap-2 mb-2">
+              <i class="pi pi-clock"></i>
+              <span class="text-primary">{{
+                formatDateRage(order.showTimeStart, order.showTimeEnd)
+              }}</span>
+            </p>
+            <p class="text-xs flex items-center gap-2 mb-2">
+              <i class="pi pi-map"></i>
+              <span class="text-primary">{{ order.addressName }}</span>
+            </p>
+            <div class="text-xs text-gray-600">{{ order.addressDetail }}</div>
+            <div class="inline-block h-[0.5px] bg-gray-300 w-full"></div>
+            <div *ngIf="isOrderFinished()">
+              <div class="text-base text-gray-600 text-center">
+                Give this code to employee to check in
+              </div>
+              <div class="border-4 border-dashed p-4 border-gray-500 my-3">
+                <div class="text-primary text-5xl text-center">
+                  {{ this.order.qrCode }}
+                </div>
+              </div>
+              <div class="text-base text-gray-800 font-medium">
+                Receiver Informaiton
+              </div>
+              <div class="flex gap-1">
+                <div class="text-xs text-gray-600">Name:</div>
+                <div class="text-xs text-gray-600 font-medium">
+                  {{ this.order.receiverName }}
+                </div>
+              </div>
+              <div class="flex gap-1">
+                <div class="text-xs text-gray-600">Email:</div>
+                <div class="text-xs text-gray-600 font-medium">
+                  {{ this.order.receiverEmail }}
+                </div>
+              </div>
+              <div class="flex gap-1">
+                <div class="text-xs text-gray-600">Phone Number:</div>
+                <div class="text-xs text-gray-600 font-medium">
+                  {{ this.order.receiverPhoneNumber }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Section: Summary and Payment -->
+      <div class="flex flex-col w-full md:w-3/5 gap-4">
+        <div class="p-7 bg-white shadow-lg rounded-lg h-fit w-full">
+          <div class="flex items-center gap-2">
+            <img
+              [src]="getOrderStatusImage()"
+              class="object-cover object-center w-10 h-10"
+            />
+            <span>{{ getOrderStatusText() }}</span>
+          </div>
+          <div class="flex justify-between mt-4 mb-1">
+            <p class="text-sm text-gray-700">Order Id</p>
+            <p class="text-sm text-gray-700">{{ order.id }}</p>
+          </div>
+          <div class="flex justify-between mt-4 mb-1">
+            <p class="text-sm text-gray-700">Created At</p>
+            <p class="text-sm text-gray-700">
+              {{ formatDate(order.createdAt) }}
+            </p>
+          </div>
+          <div class="flex justify-between mt-4 mb-1">
+            <p class="text-sm text-gray-700">Payment Method</p>
+            <div class="flex">
+              <img
+                [src]="getPaymentTypeImage()"
+                class="object-cover object-center w-6"
+              />
+              <p class="text-sm text-gray-700">{{ getPaymentTypeText() }}</p>
+            </div>
+          </div>
+          <div class="flex justify-between mt-4 mb-1 items-center">
+            <p class="text-sm text-gray-700">Ticket Status</p>
+            <div class="text-base text-blue-600" *ngIf="!order.isUsed">
+              Not Used
+            </div>
+            <div class="text-base text-green-600" *ngIf="order.isUsed">
+              Used
+            </div>
+          </div>
+
+          <div class="flex gap-2 mt-4">
+            <button
+              pButton
+              class="outline-button-info flex justify-center text-sm w-full"
+              *ngIf="order.isCanRepayment && order.paymentUrl"
+              (click)="onRepayment(order.paymentUrl)"
+            >
+              Re Payment
+            </button>
+            <button
+              pButton
+              class="outline-button-danger flex justify-center text-sm w-full"
+              *ngIf="order.isCanCancel"
+              (click)="onCancelOrder($event)"
+            >
+              Cancel Order
+            </button>
+          </div>
+        </div>
+        <div class="p-7 bg-white shadow-lg rounded-lg h-fit w-full">
+          <p class="text-base font-medium">Order Summary</p>
+          <div class="inline-block h-[0.5px] bg-gray-300 w-full"></div>
+          <ul>
+            <li
+              class="flex items-center justify-between"
+              *ngFor="let ticket of order.orderTickets"
+            >
+              <div class="flex text-sm items-center gap-1">
+                <span>{{ ticket.quantity }}x</span>
+                <span>{{ ticket.name }}</span>
+              </div>
+              <p class="text-sm font-semibold">
+                {{ formatCurrency(ticket.price * ticket.quantity) }}
+              </p>
+            </li>
+          </ul>
+          <div class="flex items-center justify-between">
+            <p class="text-sm">Discount</p>
+            <p class="text-sm font-semibold">
+              {{ formatCurrency(order.discount) }}
+            </p>
+          </div>
+          <div class="inline-block h-[0.5px] bg-gray-300 w-full"></div>
+          <div class="flex justify-between text-sm items-center">
+            <p class="text-sm">Total</p>
+            <p class="text-base font-bold text-primary">
+              {{ formatCurrency(order.totalPrice) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

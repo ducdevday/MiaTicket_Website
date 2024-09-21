@@ -1,0 +1,110 @@
+<div class="">
+  <!-- Search and Tabs -->
+  <form
+    [formGroup]="searchForm"
+    class="flex items-center justify-between mb-4"
+    (submit)="onSearch()"
+  >
+    <div class="flex items-center gap-2">
+      <input
+        type="text"
+        placeholder="Search event"
+        class="rounded-lg py-2 px-4 border border-spacing-6 border-gray-400 focus:outline-none text-sm"
+        formControlName="keyword"
+      />
+      <p-button icon="pi pi-search" styleClass="primary-button" type="submit" />
+    </div>
+    <p-tabMenu
+      [model]="orderStatuses"
+      [activeItem]="activeOrderStatus"
+      (activeItemChange)="onActiveOrderStatusChange($event)"
+    />
+  </form>
+
+  <div class="flex flex-col gap-3 min-h-[600px]">
+    <div
+      class="border shadow-lg rounded-lg p-4 mb-4 flex justify-between"
+      *ngFor="let order of myOrders"
+    >
+      <div class="flex flex-col md:flex-row">
+        <!-- Image Section -->
+        <div class="md:w-[175px] w-full mb-4 md:mb-0">
+          <img
+            [src]="order.image"
+            alt="Order"
+            class="rounded-lg object-cover object-center w-full h-48 md:h-full"
+          />
+        </div>
+
+        <!-- Content Section -->
+        <div class="flex-1 ml-0 md:ml-4 flex flex-col">
+          <h3 class="flex-1 text-gray-900 text-base font-medium mb-7">
+            {{ order.eventName }}
+          </h3>
+
+          <div class="flex items-center text-gray-500 text-sm gap-2">
+            <i class="fas fa-map-marker-alt w-4"></i>
+            <span>{{ order.addressName }}, {{ order.addressDetail }}</span>
+          </div>
+
+          <div class="flex items-center text-gray-500 text-sm gap-2">
+            <i class="far fa-calendar-alt w-4"></i>
+            <span>{{
+              formatDateRage(order.showTimeStart, order.showTimeEnd)
+            }}</span>
+          </div>
+
+          <div class="flex items-center text-gray-500 text-sm gap-2">
+            <i class="fa-solid fa-ticket w-4"></i>
+            <span>{{ formatOrderTicketsInformation(order.orderTickets) }}</span>
+          </div>
+
+          <div class="flex items-center text-gray-500 text-sm gap-2">
+            <i class="fa-regular fa-money-bill-1 w-4"></i>
+            <span>{{ formatCurrency(order.totalPrice) }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col flex-shrink-0 gap-2 ml-10">
+        <button
+          pButton
+          class="outline-button flex justify-center text-sm"
+          (click)="onSeeDetail(order.id)"
+        >
+          See Detail
+        </button>
+        <button
+          pButton
+          class="outline-button-info flex justify-center text-sm"
+          *ngIf="order.isCanRepayment && order.paymentUrl"
+          (click)="onRepayment(order.paymentUrl)"
+        >
+          Re Payment
+        </button>
+        <button
+          pButton
+          class="outline-button-danger flex justify-center text-sm"
+          *ngIf="order.isCanCancel"
+          (click)="onCancelOrder($event, order.id)"
+        >
+          Cancel Order
+        </button>
+      </div>
+    </div>
+
+    <div
+      *ngIf="myOrders.length == 0"
+      class="h-[600px] flex justify-center items-center"
+    >
+      <app-empty imageUrl="/icon_ticket.png" content="No Tickets"></app-empty>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <p-paginator
+    class="paginator"
+    (onPageChange)="onPageChange($event)"
+    [rows]="this.pagination.currentPageSize"
+    [totalRecords]="this.pagination.totalRecords"
+  />
+</div>

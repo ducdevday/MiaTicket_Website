@@ -308,16 +308,16 @@ export class CreateEventComponent implements OnInit {
     var userId = this.localStorageService.getUserId();
     if (!userId) return;
     if (this.createForm.valid) {
-      var {
+      const {
         eventLogoFile,
         eventBackgroundFile,
         eventName,
         addressName,
-        addressProvince,
-        addressDistrict,
-        addressWard,
+        addressProvince: { province_name },
+        addressDistrict: { district_name },
+        addressWard: { ward_name },
         addressNo,
-        category,
+        category: { id: categoryId },
         eventDescription,
         organizerName,
         organizerInformation,
@@ -328,14 +328,14 @@ export class CreateEventComponent implements OnInit {
         paymentBankBranch,
       } = this.createForm.value;
 
-      var request = new CreateEventRequest(
+      const request = new CreateEventRequest(
         eventName,
         eventLogoFile,
         eventBackgroundFile,
         addressName,
-        addressProvince,
-        addressDistrict,
-        addressWard,
+        province_name,
+        district_name,
+        ward_name,
         addressNo,
         eventDescription,
         organizerName,
@@ -345,7 +345,7 @@ export class CreateEventComponent implements OnInit {
         paymentNumber,
         paymentBankName,
         paymentBankBranch,
-        category.id,
+        categoryId,
         userId,
         this.showTimes
       );

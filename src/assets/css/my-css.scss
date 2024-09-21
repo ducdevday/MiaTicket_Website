@@ -108,3 +108,63 @@ body {
     }
   }
 }
+
+.outline-button-info {
+  background-color: transparent;
+  border: 2px solid #2958d8; /* Using your primary color */
+  color: #2958d8; /* Text color matches the border */
+  padding-top: 0.275rem /* 6px */;
+  padding-bottom: 0.275rem /* 6px */;
+  font-size: 0.875rem /* 14px */;
+  line-height: 1.5rem /* 24px */;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease; /* Smooth transition on hover */
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:hover {
+    background-color: #a8bdf7; /* Fill background with the primary color */
+    opacity: 0.9;
+  }
+  &.disabled {
+    background-color: rgba(53, 52, 52, 0.314);
+    color: rgba(0, 0, 0, 0.5);
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.outline-button-danger {
+  background-color: transparent;
+  border: 2px solid #d82929; /* Using your primary color */
+  color: #d82929; /* Text color matches the border */
+  padding-top: 0.275rem /* 6px */;
+  padding-bottom: 0.275rem /* 6px */;
+  font-size: 0.875rem /* 14px */;
+  line-height: 1.5rem /* 24px */;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease; /* Smooth transition on hover */
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:hover {
+    background-color: #f17979; /* Fill background with the primary color */
+    opacity: 0.9;
+  }
+  &.disabled {
+    background-color: rgba(53, 52, 52, 0.314);
+    color: rgba(0, 0, 0, 0.5);
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

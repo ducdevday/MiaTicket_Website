@@ -10,13 +10,15 @@ import { ChangePasswordComponent } from './component/change-password/change-pass
 import { MyEventsComponent } from './component/my-events/my-events.component';
 import { CreateEventComponent } from './component/create-event/create-event.component';
 import { AuthGuardService } from './service/auth-guard.service';
-import { MyTicketsComponent } from './component/my-tickets/my-tickets.component';
 import { AccountComponent } from './component/account/account.component';
 import { EmailVerifyFinishComponent } from './component/email-verify-finish/email-verify-finish.component';
 import { SearchEventComponent } from './component/search-event/search-event.component';
 import { BookingComponent } from './component/booking/booking.component';
 import { PaymentComponent } from './component/payment/payment.component';
 import { PaymentInformationComponent } from './component/payment-information/payment-information.component';
+import { MyOrdersComponent } from './component/my-orders/my-orders.component';
+import { OrderDetailComponent } from './component/order-detail/order-detail.component';
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -32,12 +34,19 @@ export const PAYMENT_PATH: string = 'payment';
 export const PAYMENT_INFORMATION_PATH: string = 'payment-information';
 export const PROFILE_PATH: string = 'account/profile';
 export const CHANGE_PASSWORD_PATH: string = 'account/change-password';
-export const MY_TICKETS_PATH: string = 'account/my-tickets';
+export const MY_ORDERS_PATH: string = 'account/my-orders';
 export const MY_EVENTS_PATH: string = 'account/my-events';
 export const CREATE_EVENTS_PATH: string = 'account/create-event';
+export const ORDERS_PATH: string = 'orders/:orderId';
 
 export const routes: Routes = [
-  { path: HOME_PATH, component: HomeComponent },
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: HOME_PATH, component: HomeComponent, pathMatch: 'full' },
+    ],
+  },
   {
     path: LOGIN_PATH,
     component: LoginComponent,
@@ -74,6 +83,7 @@ export const routes: Routes = [
     path: EVENTS_PATH,
     component: EventDetailComponent,
   },
+
   {
     path: BOOKING_PATH,
     component: BookingComponent,
@@ -92,9 +102,14 @@ export const routes: Routes = [
     data: { showSearchBar: false, showFooter: false },
   },
   {
+    path: ORDERS_PATH,
+    component: OrderDetailComponent,
+  },
+  {
     path: '',
     component: AccountComponent,
     canActivate: [AuthGuardService],
+
     children: [
       {
         path: PROFILE_PATH,
@@ -107,8 +122,8 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
       },
       {
-        path: MY_TICKETS_PATH,
-        component: MyTicketsComponent,
+        path: MY_ORDERS_PATH,
+        component: MyOrdersComponent,
         canActivate: [AuthGuardService],
       },
       {
@@ -123,4 +138,5 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: '**', component: HomeComponent },
 ];

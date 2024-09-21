@@ -77,6 +77,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.initData();
+    console.log('On Profile Init');
   }
 
   pastDateValidator(control: AbstractControl): ValidationErrors | null {

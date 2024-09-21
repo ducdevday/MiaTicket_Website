@@ -50,4 +50,24 @@ export class ConfirmService {
       },
     });
   }
+
+  confirmCancel(event: Event, onAccept: () => void, onReject?: () => void) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to cancel this order?',
+      header: 'Cancel Confirmation',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger p-button-text',
+      rejectButtonStyleClass: 'p-button-text p-button-text',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+
+      accept: () => {
+        onAccept(); // Call the onAccept callback
+      },
+      reject: () => {
+        onReject?.();
+      },
+    });
+  }
 }

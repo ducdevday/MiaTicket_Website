@@ -3,13 +3,12 @@
     <header
       class="flex flex-row w-full lg:max-w-7xl h-[76px] items-center px-4 lg:px-0"
     >
-      <a href="#" class="">
-        <img
-          src="/img_logo_white.png"
-          alt="MiaTicket"
-          class="h-[76px] object-contain p-3"
-        />
-      </a>
+      <img
+        src="/img_logo_white.png"
+        alt="MiaTicket"
+        class="h-[76px] object-contain p-3"
+        (click)="goToHome()"
+      />
 
       <!-- Search Bar -->
       <form
