@@ -16,6 +16,12 @@ import { NotFoundComponent } from '../../common/not-found/not-found.component';
 import { PageState } from '../../dto/enum/page-state';
 import CurrencyUtil from '../../utils/currency-util';
 import { LocalStorageService } from '../../service/local-storage.service';
+import { VoucherService } from '../../service/voucher.service';
+import VoucherDiscoveryModel from '../../dto/model/voucher-discovery-model';
+import { TagModule } from 'primeng/tag';
+import { VoucherType } from '../../dto/enum/voucher-type';
+import { Tooltip, TooltipModule } from 'primeng/tooltip';
+import { ToastService } from '../../service/toast.service';
 @Component({
   selector: 'app-event-detail',
   standalone: true,
@@ -25,6 +31,8 @@ import { LocalStorageService } from '../../service/local-storage.service';
     FooterComponent,
     AccordionModule,
     NotFoundComponent,
+    TagModule,
+    TooltipModule,
   ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss',
@@ -33,20 +41,24 @@ export class EventDetailComponent implements OnInit {
   categories: CategoryModel[] = [];
   eventId!: string;
   eventDetail!: EventDetailModel;
+  vouchers: VoucherDiscoveryModel[] = [];
   pageState: PageState = PageState.Init;
   constructor(
     private eventService: EventService,
     private categoryService: CategoryService,
+    private voucherService: VoucherService,
     private processService: ProcessingService,
     private localStorageService: LocalStorageService,
+    private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.fetchCategoriesData();
     this.eventId = this.getEventId();
-    this.fetchEventDetail();
+    this.fetchCategoriesData();
+    this.fetchEventDetailData();
+    this.fetchVoucherData();
   }
 
   fetchCategoriesData() {
@@ -57,7 +69,7 @@ export class EventDetailComponent implements OnInit {
     });
   }
 
-  fetchEventDetail() {
+  fetchEventDetailData() {
     this.processService.show();
     this.eventService.getEventDetail(this.eventId).subscribe({
       next: (response) => {
@@ -69,6 +81,15 @@ export class EventDetailComponent implements OnInit {
         this.processService.hide();
         this.pageState = PageState.Error;
       },
+    });
+  }
+
+  fetchVoucherData() {
+    this.voucherService.getVouchersDiscovery(Number(this.eventId)).subscribe({
+      next: (response) => {
+        this.vouchers = response.data;
+      },
+      error: (err) => {},
     });
   }
 
@@ -127,6 +148,15 @@ export class EventDetailComponent implements OnInit {
     return true;
   }
 
+  voucherValueString(value: number, voucherType: VoucherType): string {
+    switch (voucherType) {
+      case VoucherType.FixedAmount:
+        return `${CurrencyUtil.formatCurrency(value)}`;
+      case VoucherType.Percentage:
+        return `${value}%`;
+    }
+  }
+
   buyNowName(showTime: ShowTimeDetailDto): string {
     const currentTime = new Date();
     const saleStartAt = TimeUtil.convertUtcTimeToLocalTime(
@@ -157,5 +187,21 @@ export class EventDetailComponent implements OnInit {
         showTime.id.toString()
       ),
     ]);
+  }
+
+  copyCodeToClipboard(code: string) {
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = code;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+
+    this.toastService.showInfo('Copied Code');
   }
 }

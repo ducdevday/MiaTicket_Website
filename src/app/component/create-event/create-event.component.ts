@@ -70,7 +70,6 @@ export class CreateEventComponent implements OnInit {
   activeIndex: number = 0;
 
   isCreateShowTimeFormVisible = false;
-  isShowAddTicket = false;
 
   createForm!: FormGroup;
   showTimes: ShowTimeModel[] = [];

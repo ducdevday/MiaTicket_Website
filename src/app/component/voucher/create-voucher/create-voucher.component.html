@@ -1,1 +1,130 @@
-<p>create-voucher works!</p>
+<p-dialog
+  [(visible)]="isCreateVoucherFormVisible"
+  [modal]="true"
+  [draggable]="false"
+  [closable]="true"
+  [style]="{ width: '75%', height: '75%' }"
+  (onHide)="onFormClose()"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <span class="font-bold white-space-nowrap">
+        {{ this.voucherInput ? "Update Voucher" : "Add Voucher" }}
+      </span>
+    </div>
+  </ng-template>
+  <form [formGroup]="voucherForm">
+    <p class="text-sm mt-4 mb-2">
+      <span class="text-red-600">*</span> Voucher Name
+    </p>
+    <input
+      type="text"
+      placeholder="Voucher Name"
+      class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+      formControlName="voucherName"
+    />
+    <p class="text-sm mt-4 mb-2">
+      <span class="text-red-600">*</span> Voucher Code
+    </p>
+    <input
+      type="text"
+      placeholder="Voucher Code (A-Z and 0-9, 8 characters)"
+      class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+      formControlName="voucherCode"
+    />
+    <div class="flex gap-2">
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">
+          <span class="text-red-600">*</span> Value
+        </p>
+        <input
+          type="number"
+          placeholder="Value"
+          class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+          formControlName="voucherValue"
+          min="0"
+        />
+      </div>
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">
+          <span class="text-red-600">*</span> Voucher Type
+        </p>
+        <p-dropdown
+          formControlName="addressProvince"
+          optionLabel="name"
+          [options]="voucherTypes"
+          placeholder="FixAmount / Percentage"
+          styleClass="w-full "
+          formControlName="voucherType"
+        />
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">Start Date</p>
+        <p-calendar
+          inputId="calendar-24h"
+          [showTime]="true"
+          hourFormat="24"
+          placeholder="Select Date"
+          styleClass="w-full"
+          formControlName="voucherStartDate"
+        />
+      </div>
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">End Date</p>
+        <p-calendar
+          inputId="calendar-24h"
+          [showTime]="true"
+          hourFormat="24"
+          placeholder="Select Date"
+          styleClass="w-full"
+          formControlName="voucherEndDate"
+        />
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">Quantity</p>
+        <input
+          type="number"
+          placeholder="Quantity"
+          class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+          formControlName="voucherQuantity"
+          min="0"
+        />
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">Min Quantity Per Order</p>
+        <input
+          type="number"
+          placeholder="Minimum quantity of tickets in an order to apply the voucher"
+          class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+          formControlName="voucherMinimumQuantityPerOrder"
+          min="0"
+        />
+      </div>
+      <div class="flex flex-col flex-1">
+        <p class="text-sm mt-4 mb-2">Max Quantity Per Order</p>
+        <input
+          type="number"
+          placeholder="Maximum quantity of tickets in an order can apply the voucher"
+          class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+          formControlName="voucherMaximumQuantityPerOrder"
+          min="0"
+        />
+      </div>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      class="w-full linear-button flex justify-center gap-2"
+      (click)="onSaveButtonPressed()"
+    >
+      <i class="fa-regular fa-floppy-disk"></i><span>Save</span>
+    </button></ng-template
+  >
+</p-dialog>

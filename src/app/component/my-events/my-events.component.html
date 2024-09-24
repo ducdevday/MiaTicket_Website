@@ -62,7 +62,10 @@
           <i class="fas fa-chart-pie mr-2"></i> Summary
         </button>
 
-        <button class="flex items-center text-gray-500">
+        <button
+          class="flex items-center text-gray-500"
+          (click)="onVoucherButtonPressed(event.id)"
+        >
           <i class="fas fa-ticket-alt mr-2"></i> Voucher
         </button>
         <button class="flex items-center text-gray-500">

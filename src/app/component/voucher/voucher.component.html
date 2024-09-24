@@ -1,1 +1,101 @@
-<p>voucher works!</p>
+<div class="bg-background h-screen flex flex-col">
+  <!-- BODY -->
+  <div class="w-full flex flex-col justify-center items-center mt-4">
+    <div
+      class="w-full lg:max-w-7xl max-h-[300px] md:min-h-[600px] px-4 lg:px-0 flex gap-4"
+    >
+      <div class="w-full p-7 bg-white shadow-lg rounded-lg flex flex-col">
+        <p class="text-lg font-semibold">{{ eventName }}</p>
+        <div class="flex items-center justify-between mb-4">
+          <form
+            [formGroup]="searchForm"
+            class=""
+            (ngSubmit)="onSearchButtonPressed()"
+          >
+            <div class="flex items-center gap-2">
+              <input
+                type="text"
+                placeholder="Search voucher"
+                class="rounded-lg py-2 px-4 border border-spacing-6 border-gray-400 focus:outline-none text-sm"
+                formControlName="keyword"
+              />
+              <p-button
+                icon="pi pi-search"
+                styleClass="primary-button"
+                type="submit"
+              />
+            </div>
+          </form>
+          <button
+            p-button
+            class="outline-button px-4"
+            (click)="showCreateVoucherForm()"
+          >
+            <span class="text-center">Add Voucher</span>
+          </button>
+        </div>
+        <p-table [value]="vouchers" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="text-sm font-semibold">Voucher Name</th>
+              <th class="text-sm font-semibold">Voucher Code</th>
+              <th class="text-sm font-semibold">Value</th>
+              <th class="text-sm font-semibold">Expiration Time</th>
+              <th class="text-sm font-semibold">Init Quantity</th>
+              <th class="text-sm font-semibold">Applied Quantity</th>
+              <th class="text-sm font-semibold">Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-voucher let-rowIndex="rowIndex">
+            <tr>
+              <td class="text-sm">{{ voucher.name }}</td>
+              <td class="text-sm">{{ voucher.code }}</td>
+              <td class="text-sm">
+                {{ voucherValueString(voucher.value, voucher.type) }}
+              </td>
+              <td class="text-sm">
+                {{ formatTimeRange(voucher.startDate, voucher.endDate) }}
+              </td>
+              <td class="text-sm">{{ voucher.initQuantity ?? "Unlimited" }}</td>
+              <td class="text-sm">
+                {{ voucher.appliedQuantity ?? "Unlimited" }}
+              </td>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    class="btn btn-success btn-sm"
+                    (click)="showEditVoucherForm(voucher)"
+                  >
+                    <i class="pi pi-pencil text-green-700"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="showDeleteVoucherConfirmDialog($event, voucher)"
+                  >
+                    <i class="pi pi-trash text-red-700"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <div
+          *ngIf="vouchers.length == 0"
+          class="h-72 flex items-center justify-center"
+        >
+          <app-empty
+            imageUrl="/icon_voucher.png"
+            content="No Vouchers"
+          ></app-empty>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Voucher Form -->
+<app-create-voucher
+  [(isCreateVoucherFormVisible)]="isCreateVoucherFormVisible"
+  (voucherCreateOutput)="onVoucherCreate()"
+  (voucherEditOutput)="onVoucherEdit()"
+  [voucherInput]="selectedVoucher"
+></app-create-voucher>

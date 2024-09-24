@@ -29,6 +29,12 @@ import { ToastService } from '../../service/toast.service';
 import CurrencyUtil from '../../utils/currency-util';
 import { TimeUtil } from '../../utils/time-util';
 import { ProcessingService } from '../../service/processing.service';
+import { VoucherService } from '../../service/voucher.service';
+import SearchEventsResponse from '../../dto/response/search-events-response';
+import SearchVoucherRequest from '../../dto/request/search-voucher-request';
+import SearchVoucherModel from '../../dto/model/search-voucher-model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { VoucherType } from '../../dto/enum/voucher-type';
 
 @Component({
   selector: 'app-payment',
@@ -70,7 +76,8 @@ export class PaymentComponent implements OnInit {
     },
   ];
   currentPayment: PaymentType = PaymentType.VnPay;
-
+  searchVoucherForm!: FormGroup;
+  searchVoucher?: SearchVoucherModel;
   constructor(
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
@@ -79,6 +86,7 @@ export class PaymentComponent implements OnInit {
     private accountService: AccountService,
     private orderService: OrderService,
     private processService: ProcessingService,
+    private voucherService: VoucherService,
     private router: Router
   ) {
     this.receiverInformationEditForm = this.fb.group({
@@ -88,6 +96,9 @@ export class PaymentComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern(PHONE_NUMBER_PATTERN)],
       ],
+    });
+    this.searchVoucherForm = this.fb.group({
+      voucherCode: ['', [Validators.required, Validators.max(12)]],
     });
   }
 
@@ -187,15 +198,23 @@ export class PaymentComponent implements OnInit {
     }, 0);
   }
 
+  voucherValue(): number {
+    switch (this.searchVoucher?.type) {
+      case VoucherType.FixedAmount:
+        return this.searchVoucher.value;
+      case VoucherType.Percentage:
+        return (this.totalPriceOrderTicket() * this.searchVoucher.value) / 100;
+      default:
+        return 0;
+    }
+  }
+
   totalPriceOrder(): number {
-    return this.totalPriceOrderTicket();
+    var totalPrice = this.totalPriceOrderTicket() - this.voucherValue();
+    return totalPrice > 0 ? totalPrice : 0;
   }
 
   onUpdateReceiverInformation() {
-    console.log(this.receiverInformationEditForm.controls['name'].valid);
-    console.log(this.receiverInformationEditForm.controls['email'].valid);
-    console.log(this.receiverInformationEditForm.controls['phoneNumber'].valid);
-
     if (this.receiverInformationEditForm.valid) {
       const { name, email, phoneNumber } =
         this.receiverInformationEditForm.value;
@@ -227,6 +246,17 @@ export class PaymentComponent implements OnInit {
     }
   }
 
+  voucherValueString(): string {
+    switch (this.searchVoucher?.type) {
+      case VoucherType.FixedAmount:
+        return `${CurrencyUtil.formatCurrency(this.searchVoucher.value)}`;
+      case VoucherType.Percentage:
+        return `${this.searchVoucher.value}%`;
+      default:
+        return '';
+    }
+  }
+
   onPaymentButtonPressed() {
     var orderTickets = this.currentTickets.map(
       (t) => new OrderTicketModel(t.id, t.quantity)
@@ -237,9 +267,9 @@ export class PaymentComponent implements OnInit {
       this.accountInformation.email,
       this.accountInformation.phoneNumber,
       Number(this.showTimeId),
-      '',
       this.currentPayment,
-      orderTickets
+      orderTickets,
+      this.searchVoucher?.id
     );
     this.processService.show();
     this.orderService.createOrder(createOrderRequest).subscribe({
@@ -254,5 +284,31 @@ export class PaymentComponent implements OnInit {
         this.toastService.showError('Create Order Failure');
       },
     });
+  }
+
+  onSearchVoucher() {
+    const isVoucherSearchValid = this.searchVoucherForm.valid;
+    if (isVoucherSearchValid) {
+      const { voucherCode } = this.searchVoucherForm.value;
+      const searchVoucherRequest = new SearchVoucherRequest(
+        Number(this.eventId),
+        voucherCode,
+        this.currentTickets.reduce(
+          (total, current) => total + current.quantity,
+          0
+        )
+      );
+      this.voucherService.searchVoucher(searchVoucherRequest).subscribe({
+        next: (response) => {
+          this.searchVoucher = response.data;
+          this.toastService.showSuccess('Apply Voucher Success');
+        },
+        error: (err: HttpErrorResponse) => {
+          this.toastService.showError(err.error.message);
+        },
+      });
+    } else {
+      this.toastService.showError('Voucher Code Not Valid');
+    }
   }
 }

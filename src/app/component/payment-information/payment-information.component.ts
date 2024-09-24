@@ -88,6 +88,10 @@ export class PaymentInformationComponent implements OnInit {
     }
   }
 
+  formattedTransactionCode() {
+    return this.vnPayInformation?.transactionCode ?? '';
+  }
+
   formattedTotalAmount() {
     return this.vnPayInformation
       ? CurrencyUtil.formatCurrency(this.vnPayInformation.totalAmount)

@@ -1,0 +1,57 @@
+::ng-deep .p-steps-item {
+  .p-steps-number {
+    border: 1px solid #f7a911;
+  }
+}
+
+::ng-deep .p-steps-item.p-highlight {
+  .p-steps-number {
+    background: #f7a911;
+  }
+}
+
+::ng-deep .p-inputtext {
+  padding-top: 0.5rem /* 8px */;
+  padding-bottom: 0.5rem /* 8px */;
+  padding-left: 1rem /* 16px */;
+  padding-right: 1rem;
+  font-size: 0.875rem /* 14px */;
+  line-height: 1.25rem /* 20px */;
+  &:hover {
+    border-color: inherit;
+  }
+}
+
+::ng-deep .p-inputwrapper {
+  border-color: inherit;
+  border-radius: 0.5rem;
+
+  &.p-inputwrapper-focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0px 0px 1px 1px #f7a911;
+  }
+}
+
+::ng-deep .p-dropdown-item.p-highlight.p-focus {
+  color: #f7a911;
+  background: #fdf1de;
+}
+
+::ng-deep .p-datepicker table td {
+  padding: 0.2rem !important;
+}
+
+::ng-deep .p-datepicker table td > span {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+::ng-deep .p-datepicker table {
+  font-size: 10pt;
+  margin: -0.143rem 0;
+}
+
+::ng-deep .p-datepicker .p-datepicker-header {
+  padding: 0.2rem;
+}

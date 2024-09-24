@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateVoucherComponent } from './create-voucher.component';
+import { SiteLayoutComponent } from './site-layout.component';
 
-describe('CreateVoucherComponent', () => {
-  let component: CreateVoucherComponent;
-  let fixture: ComponentFixture<CreateVoucherComponent>;
+describe('SiteLayoutComponent', () => {
+  let component: SiteLayoutComponent;
+  let fixture: ComponentFixture<SiteLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreateVoucherComponent]
+      imports: [SiteLayoutComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CreateVoucherComponent);
+    fixture = TestBed.createComponent(SiteLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

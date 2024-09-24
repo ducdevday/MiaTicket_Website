@@ -7,9 +7,9 @@ export default class CreateOrderRequest {
   receiverEmail!: string;
   receiverPhoneNumber!: string;
   showTimeId!: number;
-  voucherCode: string = '';
   paymentType!: PaymentType;
   orderTickets!: OrderTicketModel[];
+  voucherId?: number;
 
   constructor(
     eventId: number,
@@ -17,17 +17,18 @@ export default class CreateOrderRequest {
     receiverEmail: string,
     receiverPhoneNumber: string,
     showTimeId: number,
-    voucherCode: string,
     paymentType: PaymentType,
-    orderTickets: OrderTicketModel[]
+    orderTickets: OrderTicketModel[],
+    voucherId?: number
   ) {
     this.eventId = eventId;
     this.receiverName = receiverName;
     this.receiverEmail = receiverEmail;
     this.receiverPhoneNumber = receiverPhoneNumber;
     this.showTimeId = showTimeId;
-    this.voucherCode = voucherCode;
+    this.voucherId = voucherId;
     this.paymentType = paymentType;
     this.orderTickets = orderTickets;
+    this.voucherId = voucherId;
   }
 }

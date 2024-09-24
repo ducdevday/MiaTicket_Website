@@ -19,6 +19,7 @@ import { PaymentInformationComponent } from './component/payment-information/pay
 import { MyOrdersComponent } from './component/my-orders/my-orders.component';
 import { OrderDetailComponent } from './component/order-detail/order-detail.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { VoucherComponent } from './component/voucher/voucher.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -38,6 +39,7 @@ export const MY_ORDERS_PATH: string = 'account/my-orders';
 export const MY_EVENTS_PATH: string = 'account/my-events';
 export const CREATE_EVENTS_PATH: string = 'account/create-event';
 export const ORDERS_PATH: string = 'orders/:orderId';
+export const VOUCHERS_PATH: string = 'events/:eventId/vouchers';
 
 export const routes: Routes = [
   {
@@ -104,6 +106,10 @@ export const routes: Routes = [
   {
     path: ORDERS_PATH,
     component: OrderDetailComponent,
+  },
+  {
+    path: VOUCHERS_PATH,
+    component: VoucherComponent,
   },
   {
     path: '',

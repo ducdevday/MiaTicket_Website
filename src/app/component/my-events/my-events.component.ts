@@ -19,6 +19,8 @@ import { EventService } from '../../service/event.service';
 import { ProcessingService } from '../../service/processing.service';
 import { TimeUtil } from '../../utils/time-util';
 import { EmptyComponent } from '../../common/empty/empty.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { VOUCHERS_PATH } from '../../app.routes';
 @Component({
   selector: 'app-my-events',
   standalone: true,
@@ -49,7 +51,9 @@ export class MyEventsComponent implements OnInit {
     private fb: FormBuilder,
     private location: Location,
     private eventService: EventService,
-    private processingService: ProcessingService
+    private processingService: ProcessingService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.searchForm = this.fb.group({
       keyword: ['', Validators.required],
@@ -125,5 +129,11 @@ export class MyEventsComponent implements OnInit {
     if (this.searchForm.valid) {
       this.fetchMyEventData();
     }
+  }
+
+  onVoucherButtonPressed(eventId: number) {
+    this.router.navigate([
+      VOUCHERS_PATH.replace(':eventId', eventId.toString()),
+    ]);
   }
 }

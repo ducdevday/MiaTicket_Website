@@ -130,7 +130,24 @@
       </div>
 
       <!-- Right Column: Order Information -->
-      <div class="w-full lg:w-1/3 flex flex-col">
+      <div class="w-full lg:w-1/3 flex flex-col gap-4">
+        <div class="p-7 bg-white shadow-lg rounded-lg">
+          <div class="text-base font-semibold mb-2 text-primary">Voucher</div>
+          <form
+            [formGroup]="searchVoucherForm"
+            class="flex items-center justify-between gap-2"
+            (ngSubmit)="onSearchVoucher()"
+          >
+            <input
+              pInputText
+              id="name"
+              class="flex-1 rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+              formControlName="voucherCode"
+              placeholder="Voucher Code"
+            />
+            <button pButton class="primary-button" type="submit">Apply</button>
+          </form>
+        </div>
         <div class="p-7 bg-white shadow-lg rounded-lg">
           <div class="text-base font-semibold mb-2 text-primary">
             Order information
@@ -139,6 +156,12 @@
             <div class="text-sm font-medium text-gray-500">SubTotal</div>
             <p class="text-xs font-medium text-gray-500">
               {{ formatPrice(this.totalPriceOrderTicket()) }}
+            </p>
+          </div>
+          <div class="flex items-center justify-between" *ngIf="searchVoucher">
+            <div class="text-sm font-medium text-gray-500">Discount</div>
+            <p class="text-xs font-medium text-gray-500">
+              {{ voucherValueString() }}
             </p>
           </div>
           <div class="h-[0.5px] bg-gray-300 w-full my-2"></div>
