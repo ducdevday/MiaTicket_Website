@@ -154,13 +154,14 @@ export class PaymentComponent implements OnInit {
 
   initCurrentTickets() {
     var cartItem = this.localStorageService.getCartItem();
-    this.eventBooking.showTime.tickets.forEach((ticket) => {
-      this.currentTickets.push(new TicketBookingModel(ticket));
-    });
     cartItem.tickets.forEach((kv) => {
-      var ticket = this.currentTickets.find((c) => c.id == kv.key);
-      if (ticket) {
-        ticket.quantity = Number(kv.value);
+      var ticket = this.eventBooking.showTime.tickets.find(
+        (c) => c.id == kv.key
+      );
+      if (kv.value > 0 && ticket) {
+        var cTicket = new TicketBookingModel(ticket);
+        cTicket.quantity = kv.value;
+        this.currentTickets.push(cTicket);
       }
     });
   }

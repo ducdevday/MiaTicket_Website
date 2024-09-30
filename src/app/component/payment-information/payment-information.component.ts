@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { NotFoundComponent } from '../../common/not-found/not-found.component';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HOME_PATH } from '../../app.routes';
-import { ProcessingService } from '../../service/processing.service';
-import { PaymentService } from '../../service/payment.service';
-import UpdatePaymentVnPayRequest from '../../dto/request/update-payment-vnpay-request';
-import { PageState } from '../../dto/enum/page-state';
-import VnPayInformationModel from '../../dto/model/vnpay-information-model';
+import { NotFoundComponent } from '../../common/not-found/not-found.component';
 import { SpinnerComponent } from '../../common/spinner/spinner.component';
 import { OrderStatus } from '../../dto/enum/order-status';
+import { PageState } from '../../dto/enum/page-state';
+import PaymentInformationModel from '../../dto/model/payment-information-model';
+import UpdatePaymentVnPayRequest from '../../dto/request/update-payment-vnpay-request';
+import { PaymentService } from '../../service/payment.service';
 import CurrencyUtil from '../../utils/currency-util';
 import { TimeUtil } from '../../utils/time-util';
+import UpdatePaymentZalopayRequest from '../../dto/request/update-payment-zalopay-request';
 
 @Component({
   selector: 'app-payment-information',
@@ -21,7 +21,8 @@ import { TimeUtil } from '../../utils/time-util';
   styleUrl: './payment-information.component.scss',
 })
 export class PaymentInformationComponent implements OnInit {
-  vnPayInformation!: VnPayInformationModel;
+  paymentInformation?: PaymentInformationModel;
+
   pageState: PageState = PageState.Init;
   constructor(
     private paymentService: PaymentService,
@@ -31,21 +32,38 @@ export class PaymentInformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      var transactionCode = params['vnp_TxnRef'];
-      var transactionDate = params['vnp_PayDate'];
-      this.fetchUpdatePayment(transactionCode, transactionDate);
+      var vnp_TxnRef = params['vnp_TxnRef'];
+      var vnp_PayDate = params['vnp_PayDate'];
+      var apptransid = params['apptransid'];
+      if (vnp_TxnRef && vnp_PayDate)
+        this.fetchUpdateVnPayPayment(vnp_TxnRef, vnp_PayDate);
+      if (apptransid) this.fetchUpdateZaloPayment(apptransid);
     });
   }
 
-  fetchUpdatePayment(transactionCode: string, transactionDate: string) {
+  fetchUpdateVnPayPayment(transactionCode: string, transactionDate: string) {
     var updatePaymentRequest = new UpdatePaymentVnPayRequest(
       transactionCode,
       transactionDate
     );
     this.pageState = PageState.Loading;
-    this.paymentService.updatePayment(updatePaymentRequest).subscribe({
+    this.paymentService.updateVnPayPayment(updatePaymentRequest).subscribe({
       next: (response) => {
-        this.vnPayInformation = response.data;
+        this.paymentInformation = response.data;
+        this.pageState = PageState.Success;
+      },
+      error: (response) => {
+        this.pageState = PageState.Error;
+      },
+    });
+  }
+
+  fetchUpdateZaloPayment(transactionCode: string) {
+    var updatePaymentRequest = new UpdatePaymentZalopayRequest(transactionCode);
+    this.pageState = PageState.Loading;
+    this.paymentService.updateZaloPayRequest(updatePaymentRequest).subscribe({
+      next: (response) => {
+        this.paymentInformation = response.data;
         this.pageState = PageState.Success;
       },
       error: (response) => {
@@ -63,7 +81,7 @@ export class PaymentInformationComponent implements OnInit {
   }
 
   getPaymentImage() {
-    switch (this.vnPayInformation?.orderStatus) {
+    switch (this.paymentInformation?.orderStatus) {
       case OrderStatus.Pending:
         return '/icon-processing.png';
       case OrderStatus.Finished:
@@ -76,7 +94,7 @@ export class PaymentInformationComponent implements OnInit {
   }
 
   getPaymentContent() {
-    switch (this.vnPayInformation?.orderStatus) {
+    switch (this.paymentInformation?.orderStatus) {
       case OrderStatus.Pending:
         return 'Payment In Processing';
       case OrderStatus.Finished:
@@ -89,20 +107,20 @@ export class PaymentInformationComponent implements OnInit {
   }
 
   formattedTransactionCode() {
-    return this.vnPayInformation?.transactionCode ?? '';
+    return this.paymentInformation?.transactionCode ?? '';
   }
 
   formattedTotalAmount() {
-    return this.vnPayInformation
-      ? CurrencyUtil.formatCurrency(this.vnPayInformation.totalAmount)
+    return this.paymentInformation
+      ? CurrencyUtil.formatCurrency(this.paymentInformation.totalAmount)
       : '';
   }
 
   formattedCreatedAt() {
-    return this.vnPayInformation
+    return this.paymentInformation
       ? TimeUtil.formatShortDateTime(
           TimeUtil.convertUtcTimeToLocalTime(
-            this.vnPayInformation.createdAt.toString()
+            this.paymentInformation.createdAt.toString()
           )
         )
       : '';

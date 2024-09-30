@@ -1,6 +1,6 @@
 import { OrderStatus } from '../enum/order-status';
 
-export default class VnPayInformationModel {
+export default class PaymentInformationModel {
   transactionCode: string = '';
   paymentUrl!: string;
   totalAmount!: number;
