@@ -59,33 +59,32 @@ export class AuthInterceptor implements HttpInterceptor {
       })
     );
   }
-
   handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshToken$.next(null);
+
       return this.tokenService.generateToken().pipe(
-        catchError((error: any) => {
-          this.localStorageService.clear();
-          this.router.navigate([LOGIN_PATH]);
-          this.isRefreshing = false;
-          console.log('Interceptor catchError');
-          return throwError(error);
-        }),
         tap((data: GenerateTokenResponse) => {
           this.localStorageService.saveAccessToken(data.data.accessToken);
           this.isRefreshing = false;
-          // ! Notify that generateToken is complete
-          // this.refreshToken$.next(data.data.refreshToken);
           this.refreshToken$.next(data.data.accessToken);
+          console.log('Interceptor tap');
         }),
         switchMap((data: GenerateTokenResponse) => {
-          var newRequest = this.addTokenToHeader(
+          const newRequest = this.addTokenToHeader(
             data.data.accessToken,
             request
           );
           console.log('Interceptor switchMap');
           return next.handle(newRequest);
+        }),
+        catchError((error: any) => {
+          console.log('Interceptor catchError');
+          this.localStorageService.clear();
+          this.router.navigate([LOGIN_PATH]);
+          this.isRefreshing = false;
+          return throwError(error);
         })
       );
     }
