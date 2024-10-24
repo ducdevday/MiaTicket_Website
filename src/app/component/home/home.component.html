@@ -203,52 +203,58 @@
           </div>
         </div>
       </div>
-      <!-- Music -->
-      <div *ngIf="musicEvents.length != 0">
-        <div class="flex flex-row justify-between">
-          <p class="font-semibold text-lg text-white">Music</p>
-          <span
-            class="flex flex-row text-sm text-gray-300 justify-center items-center relative gap-2"
-          >
+      <!-- Event By Category -->
+      <div *ngFor="let category of categories">
+        <!-- Check if there are events for the category -->
+        <div *ngIf="eventsByCategory.get(category)?.length">
+          <div class="flex flex-row justify-between">
+            <p class="font-semibold text-lg text-white">{{ category.name }}</p>
             <span
-              class="mb-[0.2rem] select-none cursor-pointer"
-              (click)="onCategoryPressed(categories[0].id)"
-              >View more</span
+              class="flex flex-row text-sm text-gray-300 justify-center items-center relative gap-2"
             >
-            <i class="fa-solid fa-angle-right"></i>
-          </span>
-        </div>
-        <div class="flex items-center justify-center w-full h-full mt-4 mb-10">
-          <div class="w-full relative flex items-center justify-center">
-            <div
-              class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
-            >
+              <span
+                class="mb-[0.2rem] select-none cursor-pointer"
+                (click)="onCategoryPressed(category.id)"
+                >View more</span
+              >
+              <i class="fa-solid fa-angle-right"></i>
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-center w-full h-full mt-4 mb-10"
+          >
+            <div class="w-full relative flex items-center justify-center">
               <div
-                class="h-full flex gap-8 items-center justify-start transition ease-out duration-700"
+                class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden"
               >
                 <div
-                  class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
-                  *ngFor="let event of musicEvents"
-                  (click)="onEventPressed(event.slug)"
+                  class="h-full flex gap-8 items-center justify-start transition ease-out duration-700"
                 >
-                  <img
-                    [src]="event.imageUrl"
-                    [alt]="event.slug"
-                    class="object-cover object-center w-full rounded-xl md:h-[166px]"
-                  />
-                  <div class="flex flex-col gap-2">
-                    <span
-                      class="text-white w-full overflow-hidden line-clamp-2 font-bold h-12"
-                    >
-                      {{ event.name }}
-                    </span>
-                    <span class="font-semibold text-primary"
-                      >From {{ formatEventPrice(event.price) }}</span
-                    >
-                    <span class="relative text-white text-sm font-normal">
-                      <i class="fa-regular fa-calendar mr-2"></i>
-                      <span>{{ formatEventDate(event.startDate) }}</span>
-                    </span>
+                  <!-- Loop through the events of the current category -->
+                  <div
+                    class="flex flex-col gap-4 flex-shrink-0 relative w-full sm:w-[calc(25%_-_1.5rem)]"
+                    *ngFor="let event of eventsByCategory.get(category)"
+                    (click)="onEventPressed(event.slug)"
+                  >
+                    <img
+                      [src]="event.imageUrl"
+                      [alt]="event.slug"
+                      class="object-cover object-center w-full rounded-xl md:h-[166px]"
+                    />
+                    <div class="flex flex-col gap-2">
+                      <span
+                        class="text-white w-full overflow-hidden line-clamp-2 font-bold h-12"
+                      >
+                        {{ event.name }}
+                      </span>
+                      <span class="font-semibold text-primary"
+                        >From {{ formatEventPrice(event.price) }}</span
+                      >
+                      <span class="relative text-white text-sm font-normal">
+                        <i class="fa-regular fa-calendar mr-2"></i>
+                        <span>{{ formatEventDate(event.startDate) }}</span>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -256,9 +262,6 @@
           </div>
         </div>
       </div>
-      <!-- Theaters & Art -->
-
-      <!-- Others -->
     </div>
   </div>
 </div>

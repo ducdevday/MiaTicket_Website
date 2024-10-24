@@ -51,9 +51,7 @@ export class HomeComponent implements OnInit {
   banners: BannerModel[] = [];
   latestEvents: LatestEventModel[] = [];
   trendingEvents: TrendingEventModel[] = [];
-  musicEvents: ByCategoryEventModel[] = [];
-  theatersAndArtEvents: ByCategoryEventModel[] = [];
-  othersEvents: ByCategoryEventModel[] = [];
+  eventsByCategory: Map<CategoryModel, ByCategoryEventModel[]> = new Map();
 
   NUM_OF_LATEST_EVENT: number = 12;
   NUM_OF_TRENDING_EVENT: number = 12;
@@ -80,6 +78,7 @@ export class HomeComponent implements OnInit {
       },
     ];
     this.processingService.show();
+
     forkJoin({
       categories: this.fetchCategoriesData(),
       banners: this.fetchBannersData(),
@@ -92,19 +91,22 @@ export class HomeComponent implements OnInit {
         this.latestEvents = latestEvents;
         this.trendingEvents = trendingEvents;
 
-        this.fetchByCategoriesEvents(
-          this.categories[0].id,
-          (data) => (this.musicEvents = data)
+        const categoryEventsObservables = this.categories.map((category) =>
+          this.fetchEventsForCategory(category)
         );
-        this.fetchByCategoriesEvents(
-          this.categories[1].id,
-          (data) => (this.theatersAndArtEvents = data)
-        );
-        this.fetchByCategoriesEvents(
-          this.categories[3].id,
-          (data) => (this.othersEvents = data)
-        );
-        this.processingService.hide();
+
+        forkJoin(categoryEventsObservables).subscribe({
+          next: (results) => {
+            results.forEach((result) => {
+              this.eventsByCategory.set(result.category, result.events);
+            });
+
+            this.processingService.hide();
+          },
+          error: (err) => {
+            this.processingService.hide();
+          },
+        });
       },
       error: (err) => {
         this.processingService.hide();
@@ -142,22 +144,14 @@ export class HomeComponent implements OnInit {
       .pipe(map((response) => Array.from(response.data)));
   }
 
-  fetchByCategoriesEvents(
-    categoryId: number,
-    callback: (events: ByCategoryEventModel[]) => void
-  ): void {
-    const request = new GetByCategoryEventsRequest(
-      categoryId,
-      this.NUM_OF_BY_CATE_EVENT
-    );
-    this.eventService.getByCategoryEvents(request).subscribe({
-      next: (response) => {
-        callback(response.data);
-      },
-      error: () => {
-        callback([]);
-      },
-    });
+  fetchEventsForCategory(category: CategoryModel) {
+    return this.eventService
+      .getByCategoryEvents(
+        new GetByCategoryEventsRequest(category.id, this.NUM_OF_BY_CATE_EVENT)
+      )
+      .pipe(
+        map((response) => ({ category, events: response.data })) // Store the entire category model with events
+      );
   }
 
   @ViewChild('sliderLatestEvents', { static: false })

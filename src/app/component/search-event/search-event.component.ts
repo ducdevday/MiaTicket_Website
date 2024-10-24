@@ -181,17 +181,17 @@ export class SearchEventComponent implements OnInit {
       this.currentMaxPrice = null;
     }
 
-    this.fetchSearchEventData(params);
+    this.fetchSearchEventData(params, true);
   }
 
   onShowMoreEvents() {
     this.pagination.currentPageIndex++;
     const params = this.route.snapshot.queryParams;
-    this.fetchSearchEventData(params);
+    this.fetchSearchEventData(params, false);
   }
 
   // Combine event loading logic
-  fetchSearchEventData(params: any) {
+  fetchSearchEventData(params: any, isClearCurrentSearchEvents: boolean) {
     const searchEventRequest = new SearchEventRequest(
       this.pagination.currentPageIndex,
       this.pagination.currentPageSize,
@@ -207,7 +207,11 @@ export class SearchEventComponent implements OnInit {
         if (response.data.length === 0) {
           this.isCanShowMore = false;
         } else {
-          this.searchEvents = [...this.searchEvents, ...response.data];
+          if (isClearCurrentSearchEvents) {
+            this.searchEvents = response.data;
+          } else {
+            this.searchEvents = [...this.searchEvents, ...response.data];
+          }
         }
         this.isProcessing = false;
       },
