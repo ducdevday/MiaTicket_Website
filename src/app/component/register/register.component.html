@@ -1,8 +1,7 @@
 <div class="w-screen h-screen flex justify-center items-center">
   <img
     src="/img_backgound_app.png"
-    alt="fixed z-0"
-    class="absolute top-0 left-0 w-full h-full object-cover z-0"
+    class="absolute w-full h-full object-cover z-0"
   />
   <div
     class="relative flex min-h-fit flex-col justify-center px-6 py-12 lg:px-8 w-2/4 rounded-md border border-neutral-500"
@@ -36,6 +35,7 @@
                   name="name"
                   type="text"
                   formControlName="name"
+                  placeholder="Enter Your Name"
                   class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                 />
               </div>
@@ -52,6 +52,7 @@
                   name="email"
                   type="email"
                   formControlName="email"
+                  placeholder="Enter Your Email"
                   class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                 />
               </div>
@@ -71,6 +72,27 @@
                   name="password"
                   type="password"
                   formControlName="password"
+                  placeholder="Enter Your Password"
+                  class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <div class="flex items-center justify-between">
+                <label
+                  for="confirm_password"
+                  class="block text-sm font-medium leading-6 text-white"
+                  >Confirm Password</label
+                >
+              </div>
+              <div class="mt-2">
+                <input
+                  id="confirm_password"
+                  name="confirm_password"
+                  type="password"
+                  formControlName="confirmPassword"
+                  placeholder="Enter Your Confirm Password"
                   class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                 />
               </div>
@@ -88,6 +110,7 @@
                 <p-calendar
                   styleClass="block w-full input-calendar"
                   formControlName="birthDate"
+                  placeholder="Choose Your Birth Date"
                 />
               </div>
             </div>
@@ -103,6 +126,7 @@
                   name="phone-number"
                   type="tel"
                   formControlName="phoneNumber"
+                  placeholder="Enter Your Phone Number"
                   class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-light sm:text-sm sm:leading-6"
                 />
               </div>
@@ -114,52 +138,31 @@
                 class="block text-sm font-medium leading-6 text-white"
                 >Gender</label
               >
-              <div class="mt-2 flex flex-row w-full py-2">
-                <div class="flex items-center mr-6">
-                  <input
-                    id="male"
-                    type="radio"
-                    value="0"
-                    name="gender"
-                    formControlName="gender"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    for="male"
-                    class="ms-2 text-sm font-medium text-white dark:text-gray-300"
-                    >Male</label
-                  >
-                </div>
-                <div class="flex items-center mr-6">
-                  <input
-                    id="female"
-                    type="radio"
-                    value="1"
-                    name="gender"
-                    formControlName="gender"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    for="female"
-                    class="ms-2 text-sm font-medium text-white dark:text-gray-300"
-                    >Female</label
-                  >
-                </div>
-                <div class="flex items-center mr-6">
-                  <input
-                    id="other"
-                    type="radio"
-                    value="2"
-                    name="gender"
-                    formControlName="gender"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    for="other"
-                    class="ms-2 text-sm font-medium text-white dark:text-gray-300"
-                    >Other</label
-                  >
-                </div>
+              <div class="mt-2">
+                <p-dropdown
+                  formControlName="gender"
+                  optionLabel="name"
+                  [options]="genders"
+                  placeholder="Choose Your Gender"
+                  styleClass="w-full "
+                />
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label
+                for="role"
+                class="block text-sm font-medium leading-6 text-white"
+                >Role</label
+              >
+              <div class="mt-2">
+                <p-dropdown
+                  formControlName="role"
+                  optionLabel="name"
+                  [options]="roles"
+                  placeholder="Choose Your Role"
+                  styleClass="w-full "
+                />
               </div>
             </div>
           </div>
