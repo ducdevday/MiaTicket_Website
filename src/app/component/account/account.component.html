@@ -3,16 +3,19 @@
     <div class="w-full lg:max-w-7xl">
       <div class="flex justify-between">
         <!-- Sidebar -->
-        <div class="w-1/4 p-6">
+        <div
+          class="w-1/4 p-6 lg:block"
+          [ngClass]="{ hidden: !isSidebarOpen, block: isSidebarOpen }"
+        >
           <div class="flex items-center mb-4">
             <img
-              src="https://salt.tkbcdn.com/ts/ds/83/2b/0f/becd6c6b87118396026bdc447ac52457.jpg"
+              [src]="user.avatarUrl ?? '/img_avatar_default.jpg'"
               alt="Profile"
               class="w-10 h-10 rounded-full object-cover object-center"
             />
             <div class="ml-4">
               <p class="font-normal text-sm text-white">Account of</p>
-              <p class="font-bold text-base text-white">Nguyễn Minh Đức</p>
+              <p class="font-bold text-base text-white">{{ user.name }}</p>
             </div>
           </div>
           <nav>
@@ -47,37 +50,23 @@
                   <span>My Orders</span>
                 </a>
               </li>
-              <li
-                class="ml-4 px-1 py-2 text-white text-base menu-item cursor-pointer select-none"
-                [class.active]="selectedMenuItemIndex == 3"
-                (click)="onSelectMenuItem(3)"
-              >
-                <a class="flex items-center">
-                  <i
-                    class="fa-regular fa-calendar-days w-8 pr-4 text-center"
-                  ></i>
-                  <span>My Events</span>
-                </a>
-              </li>
-              <li
-                class="ml-4 px-1 py-2 text-white text-base menu-item cursor-pointer select-none"
-                [class.active]="selectedMenuItemIndex == 4"
-                (click)="onSelectMenuItem(4)"
-              >
-                <a class="flex items-center">
-                  <i
-                    class="fa-regular fa-calendar-plus w-8 pr-4 text-center"
-                  ></i>
-                  <span>Create Event</span>
-                </a>
-              </li>
             </ul>
           </nav>
         </div>
+
+        <!-- Sidebar Toggle Button for Small Screens -->
+        <button
+          class="lg:hidden p-4 text-white rounded-md"
+          (click)="toggleSidebar()"
         >
+          <i
+            class="fas"
+            [ngClass]="isSidebarOpen ? 'fa-solid fa-angles-left' : 'fa-bars'"
+          ></i>
+        </button>
 
         <!-- Main Content -->
-        <div class="w-3/4 p-7 bg-white shadow-lg rounded-lg">
+        <div class="w-full lg:w-3/4 p-7 bg-white shadow-lg rounded-lg">
           <router-outlet></router-outlet>
         </div>
       </div>

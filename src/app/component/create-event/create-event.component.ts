@@ -94,15 +94,9 @@ export class CreateEventComponent implements OnInit {
   ) {
     this.createForm = this.fb.group({
       eventLogoFile: [null, [Validators.required]],
-      eventLogoUrl: [
-        'https://ticketbox.vn/_next/image?url=https%3A%2F%2Fimages.tkbcdn.com%2F2%2F360%2F479%2Fts%2Fds%2F06%2F3b%2Fae%2F8e9dc0929ccdeb4f4d29a2b77d5237c3.jpg&w=1920&q=75',
-        [Validators.required],
-      ],
+      eventLogoUrl: ['img_upload_event_logo.jpg', [Validators.required]],
       eventBackgroundFile: [null, [Validators.required]],
-      eventBackgroundUrl: [
-        'https://salt.tkbcdn.com/ts/ds/27/d3/b5/2aaaa1e0caa963462c6f395bd1bbb9d3.jpg',
-        [Validators.required],
-      ],
+      eventBackgroundUrl: ['img_upload_event_cover.jpg', [Validators.required]],
       eventName: ['', [Validators.required, Validators.maxLength(255)]],
       addressName: [''],
       addressProvince: [null],
@@ -115,7 +109,7 @@ export class CreateEventComponent implements OnInit {
       organizerInformation: ['', [Validators.required]],
       organizerLogoFile: [null, [Validators.required]],
       organizerLogoUrl: [
-        'https://salt.tkbcdn.com/ts/ds/34/0f/8e/9079e3642f2683ce448dcce5ae07b111.png',
+        '/img_upload_organizer_logo.jpg',
         [Validators.required],
       ],
       paymentAccount: ['', [Validators.required]],

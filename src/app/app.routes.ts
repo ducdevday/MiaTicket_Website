@@ -20,6 +20,9 @@ import { MyOrdersComponent } from './component/my-orders/my-orders.component';
 import { OrderDetailComponent } from './component/order-detail/order-detail.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { VoucherComponent } from './component/voucher/voucher.component';
+import { OrganizerLayoutComponent } from './layout/organizer-layout/organizer-layout.component';
+import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { OrganizerDashboardComponent } from './component/organizer-dashboard/organizer-dashboard.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -30,9 +33,9 @@ export const RESET_PASSWORD_PATH: string = 'reset-password';
 export const SEARCH_PATH: string = 'search';
 export const EVENTS_PATH: string = 'events/:eventSlug';
 export const BOOKING_PATH: string = 'events/:eventId/booking/:showTimeId';
-// export const BOOKING_PATH: string = 'booking';
 export const PAYMENT_PATH: string = 'payment';
 export const PAYMENT_INFORMATION_PATH: string = 'payment-information';
+export const ACCOUNT_PATH: string = 'account';
 export const PROFILE_PATH: string = 'account/profile';
 export const CHANGE_PASSWORD_PATH: string = 'account/change-password';
 export const MY_ORDERS_PATH: string = 'account/my-orders';
@@ -40,109 +43,139 @@ export const MY_EVENTS_PATH: string = 'account/my-events';
 export const CREATE_EVENTS_PATH: string = 'account/create-event';
 export const ORDERS_PATH: string = 'orders/:orderId';
 export const VOUCHERS_PATH: string = 'events/:eventId/vouchers';
-
+export const ORGANIZER_PATH: string = 'organizer';
+export const ORGANIZER_DASHBOARD_PATH: string = 'organizer/dashboard';
+export const ORGANIZER_PROFILE_PATH: string = 'organizer/profile';
+export const ORGANIZER_CHANGE_PASSWORD_PATH: string =
+  'organizer/change-password';
+export const ORGANIZER_MY_EVENTS_PATH: string = 'organizer/my-events';
+export const ORGANIZER_CREATE_EVENTS_PATH: string = 'organizer/create-event';
 export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
     children: [
       { path: HOME_PATH, component: HomeComponent, pathMatch: 'full' },
+      {
+        path: SEARCH_PATH,
+        component: SearchEventComponent,
+      },
+      {
+        path: EVENTS_PATH,
+        component: EventDetailComponent,
+      },
+
+      {
+        path: BOOKING_PATH,
+        component: BookingComponent,
+        data: { showSearchBar: false, showFooter: false },
+      },
+      {
+        path: PAYMENT_PATH,
+        component: PaymentComponent,
+        canActivate: [AuthGuardService],
+        data: { showSearchBar: false, showFooter: false },
+      },
+      {
+        path: PAYMENT_INFORMATION_PATH,
+        component: PaymentInformationComponent,
+        canActivate: [AuthGuardService],
+        data: { showSearchBar: false, showFooter: false },
+      },
+      {
+        path: ORDERS_PATH,
+        component: OrderDetailComponent,
+      },
+      {
+        path: '',
+        component: AccountComponent,
+        canActivate: [AuthGuardService],
+        children: [
+          {
+            path: ACCOUNT_PATH,
+            redirectTo: PROFILE_PATH,
+            pathMatch: 'full',
+          },
+          {
+            path: PROFILE_PATH,
+            component: ProfileComponent,
+            canActivate: [AuthGuardService],
+          },
+          {
+            path: CHANGE_PASSWORD_PATH,
+            component: ChangePasswordComponent,
+            canActivate: [AuthGuardService],
+          },
+          {
+            path: MY_ORDERS_PATH,
+            component: MyOrdersComponent,
+            canActivate: [AuthGuardService],
+          },
+        ],
+      },
     ],
   },
   {
     path: LOGIN_PATH,
     component: LoginComponent,
-    data: { showHeader: false, showFooter: false },
   },
   {
     path: REGISTER_PATH,
     component: RegisterComponent,
-
-    data: { showHeader: false, showFooter: false },
   },
   {
     path: EMAIL_VERIFY_PATH,
     component: EmailVerifyComponent,
-
-    data: { showHeader: false, showFooter: false },
   },
   {
     path: EMAIL_VERIFY_FINISH_PATH,
     component: EmailVerifyFinishComponent,
-    data: { showHeader: false, showFooter: false },
   },
   {
     path: RESET_PASSWORD_PATH,
     component: ResetPasswordComponent,
-    data: { showHeader: false, showFooter: false },
-  },
-
-  {
-    path: SEARCH_PATH,
-    component: SearchEventComponent,
-  },
-  {
-    path: EVENTS_PATH,
-    component: EventDetailComponent,
-  },
-
-  {
-    path: BOOKING_PATH,
-    component: BookingComponent,
-    data: { showSearchBar: false, showFooter: false },
-  },
-  {
-    path: PAYMENT_PATH,
-    component: PaymentComponent,
-    canActivate: [AuthGuardService],
-    data: { showSearchBar: false, showFooter: false },
-  },
-  {
-    path: PAYMENT_INFORMATION_PATH,
-    component: PaymentInformationComponent,
-    canActivate: [AuthGuardService],
-    data: { showSearchBar: false, showFooter: false },
-  },
-  {
-    path: ORDERS_PATH,
-    component: OrderDetailComponent,
-  },
-  {
-    path: VOUCHERS_PATH,
-    component: VoucherComponent,
   },
   {
     path: '',
-    component: AccountComponent,
+    component: OrganizerLayoutComponent,
     canActivate: [AuthGuardService],
-
     children: [
       {
-        path: PROFILE_PATH,
+        path: ORGANIZER_PATH,
+        redirectTo: ORGANIZER_DASHBOARD_PATH,
+        pathMatch: 'full',
+      },
+      {
+        path: ORGANIZER_DASHBOARD_PATH,
+        component: OrganizerDashboardComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: ORGANIZER_PROFILE_PATH,
         component: ProfileComponent,
         canActivate: [AuthGuardService],
       },
       {
-        path: CHANGE_PASSWORD_PATH,
+        path: ORGANIZER_CHANGE_PASSWORD_PATH,
         component: ChangePasswordComponent,
         canActivate: [AuthGuardService],
       },
       {
-        path: MY_ORDERS_PATH,
-        component: MyOrdersComponent,
-        canActivate: [AuthGuardService],
-      },
-      {
-        path: MY_EVENTS_PATH,
+        path: ORGANIZER_MY_EVENTS_PATH,
         component: MyEventsComponent,
         canActivate: [AuthGuardService],
       },
       {
-        path: CREATE_EVENTS_PATH,
+        path: ORGANIZER_CREATE_EVENTS_PATH,
         component: CreateEventComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: VOUCHERS_PATH,
+        component: VoucherComponent,
         canActivate: [AuthGuardService],
       },
     ],
   },
-  { path: '**', component: HomeComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];

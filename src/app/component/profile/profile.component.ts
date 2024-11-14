@@ -101,7 +101,9 @@ export class ProfileComponent implements OnInit {
           new Date(user.birthDate)
         );
         this.profileForm.controls['gender'].setValue(user.gender);
-        this.profileForm.controls['avatarUrl'].setValue(user.avatarUrl);
+        this.profileForm.controls['avatarUrl'].setValue(
+          user.avatarUrl ?? '/img_avatar_default.jpg'
+        );
       },
     });
   }

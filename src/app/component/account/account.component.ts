@@ -17,45 +17,43 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MyOrdersComponent } from '../my-orders/my-orders.component';
+import { AccountService } from '../../service/account.service';
+import { UserModel } from '../../dto/model/user-model';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [
-    HeaderComponent,
-    FooterComponent,
-    ProfileComponent,
-    ChangePasswordComponent,
-    MyOrdersComponent,
-    MyEventsComponent,
-    CreateEventComponent,
-    CommonModule,
-    ToastModule,
-    RouterModule,
-  ],
+  imports: [CommonModule, ToastModule, RouterModule],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
-  providers: [MessageService],
+  providers: [MessageService, AccountService],
 })
 export class AccountComponent implements OnInit, OnChanges {
   menuItems: string[] = [
     `/${PROFILE_PATH}`,
     `/${CHANGE_PASSWORD_PATH}`,
     `/${MY_ORDERS_PATH}`,
-    `/${MY_EVENTS_PATH}`,
-    `/${CREATE_EVENTS_PATH}`,
   ];
-
   selectedMenuItemIndex!: number;
+  isSidebarOpen = false;
+  user!: UserModel;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.setSelectedMenuItemIndex();
+    this.accountService.getAccountInformation().subscribe({
+      next: (response) => {
+        this.user = response.data;
+      },
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
   setSelectedMenuItemIndex(): void {
     const currentUrl = this.router.url.split('?')[0];
 

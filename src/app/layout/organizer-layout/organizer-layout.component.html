@@ -1,0 +1,124 @@
+<div class="flex min-h-screen">
+  <div class="w-full flex flex-col justify-center items-center">
+    <!-- Header -->
+    <div class="header w-full z-10">
+      <div class="flex justify-center items-center px-10">
+        <header class="flex flex-row w-full h-[76px] items-center lg:px-0">
+          <img
+            src="/img_logo_primary.png"
+            alt="MiaTicket"
+            class="h-[76px] object-contain p-3 cursor-pointer"
+            (click)="goToHome()"
+          />
+
+          <ng-template
+            [ngIf]="user && isAuthenticated"
+            [ngIfElse]="notAuthenticated"
+          >
+            <div class="card flex justify-content-center items-center ml-auto">
+              <p-menu #menu [model]="items" [popup]="true"></p-menu>
+              <div
+                class="flex items-center gap-1"
+                (click)="menu.toggle($event)"
+              >
+                <img
+                  [src]="user.avatarUrl ?? '/img_avatar_default.jpg'"
+                  alt="Profile"
+                  class="w-8 h-8 rounded-full object-cover object-center"
+                />
+                <span class="text-sm cursor-pointer truncate max-w-36">{{
+                  user.name
+                }}</span>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template #notAuthenticated>
+            <div
+              class="flex flex-row justify-center items-center cursor-pointer select-none ml-auto"
+            >
+              <div class="card flex justify-content-center">
+                <span
+                  class="text-sm font-medium truncate max-w-36"
+                  (click)="onLoginOrRegisterClicked()"
+                  >Log in | Register</span
+                >
+              </div>
+            </div>
+          </ng-template>
+        </header>
+      </div>
+    </div>
+
+    <div class="flex justify-between w-full flex-1">
+      <!-- Sidebar -->
+      <div
+        class="w-1/6 lg:block bg-white border-r"
+        [ngClass]="{ hidden: !isSidebarOpen, block: isSidebarOpen }"
+      >
+        <nav>
+          <ul>
+            <li
+              class="px-4 py-6 text-[#4a4a4a] text-base menu-item cursor-pointer select-none"
+              [class.active]="selectedMenuItemIndex == 0"
+              (click)="onSelectMenuItem(0)"
+            >
+              <a class="flex items-center">
+                <i class="fas fa-user w-8 pr-4 text-center"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li
+              class="px-4 py-6 text-[#4a4a4a] text-base menu-item cursor-pointer select-none"
+              [class.active]="selectedMenuItemIndex == 1"
+              (click)="onSelectMenuItem(1)"
+            >
+              <a class="flex items-center">
+                <i class="fas fa-lock w-8 pr-4 text-center"></i>
+                <span>Change Password</span>
+              </a>
+            </li>
+            <li
+              class="px-4 py-6 text-[#4a4a4a] text-base menu-item cursor-pointer select-none"
+              [class.active]="selectedMenuItemIndex == 2"
+              (click)="onSelectMenuItem(2)"
+            >
+              <a class="flex items-center">
+                <i class="fa-regular fa-calendar-days w-8 pr-4 text-center"></i>
+                <span>My Events</span>
+              </a>
+            </li>
+            <li
+              class="px-4 py-6 text-[#4a4a4a] text-base menu-item cursor-pointer select-none"
+              [class.active]="selectedMenuItemIndex == 3"
+              (click)="onSelectMenuItem(3)"
+            >
+              <a class="flex items-center">
+                <i class="fa-regular fa-calendar-plus w-8 pr-4 text-center"></i>
+                <span>Create Event</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Sidebar Toggle Button for Small Screens -->
+      <button
+        class="lg:hidden p-4 text-[#4a4a4a] rounded-md"
+        (click)="toggleSidebar()"
+      >
+        <i
+          class="fas"
+          [ngClass]="isSidebarOpen ? 'fa-solid fa-angles-left' : 'fa-bars'"
+        ></i>
+      </button>
+
+      <!-- Main Content -->
+      <div class="w-full bg-gray-300">
+        <div class="m-3 p-7 bg-white shadow-lg rounded-lg">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
