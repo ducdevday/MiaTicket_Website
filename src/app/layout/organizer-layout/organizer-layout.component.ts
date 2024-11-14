@@ -10,6 +10,7 @@ import {
   LOGIN_PATH,
   ORGANIZER_CHANGE_PASSWORD_PATH,
   ORGANIZER_CREATE_EVENTS_PATH,
+  ORGANIZER_DASHBOARD_PATH,
   ORGANIZER_MY_EVENTS_PATH,
   ORGANIZER_PATH,
   ORGANIZER_PROFILE_PATH,
@@ -32,11 +33,28 @@ import { filter } from 'rxjs';
 export class OrganizerLayoutComponent {
   items: any[] | undefined;
 
-  menuItems: string[] = [
-    `/${ORGANIZER_PROFILE_PATH}`,
-    `/${ORGANIZER_CHANGE_PASSWORD_PATH}`,
-    `/${ORGANIZER_MY_EVENTS_PATH}`,
-    `/${ORGANIZER_CREATE_EVENTS_PATH}`,
+  menuItems: MenuItem[] = [
+    new MenuItem(
+      'fa-solid fa-house',
+      'Dashboard',
+      `/${ORGANIZER_DASHBOARD_PATH}`
+    ),
+    new MenuItem('fas fa-user', 'My Profile', `/${ORGANIZER_PROFILE_PATH}`),
+    new MenuItem(
+      'fas fa-lock',
+      'Change Password',
+      `/${ORGANIZER_CHANGE_PASSWORD_PATH}`
+    ),
+    new MenuItem(
+      'fa-regular fa-calendar-days',
+      'My Events',
+      `/${ORGANIZER_MY_EVENTS_PATH}`
+    ),
+    new MenuItem(
+      'fa-regular fa-calendar-plus',
+      'Create Event',
+      `/${ORGANIZER_CREATE_EVENTS_PATH}`
+    ),
   ];
 
   selectedMenuItemIndex!: number;
@@ -87,7 +105,9 @@ export class OrganizerLayoutComponent {
   setSelectedMenuItemIndex(): void {
     const currentUrl = this.router.url.split('?')[0];
 
-    this.selectedMenuItemIndex = this.menuItems.indexOf(currentUrl);
+    this.selectedMenuItemIndex = this.menuItems
+      .map((x) => x.path)
+      .indexOf(currentUrl);
 
     if (this.selectedMenuItemIndex === -1) {
       this.selectedMenuItemIndex = 0;
@@ -96,7 +116,7 @@ export class OrganizerLayoutComponent {
 
   onSelectMenuItem(index: number) {
     this.selectedMenuItemIndex = index;
-    this.router.navigate([this.menuItems[index]]);
+    this.router.navigate([this.menuItems[index].path]);
   }
 
   onLoginOrRegisterClicked() {
@@ -124,5 +144,16 @@ export class OrganizerLayoutComponent {
   }
   goToHome() {
     this.router.navigate([ORGANIZER_PATH]);
+  }
+}
+
+class MenuItem {
+  icon!: string;
+  title!: string;
+  path!: string;
+  constructor(icon: string, title: string, path: string) {
+    this.icon = icon;
+    this.title = title;
+    this.path = path;
   }
 }

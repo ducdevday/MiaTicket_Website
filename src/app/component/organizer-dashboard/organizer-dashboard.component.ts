@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './organizer-dashboard.component.html',
-  styleUrl: './organizer-dashboard.component.scss'
+  styleUrl: './organizer-dashboard.component.scss',
 })
-export class OrganizerDashboardComponent {
-
-}
+export class OrganizerDashboardComponent {}

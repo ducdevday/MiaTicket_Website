@@ -19,35 +19,15 @@
             </div>
           </div>
           <nav>
-            <ul>
+            <ul *ngFor="let item of menuItems; index as index">
               <li
                 class="ml-4 px-1 py-2 text-white text-base menu-item cursor-pointer select-none"
-                [class.active]="selectedMenuItemIndex == 0"
-                (click)="onSelectMenuItem(0)"
+                [class.active]="selectedMenuItemIndex == index"
+                (click)="onSelectMenuItem(index)"
               >
                 <a class="flex items-center">
-                  <i class="fas fa-user w-8 pr-4 text-center"></i>
-                  <span>My Profile</span>
-                </a>
-              </li>
-              <li
-                class="ml-4 px-1 py-2 text-white text-base menu-item cursor-pointer select-none"
-                [class.active]="selectedMenuItemIndex == 1"
-                (click)="onSelectMenuItem(1)"
-              >
-                <a class="flex items-center">
-                  <i class="fas fa-lock w-8 pr-4 text-center"></i>
-                  <span>Change Password</span>
-                </a>
-              </li>
-              <li
-                class="ml-4 px-1 py-2 text-white text-base menu-item cursor-pointer select-none"
-                [class.active]="selectedMenuItemIndex == 2"
-                (click)="onSelectMenuItem(2)"
-              >
-                <a class="flex items-center">
-                  <i class="fa-solid fa-ticket w-8 pr-4 text-center"></i>
-                  <span>My Orders</span>
+                  <i class="w-8 pr-4 text-center" [ngClass]="item.icon"></i>
+                  <span>{{ item.title }}</span>
                 </a>
               </li>
             </ul>

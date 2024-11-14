@@ -1,24 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { HeaderComponent } from '../../common/header/header.component';
-import { FooterComponent } from '../../common/footer/footer.component';
+import { Router, RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 import {
   CHANGE_PASSWORD_PATH,
-  CREATE_EVENTS_PATH,
-  MY_EVENTS_PATH,
   MY_ORDERS_PATH,
   PROFILE_PATH,
 } from '../../app.routes';
-import { ProfileComponent } from '../profile/profile.component';
-import { ChangePasswordComponent } from '../change-password/change-password.component';
-import { MyEventsComponent } from '../my-events/my-events.component';
-import { CreateEventComponent } from '../create-event/create-event.component';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { MyOrdersComponent } from '../my-orders/my-orders.component';
-import { AccountService } from '../../service/account.service';
 import { UserModel } from '../../dto/model/user-model';
+import { AccountService } from '../../service/account.service';
 
 @Component({
   selector: 'app-account',
@@ -29,10 +20,10 @@ import { UserModel } from '../../dto/model/user-model';
   providers: [MessageService, AccountService],
 })
 export class AccountComponent implements OnInit, OnChanges {
-  menuItems: string[] = [
-    `/${PROFILE_PATH}`,
-    `/${CHANGE_PASSWORD_PATH}`,
-    `/${MY_ORDERS_PATH}`,
+  menuItems: MenuItem[] = [
+    new MenuItem('fas fa-user', 'My Profile', `/${PROFILE_PATH}`),
+    new MenuItem('fas fa-lock', 'Change Password', `/${CHANGE_PASSWORD_PATH}`),
+    new MenuItem('fa-solid fa-ticket', 'My Orders', `/${MY_ORDERS_PATH}`),
   ];
   selectedMenuItemIndex!: number;
   isSidebarOpen = false;
@@ -57,7 +48,9 @@ export class AccountComponent implements OnInit, OnChanges {
   setSelectedMenuItemIndex(): void {
     const currentUrl = this.router.url.split('?')[0];
 
-    this.selectedMenuItemIndex = this.menuItems.indexOf(currentUrl);
+    this.selectedMenuItemIndex = this.menuItems
+      .map((x) => x.path)
+      .indexOf(currentUrl);
 
     if (this.selectedMenuItemIndex === -1) {
       this.selectedMenuItemIndex = 0;
@@ -66,6 +59,17 @@ export class AccountComponent implements OnInit, OnChanges {
 
   onSelectMenuItem(index: number) {
     this.selectedMenuItemIndex = index;
-    this.router.navigate([this.menuItems[index]]);
+    this.router.navigate([this.menuItems[index].path]);
+  }
+}
+
+class MenuItem {
+  icon!: string;
+  title!: string;
+  path!: string;
+  constructor(icon: string, title: string, path: string) {
+    this.icon = icon;
+    this.title = title;
+    this.path = path;
   }
 }

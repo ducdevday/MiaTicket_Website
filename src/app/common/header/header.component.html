@@ -60,7 +60,7 @@
           <p-menu #menu [model]="items" [popup]="true"></p-menu>
           <div class="flex items-center gap-1" (click)="menu.toggle($event)">
             <img
-              [src]="user.avatarUrl"
+              [src]="user.avatarUrl ?? '/img_avatar_default.jpg'"
               alt="Profile"
               class="w-8 h-8 rounded-full object-cover object-center"
             />
