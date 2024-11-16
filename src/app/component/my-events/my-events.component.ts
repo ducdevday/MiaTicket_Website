@@ -20,7 +20,10 @@ import { ProcessingService } from '../../service/processing.service';
 import { TimeUtil } from '../../utils/time-util';
 import { EmptyComponent } from '../../common/empty/empty.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VOUCHERS_PATH } from '../../app.routes';
+import {
+  ORGANIZER_MEMBERS_PATH,
+  ORGANIZER_VOUCHERS_PATH,
+} from '../../app.routes';
 @Component({
   selector: 'app-my-events',
   standalone: true,
@@ -56,7 +59,7 @@ export class MyEventsComponent implements OnInit {
     private router: Router
   ) {
     this.searchForm = this.fb.group({
-      keyword: ['', Validators.required],
+      keyword: [''],
     });
   }
 
@@ -127,13 +130,20 @@ export class MyEventsComponent implements OnInit {
   }
   onSearch() {
     if (this.searchForm.valid) {
+      this.pagination.currentPageIndex = this.PAGE_INDEX;
       this.fetchMyEventData();
     }
   }
 
   onVoucherButtonPressed(eventId: number) {
     this.router.navigate([
-      VOUCHERS_PATH.replace(':eventId', eventId.toString()),
+      ORGANIZER_VOUCHERS_PATH.replace(':eventId', eventId.toString()),
+    ]);
+  }
+
+  onMemberButtonPressed(eventId: number) {
+    this.router.navigate([
+      ORGANIZER_MEMBERS_PATH.replace(':eventId', eventId.toString()),
     ]);
   }
 }

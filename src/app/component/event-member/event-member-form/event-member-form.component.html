@@ -1,0 +1,93 @@
+<p-dialog
+  [(visible)]="isMemberFormVisible"
+  [modal]="true"
+  [draggable]="false"
+  [closable]="true"
+  [style]="{ width: '75%', height: '75%' }"
+  (onHide)="onFormClose()"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <span class="font-bold white-space-nowrap">
+        {{ this.member ? "Update Member" : "Add Member" }}
+      </span>
+    </div>
+  </ng-template>
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmitButtonPressed()">
+    <p class="text-sm mt-4 mb-2"><span class="text-red-600">*</span> Email</p>
+    <input
+      type="email"
+      placeholder="Email"
+      class="rounded-lg py-2 px-4 w-full border border-spacing-6 focus:outline-primary text-sm"
+      formControlName="memberEmail"
+    />
+    <p class="text-sm mt-4 mb-2"><span class="text-red-600">*</span> Role</p>
+    <p-dropdown
+      optionLabel="name"
+      [options]="organizerPositions"
+      placeholder="Choose Role"
+      styleClass="w-full "
+      formControlName="memberRole"
+    />
+    <div class="flex w-full justify-end">
+      <button
+        pButton
+        class="linear-button flex justify-center gap-2 items-center py-2 px-4 my-4 text-white"
+        type="submit"
+      >
+        <i class="fa-regular fa-floppy-disk"></i><span>Submit</span>
+      </button>
+    </div>
+    <p-table [value]="memberFunctions" styleClass="p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-sm font-semibold"></th>
+          <th
+            class="text-sm font-semibold"
+            style="text-align: center !important"
+          >
+            Owner
+          </th>
+          <th
+            class="text-sm font-semibold"
+            style="text-align: center !important"
+          >
+            Moderator
+          </th>
+          <th
+            class="text-sm font-semibold"
+            style="text-align: center !important"
+          >
+            Coordinator
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-memberFunction let-rowIndex="rowIndex">
+        <tr>
+          <td class="text-sm">{{ memberFunction.name }}</td>
+          <td class="text-sm text-center align-middle">
+            <img
+              src="/icon_check.png"
+              *ngIf="memberFunction.canOwnerDo"
+              class="w-5 h-5 mx-auto"
+            />
+          </td>
+          <td class="text-sm text-center align-middle">
+            <img
+              src="/icon_check.png"
+              *ngIf="memberFunction.canModeratorDo"
+              class="w-5 h-5 mx-auto"
+            />
+          </td>
+          <td class="text-sm text-center align-middle">
+            <img
+              src="/icon_check.png"
+              *ngIf="memberFunction.canCoordinatorDo"
+              class="w-5 h-5 mx-auto"
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </form>
+</p-dialog>

@@ -23,6 +23,7 @@ import { VoucherComponent } from './component/voucher/voucher.component';
 import { OrganizerLayoutComponent } from './layout/organizer-layout/organizer-layout.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { OrganizerDashboardComponent } from './component/organizer-dashboard/organizer-dashboard.component';
+import { EventMemberComponent } from './component/event-member/event-member.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -42,7 +43,6 @@ export const MY_ORDERS_PATH: string = 'account/my-orders';
 export const MY_EVENTS_PATH: string = 'account/my-events';
 export const CREATE_EVENTS_PATH: string = 'account/create-event';
 export const ORDERS_PATH: string = 'orders/:orderId';
-export const VOUCHERS_PATH: string = 'events/:eventId/vouchers';
 export const ORGANIZER_PATH: string = 'organizer';
 export const ORGANIZER_DASHBOARD_PATH: string = 'organizer/dashboard';
 export const ORGANIZER_PROFILE_PATH: string = 'organizer/profile';
@@ -50,6 +50,10 @@ export const ORGANIZER_CHANGE_PASSWORD_PATH: string =
   'organizer/change-password';
 export const ORGANIZER_MY_EVENTS_PATH: string = 'organizer/my-events';
 export const ORGANIZER_CREATE_EVENTS_PATH: string = 'organizer/create-event';
+export const ORGANIZER_VOUCHERS_PATH: string =
+  'organizer/events/:eventId/vouchers';
+export const ORGANIZER_MEMBERS_PATH: string =
+  'organizer/events/:eventId/members';
 export const routes: Routes = [
   {
     path: '',
@@ -171,8 +175,13 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
       },
       {
-        path: VOUCHERS_PATH,
+        path: ORGANIZER_VOUCHERS_PATH,
         component: VoucherComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: ORGANIZER_MEMBERS_PATH,
+        component: EventMemberComponent,
         canActivate: [AuthGuardService],
       },
     ],

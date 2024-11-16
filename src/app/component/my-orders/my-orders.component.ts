@@ -60,7 +60,7 @@ export class MyOrdersComponent {
     private router: Router
   ) {
     this.searchForm = this.fb.group({
-      keyword: ['', Validators.required],
+      keyword: [''],
     });
   }
 
@@ -149,13 +149,14 @@ export class MyOrdersComponent {
     }
   }
 
-  onPageChange(order: any) {
-    this.pagination.currentPageIndex = order.page + 1;
+  onPageChange(event: any) {
+    this.pagination.currentPageIndex = event.page + 1;
     this.fetchOrderData();
   }
 
   onSearch() {
     if (this.searchForm.valid) {
+      this.pagination.currentPageIndex = this.PAGE_INDEX;
       this.fetchOrderData();
     }
   }

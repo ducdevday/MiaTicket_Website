@@ -1,0 +1,86 @@
+<div class="">
+  <h2 class="text-2xl font-bold mb-2">{{ eventName }}</h2>
+  <div class="w-full border border-gray-200 my-4"></div>
+  <div class="w-full flex flex-col">
+    <div class="flex items-center justify-between mb-4">
+      <form [formGroup]="searchFrom" (ngSubmit)="onSearchButtonPressed()">
+        <div class="flex items-center gap-2">
+          <input
+            type="text"
+            placeholder="Search voucher"
+            class="rounded-lg py-2 px-4 border border-spacing-6 border-gray-400 focus:outline-none text-sm"
+            formControlName="keyword"
+          />
+
+          <p-button
+            icon="pi pi-search"
+            styleClass="primary-button"
+            type="submit"
+          />
+        </div>
+      </form>
+      <button
+        p-button
+        class="outline-button px-4"
+        (click)="showAddMemberForm()"
+        *ngIf="canAddNewMembers"
+      >
+        <span class="text-center">Add Member</span>
+      </button>
+    </div>
+    <p-table [value]="members">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-sm font-semibold">Member</th>
+          <th class="text-sm font-semibold">Role</th>
+          <th
+            class="text-sm font-semibold"
+            style="text-align: center !important"
+          >
+            Action
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-member let-rowIndex="rowIndex">
+        <tr>
+          <td class="flex flex-col text-sm">
+            <span>{{ member.memberName }}</span>
+            <span>{{ member.memberEmail }}</span>
+          </td>
+          <td class="text-sm">{{ getRoleName(member.role) }}</td>
+          <td>
+            <div class="flex gap-2 justify-center">
+              <button
+                class="btn btn-success btn-sm"
+                (click)="showEditMemberForm(member)"
+                *ngIf="member.isAbleToEdit"
+              >
+                <i class="pi pi-pencil text-green-700"></i>
+              </button>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="showRemoveMemberConfirmDialog($event, member)"
+                *ngIf="member.isAbleToDelete"
+              >
+                <i class="pi pi-trash text-red-700"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-paginator
+      class="paginator"
+      (onPageChange)="onPageChange($event)"
+      [rows]="this.pagination.currentPageSize"
+      [totalRecords]="this.pagination.totalRecords"
+    />
+  </div>
+</div>
+<app-event-member-form
+  [(isMemberFormVisible)]="isMemberFormVisible"
+  (memberAddEvent)="onMemberAdd()"
+  (memberEditEvent)="onMemberEdit()"
+  [member]="selectedMember"
+  [addAbleRoles]="addAbleRoles"
+></app-event-member-form>

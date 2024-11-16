@@ -77,7 +77,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.initData();
-    console.log('On Profile Init');
+    this.profileForm.get('email')?.disable();
   }
 
   pastDateValidator(control: AbstractControl): ValidationErrors | null {
