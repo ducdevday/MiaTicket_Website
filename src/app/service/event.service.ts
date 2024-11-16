@@ -15,6 +15,7 @@ import SearchEventRequest from '../dto/request/search-event-request';
 import SearchEventsResponse from '../dto/response/search-events-response';
 import GetEventDetailResponse from '../dto/response/get-event-detail-response';
 import GetEventBookingResponse from '../dto/response/get-event-booking-response';
+import GetEventNameResponse from '../dto/response/get-event-name-response';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ export class EventService {
   private SEARCH_EVENT_URL = `search`;
   private EVENT_DETAIL_URL = `detail`;
   private SHOWTIME_URL = `showtime`;
+  private NAME_URL = `name`;
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -103,6 +105,11 @@ export class EventService {
     return this.http.get<GetEventBookingResponse>(
       `${this.BASE_EVENT_URL}/${this.EVENT_DETAIL_URL}/${eventId}/${this.SHOWTIME_URL}/${showTimeId}`,
       { params }
+    );
+  }
+  getEventName(eventId: number) {
+    return this.http.get<GetEventNameResponse>(
+      `${this.BASE_EVENT_URL}/${eventId}/${this.NAME_URL}`
     );
   }
 }

@@ -21,6 +21,7 @@ import { TimeUtil } from '../../utils/time-util';
 import { EmptyComponent } from '../../common/empty/empty.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  ORGANIZER_CHECK_IN_PATH,
   ORGANIZER_MEMBERS_PATH,
   ORGANIZER_VOUCHERS_PATH,
 } from '../../app.routes';
@@ -144,6 +145,11 @@ export class MyEventsComponent implements OnInit {
   onMemberButtonPressed(eventId: number) {
     this.router.navigate([
       ORGANIZER_MEMBERS_PATH.replace(':eventId', eventId.toString()),
+    ]);
+  }
+  onCheckInButtonPressed(eventId: number, eventName: string) {
+    this.router.navigate([
+      ORGANIZER_CHECK_IN_PATH.replace(':eventId', eventId.toString()),
     ]);
   }
 }

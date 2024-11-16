@@ -8,6 +8,9 @@ import AddEventMemberResponse from '../dto/response/add-event-member-response';
 import UpdateEventMemberRequest from '../dto/request/update-event-member-request';
 import UpdateEventMemberResponse from '../dto/response/update-event-member-response';
 import DeleteEventMemberResponse from '../dto/response/delete-event-member-response';
+import GetEventNameResponse from '../dto/response/get-event-name-response';
+import CheckInEventResponse from '../dto/response/check-in-event-response';
+import CheckInEventRequest from '../dto/request/check-in-event-request';
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +63,13 @@ export class OrganizerService {
   deleteEventMember(eventId: number, memberId: string) {
     return this.http.delete<DeleteEventMemberResponse>(
       `${this.BASE_ORGANIZER_URL}/events/${eventId}/members/${memberId}`
+    );
+  }
+
+  checkInEvent(eventId: number, request: CheckInEventRequest) {
+    return this.http.patch<CheckInEventResponse>(
+      `${this.BASE_ORGANIZER_URL}/events/${eventId}/checkin`,
+      request
     );
   }
 }

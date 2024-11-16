@@ -24,6 +24,7 @@ import { OrganizerLayoutComponent } from './layout/organizer-layout/organizer-la
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
 import { OrganizerDashboardComponent } from './component/organizer-dashboard/organizer-dashboard.component';
 import { EventMemberComponent } from './component/event-member/event-member.component';
+import { EventCheckInComponent } from './component/event-check-in/event-check-in.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -54,6 +55,8 @@ export const ORGANIZER_VOUCHERS_PATH: string =
   'organizer/events/:eventId/vouchers';
 export const ORGANIZER_MEMBERS_PATH: string =
   'organizer/events/:eventId/members';
+export const ORGANIZER_CHECK_IN_PATH: string =
+  'organizer/events/:eventId/checkin';
 export const routes: Routes = [
   {
     path: '',
@@ -182,6 +185,11 @@ export const routes: Routes = [
       {
         path: ORGANIZER_MEMBERS_PATH,
         component: EventMemberComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: ORGANIZER_CHECK_IN_PATH,
+        component: EventCheckInComponent,
         canActivate: [AuthGuardService],
       },
     ],
