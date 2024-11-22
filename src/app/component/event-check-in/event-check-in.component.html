@@ -1,47 +1,68 @@
 <div class="">
   <div class="flex justify-center mb-2">
-    <p class="text-5xl mb-2 text-primary" style="font-family: 'MochiyPopOne'">
+    <p class="text-4xl mb-2 text-primary" style="font-family: 'MochiyPopOne'">
       Check In
     </p>
   </div>
-  <p class="text-xl font-bold mb-2">{{ eventName }}</p>
+  <div class="w-full flex">
+    <p class="flex-1 text-xl font-bold mb-2">{{ eventName }}</p>
+    <button pButton class="primary-button" (click)="openCheckInForm()">
+      Go To Check In
+    </button>
+  </div>
   <div class="w-full border border-gray-200 my-4"></div>
-  <div class="w-full flex flex-col">
-    <div class="flex items-center justify-between mb-4">
-      <form [formGroup]="searchForm" (ngSubmit)="onSearchButtonPressed()">
-        <div class="flex items-center gap-2">
-          <input
-            type="text"
-            placeholder="Enter Code Here"
-            class="rounded-lg py-2 px-4 border border-spacing-6 border-gray-400 focus:outline-none text-sm"
-            formControlName="code"
-          />
+  <div class="flex mb-2">
+    <p class="flex-1 text-lg font-bold">Overview</p>
 
-          <p-button
-            icon="pi pi-search"
-            styleClass="primary-button"
-            type="submit"
-          />
+    <p-dropdown
+      optionLabel="name"
+      [options]="showTimes"
+      placeholder="Choose Show Time"
+      styleClass="w-full "
+      [(ngModel)]="showTimeChosen"
+      (ngModelChange)="onShowTimeChange($event)"
+    />
+  </div>
+  <div *ngIf="ticketCheckInReport != null">
+    <div
+      class="flex justify-between items-center bg-[#1c1c1c] text-white p-4 rounded-lg shadow-md max-w-[600px] mb-2"
+    >
+      <div class="flex flex-col gap-2">
+        <p>Checked In</p>
+        <h2 class="text-xl font-bold">
+          {{ ticketCheckInReport.totalCheckedInTickets }} ticket
+        </h2>
+        <p>Sold tickets: {{ ticketCheckInReport.totalPaidTickets }} ticket</p>
+      </div>
+      <div class="flex justify-center items-center">
+        <div class="text-2xl font-semibold text-primary">
+          <span>{{ ticketCheckInReport.ticketCheckedInPercentage }}%</span>
         </div>
-      </form>
+      </div>
     </div>
-    <p-table [value]="tickets" *ngIf="tickets.length > 0">
+    <p class="text-lg font-bold mb-2">Detail</p>
+    <p-table [value]="ticketCheckInReport.tickets">
       <ng-template pTemplate="header">
         <tr>
-          <th class="text-sm font-semibold">No</th>
-          <th class="text-sm font-semibold">Ticket Name</th>
-          <th class="text-sm font-semibold">Ticket Price</th>
-          <th class="text-sm font-semibold">Ticket Quantity</th>
+          <th class="text-sm font-semibold">Ticket Type</th>
+          <th class="text-sm font-semibold">Price</th>
+          <th class="text-sm font-semibold">Checked In</th>
+          <th class="text-sm font-semibold">Percentage</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-ticket let-rowIndex="rowIndex">
         <tr>
-          <td class="text-sm">{{ rowIndex }}</td>
           <td class="text-sm">{{ ticket.name }}</td>
           <td class="text-sm">{{ ticket.price }}</td>
-          <td class="text-sm">{{ ticket.quantity }}</td>
+          <td class="text-sm">
+            {{ ticket.totalCheckedInTicket }}/{{ ticket.totalPaidTicket }}
+          </td>
+          <td class="text-sm">{{ ticket.ticketCheckedInPercentage }}%</td>
         </tr>
       </ng-template>
     </p-table>
   </div>
 </div>
+<app-check-in-form
+  [(isCheckInFormVisible)]="isCheckInFormVisible"
+></app-check-in-form>

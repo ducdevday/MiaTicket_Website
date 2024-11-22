@@ -175,3 +175,11 @@ body {
     }
   }
 }
+
+.page-wrapper {
+  background-image: url("/img_backgound_app.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  position: relative;
+}

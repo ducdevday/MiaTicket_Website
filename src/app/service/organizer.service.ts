@@ -11,6 +11,8 @@ import DeleteEventMemberResponse from '../dto/response/delete-event-member-respo
 import GetEventNameResponse from '../dto/response/get-event-name-response';
 import CheckInEventResponse from '../dto/response/check-in-event-response';
 import CheckInEventRequest from '../dto/request/check-in-event-request';
+import GetCheckInEventReportRequest from '../dto/request/get-checkin-event-report-request';
+import GetCheckInEventReportResponse from '../dto/response/get-checkin-event-report-response';
 
 @Injectable({
   providedIn: 'root',
@@ -70,6 +72,20 @@ export class OrganizerService {
     return this.http.patch<CheckInEventResponse>(
       `${this.BASE_ORGANIZER_URL}/events/${eventId}/checkin`,
       request
+    );
+  }
+
+  getCheckInEventReport(
+    eventId: number,
+    request: GetCheckInEventReportRequest
+  ) {
+    const params = new HttpParams({
+      fromObject: { ...request },
+    });
+
+    return this.http.get<GetCheckInEventReportResponse>(
+      `${this.BASE_ORGANIZER_URL}/events/${eventId}/checkin`,
+      { params }
     );
   }
 }

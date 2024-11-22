@@ -1,0 +1,52 @@
+<p-dialog
+  [(visible)]="isCheckInFormVisible"
+  [modal]="true"
+  [draggable]="false"
+  [closable]="true"
+  [style]="{ width: '75%', height: '75%' }"
+  (onHide)="onFormClose()"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <span class="font-bold white-space-nowrap"> Check In </span>
+    </div>
+  </ng-template>
+  <div class="w-full flex flex-col">
+    <div class="flex items-center justify-between mb-4">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearchButtonPressed()">
+        <div class="flex items-center gap-2">
+          <input
+            type="text"
+            placeholder="Enter Code Here"
+            class="rounded-lg py-2 px-4 border border-spacing-6 border-gray-400 focus:outline-none text-sm"
+            formControlName="code"
+          />
+
+          <p-button
+            icon="pi pi-search"
+            styleClass="primary-button"
+            type="submit"
+          />
+        </div>
+      </form>
+    </div>
+    <p-table [value]="tickets" *ngIf="tickets.length > 0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-sm font-semibold">No</th>
+          <th class="text-sm font-semibold">Ticket Name</th>
+          <th class="text-sm font-semibold">Ticket Price</th>
+          <th class="text-sm font-semibold">Ticket Quantity</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ticket let-rowIndex="rowIndex">
+        <tr>
+          <td class="text-sm">{{ rowIndex }}</td>
+          <td class="text-sm">{{ ticket.name }}</td>
+          <td class="text-sm">{{ ticket.price }}</td>
+          <td class="text-sm">{{ ticket.quantity }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>

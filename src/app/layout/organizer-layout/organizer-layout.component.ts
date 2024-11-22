@@ -105,12 +105,9 @@ export class OrganizerLayoutComponent {
   setSelectedMenuItemIndex(): void {
     const currentUrl = this.router.url.split('?')[0];
 
-    this.selectedMenuItemIndex = this.menuItems
-      .map((x) => x.path)
-      .indexOf(currentUrl);
-
-    if (this.selectedMenuItemIndex === -1) {
-      this.selectedMenuItemIndex = 0;
+    var menuIndex = this.menuItems.map((x) => x.path).indexOf(currentUrl);
+    if (menuIndex >= 0) {
+      this.selectedMenuItemIndex = menuIndex;
     }
   }
 

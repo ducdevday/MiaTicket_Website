@@ -1,5 +1,10 @@
 <div class="">
-  <h2 class="text-2xl font-bold mb-2">{{ eventName }}</h2>
+  <div class="flex justify-center mb-2">
+    <p class="text-4xl mb-2 text-primary" style="font-family: 'MochiyPopOne'">
+      Member Management
+    </p>
+  </div>
+  <p class="text-xl font-bold mb-2">{{ eventName }}</p>
   <div class="w-full border border-gray-200 my-4"></div>
   <div class="w-full flex flex-col">
     <div class="flex items-center justify-between mb-4">
@@ -7,7 +12,7 @@
         <div class="flex items-center gap-2">
           <input
             type="text"
-            placeholder="Search voucher"
+            placeholder="Search Member Name"
             class="rounded-lg py-2 px-4 border border-spacing-6 border-gray-400 focus:outline-none text-sm"
             formControlName="keyword"
           />
