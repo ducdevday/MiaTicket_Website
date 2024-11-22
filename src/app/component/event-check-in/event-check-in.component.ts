@@ -24,6 +24,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import DropDownModel from '../../dto/model/drop-down-model';
 import { TimeUtil } from '../../utils/time-util';
 import GetCheckInEventReportModel from '../../dto/model/get-check-in-event-report-model';
+import CurrencyUtil from '../../utils/currency-util';
 
 @Component({
   selector: 'app-event-check-in',
@@ -136,5 +137,9 @@ export class EventCheckInComponent implements OnInit {
   onShowTimeChange(selectedShowTime: DropDownModel): void {
     this.showTimeId = selectedShowTime.value;
     this.setQueryParams({ showTimeId: this.showTimeId });
+  }
+
+  formatTicketPrice(price: number): string {
+    return CurrencyUtil.formatCurrency(price);
   }
 }

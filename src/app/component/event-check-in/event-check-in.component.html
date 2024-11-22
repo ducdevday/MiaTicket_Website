@@ -53,7 +53,7 @@
       <ng-template pTemplate="body" let-ticket let-rowIndex="rowIndex">
         <tr>
           <td class="text-sm">{{ ticket.name }}</td>
-          <td class="text-sm">{{ ticket.price }}</td>
+          <td class="text-sm">{{ formatTicketPrice(ticket.price) }}</td>
           <td class="text-sm">
             {{ ticket.totalCheckedInTicket }}/{{ ticket.totalPaidTicket }}
           </td>
