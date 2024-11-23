@@ -1,0 +1,77 @@
+<div class="">
+  <div class="flex justify-center mb-2">
+    <p class="text-4xl mb-2 text-primary" style="font-family: 'MochiyPopOne'">
+      Order Report
+    </p>
+  </div>
+  <div class="w-full flex">
+    <p class="flex-1 text-xl font-bold mb-2">{{ eventName }}</p>
+    <button pButton class="primary-button" (click)="openPrintForm()">
+      Print Report
+      <i class="fa-solid fa-print ml-2"></i>
+    </button>
+  </div>
+  <div class="w-full border border-gray-200 my-4"></div>
+  <div class="flex mb-2">
+    <p-dropdown
+      optionLabel="name"
+      [options]="showTimes"
+      placeholder="Choose Show Time"
+      styleClass="w-full "
+      [(ngModel)]="showTimeChosen"
+      (ngModelChange)="onShowTimeChange($event)"
+    />
+  </div>
+
+  <p-table [value]="orders">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-sm font-semibold">Name</th>
+        <th class="text-sm font-semibold">Email</th>
+        <th class="text-sm font-semibold">Phone Number</th>
+        <th class="text-sm font-semibold">Payment Method</th>
+        <th class="text-sm font-semibold">Tickets</th>
+        <th class="text-sm font-semibold">Total Price</th>
+        <th class="text-sm font-semibold">Payment Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order let-rowIndex="rowIndex">
+      <tr>
+        <td class="text-sm">{{ order.receiverName }}</td>
+        <td class="text-sm">{{ order.receiverEmail }}</td>
+        <td class="text-sm">
+          {{ order.receiverPhoneNumber }}
+        </td>
+        <td class="text-sm">
+          <div class="flex">
+            <img
+              [src]="imgPaymentMethod(order.paymentMethod)"
+              class="object-cover object-center w-6"
+            />
+            <p class="text-sm text-gray-700">
+              {{ formatPaymentMethod(order.paymentMethod) }}
+            </p>
+          </div>
+        </td>
+        <td class="text-sm">{{ formatTickets(order.tickets) }}</td>
+        <td class="text-sm">{{ formatTicketPrice(order.totalPrice) }}</td>
+
+        <td
+          class="text-sm font-medium"
+          [ngClass]="{
+            'text-green-700': isPaymentPaid(order.paymentStatus),
+            'text-yellow-700': !isPaymentPaid(order.paymentStatus)
+          }"
+        >
+          {{ formatPaymentStatus(order.paymentStatus) }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-paginator
+    class="paginator"
+    (onPageChange)="onPageChange($event)"
+    [rows]="this.pagination.currentPageSize"
+    [totalRecords]="this.pagination.totalRecords"
+  />
+</div>

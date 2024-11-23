@@ -23,6 +23,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   ORGANIZER_CHECK_IN_PATH,
   ORGANIZER_MEMBERS_PATH,
+  ORGANIZER_ORDER_REPORT_PATH,
   ORGANIZER_VOUCHERS_PATH,
 } from '../../app.routes';
 @Component({
@@ -147,9 +148,14 @@ export class MyEventsComponent implements OnInit {
       ORGANIZER_MEMBERS_PATH.replace(':eventId', eventId.toString()),
     ]);
   }
-  onCheckInButtonPressed(eventId: number, eventName: string) {
+  onCheckInButtonPressed(eventId: number) {
     this.router.navigate([
       ORGANIZER_CHECK_IN_PATH.replace(':eventId', eventId.toString()),
+    ]);
+  }
+  onOrderListPressed(eventId: number) {
+    this.router.navigate([
+      ORGANIZER_ORDER_REPORT_PATH.replace(':eventId', eventId.toString()),
     ]);
   }
 }

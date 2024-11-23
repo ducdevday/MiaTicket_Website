@@ -8,6 +8,8 @@ import GetMyEventResponse from '../dto/response/get-my-events-response';
 import GetOrderDetailResponse from '../dto/response/get-order-detail-response';
 import GetMyOrdersResponse from '../dto/response/get-my-orders-response';
 import CancelOrderResponse from '../dto/response/cancel-order-response';
+import GetOrderReportRequest from '../dto/request/get-order-report-request';
+import GetOrderReportResponse from '../dto/response/get-order-report-response';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +49,16 @@ export class OrderService {
     return this.http.patch<CancelOrderResponse>(
       `${this.BASE_ORDER_URL}/${this.CANCEL_ORDER_URL}/${orderId}`,
       null
+    );
+  }
+
+  getOrderReport(eventId: number, request: GetOrderReportRequest) {
+    const params = new HttpParams({ fromObject: { ...request } });
+    return this.http.get<GetOrderReportResponse>(
+      `${this.BASE_ORDER_URL}/events/${eventId}/report`,
+      {
+        params,
+      }
     );
   }
 }
