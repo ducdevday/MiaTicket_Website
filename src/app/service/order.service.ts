@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import CreateOrderRequest from '../dto/request/create-order-request';
 import { BASE_URL } from '../const/environment';
@@ -10,6 +10,9 @@ import GetMyOrdersResponse from '../dto/response/get-my-orders-response';
 import CancelOrderResponse from '../dto/response/cancel-order-response';
 import GetOrderReportRequest from '../dto/request/get-order-report-request';
 import GetOrderReportResponse from '../dto/response/get-order-report-response';
+import ExportOrderReportRequest from '../dto/model/export-order-report-request';
+import ExportOrderReportResponse from '../dto/response/export-order-report-response';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +61,23 @@ export class OrderService {
       `${this.BASE_ORDER_URL}/events/${eventId}/report`,
       {
         params,
+      }
+    );
+  }
+
+  exportOrderReport(
+    eventId: number,
+    request: ExportOrderReportRequest
+  ): Observable<Blob> {
+    const params = new HttpParams({ fromObject: { ...request } });
+    return this.http.get(
+      `${this.BASE_ORDER_URL}/events/${eventId}/export-report`,
+      {
+        params,
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        responseType: 'blob',
       }
     );
   }

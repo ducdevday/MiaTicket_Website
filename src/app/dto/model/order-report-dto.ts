@@ -3,6 +3,7 @@ import { PaymentType } from '../enum/payment-type';
 import TicketReportDto from './ticket-report-dto';
 
 export default class OrderReportDto {
+  orderId!: number;
   receiverName!: string;
   receiverEmail!: string;
   receiverPhoneNumber!: string;

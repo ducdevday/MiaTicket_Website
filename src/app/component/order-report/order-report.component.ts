@@ -20,6 +20,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { PaymentType } from '../../dto/enum/payment-type';
 import TicketReportDto from '../../dto/model/ticket-report-dto';
 import { PaymentStatus } from '../../dto/enum/payment-status';
+import ExportOrderReportRequest from '../../dto/model/export-order-report-request';
 
 @Component({
   selector: 'app-order-report',
@@ -153,7 +154,23 @@ export class OrderReportComponent {
     this.pagination.currentPageIndex = event.page + 1;
     this.fetchOrderReport(this.showTimeId);
   }
-  openPrintForm() {}
+  onExportReportButtonPressed() {
+    var request = new ExportOrderReportRequest(this.showTimeId);
+    this.orderService.exportOrderReport(this.eventId, request).subscribe({
+      next: (response) => {
+        const blob = new Blob([response], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `OrderReport_${
+          this.eventId
+        }_${new Date().toISOString()}.xlsx`;
+        link.click();
+      },
+      error: (err: HttpErrorResponse) => {},
+    });
+  }
   imgPaymentMethod(paymentMethod: PaymentType): string {
     switch (paymentMethod) {
       case PaymentType.VnPay:
