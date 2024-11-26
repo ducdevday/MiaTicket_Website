@@ -1,18 +1,20 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import CreateOrderRequest from '../dto/request/create-order-request';
-import { BASE_URL } from '../const/environment';
-import CreateOrderResponse from '../dto/response/create-order-response';
-import GetMyOrdersRequest from '../dto/request/get-my-orders-request';
-import GetMyEventResponse from '../dto/response/get-my-events-response';
-import GetOrderDetailResponse from '../dto/response/get-order-detail-response';
-import GetMyOrdersResponse from '../dto/response/get-my-orders-response';
-import CancelOrderResponse from '../dto/response/cancel-order-response';
-import GetOrderReportRequest from '../dto/request/get-order-report-request';
-import GetOrderReportResponse from '../dto/response/get-order-report-response';
-import ExportOrderReportRequest from '../dto/model/export-order-report-request';
-import ExportOrderReportResponse from '../dto/response/export-order-report-response';
 import { Observable } from 'rxjs';
+import { BASE_URL } from '../const/environment';
+import ExportOrderReportRequest from '../dto/model/export-order-report-request';
+import CreateOrderRequest from '../dto/request/create-order-request';
+import GetMyOrdersRequest from '../dto/request/get-my-orders-request';
+import GetOrderReportRequest from '../dto/request/get-order-report-request';
+import GetOrderSummaryRevenueRequest from '../dto/request/get-order-summary-revenue-request';
+import CancelOrderResponse from '../dto/response/cancel-order-response';
+import CreateOrderResponse from '../dto/response/create-order-response';
+import GetMyOrdersResponse from '../dto/response/get-my-orders-response';
+import GetOrderDetailResponse from '../dto/response/get-order-detail-response';
+import GetOrderReportResponse from '../dto/response/get-order-report-response';
+import GetOrderSummaryRevenueResponse from '../dto/response/get-order-summary-revenue-response';
+import GetOrderSummaryFigureResponse from '../dto/response/get-order-summary-figure-response';
+import GetOrderSummaryFiguresRequest from '../dto/request/get-order-summary-figure-request';
 
 @Injectable({
   providedIn: 'root',
@@ -78,6 +80,32 @@ export class OrderService {
           'Content-Type': 'application/json',
         }),
         responseType: 'blob',
+      }
+    );
+  }
+
+  getOrderSummaryRevenue(
+    eventId: number,
+    request: GetOrderSummaryRevenueRequest
+  ) {
+    const params = new HttpParams({ fromObject: { ...request } });
+    return this.http.get<GetOrderSummaryRevenueResponse>(
+      `${this.BASE_ORDER_URL}/events/${eventId}/summary-revenue`,
+      {
+        params,
+      }
+    );
+  }
+
+  getOrderSummaryFigure(
+    eventId: number,
+    request: GetOrderSummaryFiguresRequest
+  ) {
+    const params = new HttpParams({ fromObject: { ...request } });
+    return this.http.get<GetOrderSummaryFigureResponse>(
+      `${this.BASE_ORDER_URL}/events/${eventId}/summary-figures`,
+      {
+        params,
       }
     );
   }

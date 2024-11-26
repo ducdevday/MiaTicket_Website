@@ -23,7 +23,6 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     ButtonModule,
     TableModule,
-    CreateTicketComponent,
     CreateVoucherComponent,
     EmptyComponent,
   ],

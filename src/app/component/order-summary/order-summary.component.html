@@ -1,0 +1,99 @@
+<div class="">
+  <div class="flex justify-center mb-2">
+    <p class="text-4xl mb-2 text-primary" style="font-family: 'MochiyPopOne'">
+      Summary
+    </p>
+  </div>
+  <div class="w-full flex">
+    <p class="flex-1 text-xl font-bold mb-2">{{ eventName }}</p>
+  </div>
+  <div class="w-full border border-gray-200 my-4"></div>
+  <div class="flex mb-2">
+    <p class="flex-1 text-lg font-bold">Overview</p>
+
+    <p-dropdown
+      optionLabel="name"
+      [options]="showTimes"
+      placeholder="Choose Show Time"
+      styleClass="w-full "
+      [(ngModel)]="showTimeChosen"
+      (ngModelChange)="onShowTimeChange($event)"
+    />
+  </div>
+  <div *ngIf="orderSummaryRevenue != null">
+    <div class="flex gap-4">
+      <div
+        class="flex w-full justify-between items-center bg-[#1c1c1c] text-white p-4 rounded-lg shadow-md max-w-[600px] mb-2"
+      >
+        <div class="flex flex-col gap-2">
+          <p>Gross Sales</p>
+          <h2 class="text-xl font-bold">
+            {{ formatPrice(orderSummaryRevenue.totalCurrentGrossSale) }}
+          </h2>
+          <p>
+            Capacity:
+            {{ formatPrice(orderSummaryRevenue.totalCapacityGrossSale) }}
+          </p>
+        </div>
+        <div class="flex justify-center items-center">
+          <div class="text-2xl font-semibold text-primary">
+            <span>{{ orderSummaryRevenue.grossSalePercentage }}%</span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex w-full justify-between items-center bg-[#1c1c1c] text-white p-4 rounded-lg shadow-md max-w-[600px] mb-2"
+      >
+        <div class="flex flex-col gap-2">
+          <p>Sold Tickets</p>
+          <h2 class="text-xl font-bold">
+            {{ orderSummaryRevenue.totalSoldTickets }} tickets
+          </h2>
+          <p>Capacity: {{ orderSummaryRevenue.totalCapacityTickets }} ticket</p>
+        </div>
+        <div class="flex justify-center items-center">
+          <div class="text-2xl font-semibold text-primary">
+            <span>{{ orderSummaryRevenue.ticketSoldPercentage }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="text-lg font-bold my-2">Detail</p>
+    <p-table [value]="orderSummaryRevenue.tickets">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-sm font-semibold">Ticket Type</th>
+          <th class="text-sm font-semibold">Price</th>
+          <th class="text-sm font-semibold">Sold tickets</th>
+          <th class="text-sm font-semibold">Percentage</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ticket let-rowIndex="rowIndex">
+        <tr>
+          <td class="text-sm">{{ ticket.name }}</td>
+          <td class="text-sm">{{ formatPrice(ticket.price) }}</td>
+          <td class="text-sm">
+            {{ ticket.totalSoldTicket }}/{{ ticket.capacityTicket }}
+          </td>
+          <td class="text-sm">{{ ticket.ticketSoldPercentage }}%</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="flex w-full my-2">
+    <p class="flex-1 text-lg font-bold">Statistic</p>
+    <p-calendar
+      styleClass="block w-full input-calendar text-gray-900 font-normal"
+      placeholder="MM/dd/yyyy"
+      selectionMode="range"
+      [readonlyInput]="true"
+      [(ngModel)]="rangeDates"
+      [disabled]="showTimeChosen == null"
+      [maxDate]="maxDate"
+      (ngModelChange)="onDateTimeRangeChange($event)"
+    />
+  </div>
+  <div class="card">
+    <p-chart type="line" [data]="data" [options]="options" />
+  </div>
+</div>

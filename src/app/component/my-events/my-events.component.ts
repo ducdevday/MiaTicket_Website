@@ -24,6 +24,7 @@ import {
   ORGANIZER_CHECK_IN_PATH,
   ORGANIZER_MEMBERS_PATH,
   ORGANIZER_ORDER_REPORT_PATH,
+  ORGANIZER_ORDER_SUMMARY_PATH,
   ORGANIZER_VOUCHERS_PATH,
 } from '../../app.routes';
 @Component({
@@ -156,6 +157,11 @@ export class MyEventsComponent implements OnInit {
   onOrderListPressed(eventId: number) {
     this.router.navigate([
       ORGANIZER_ORDER_REPORT_PATH.replace(':eventId', eventId.toString()),
+    ]);
+  }
+  onSummaryPressed(eventId: number) {
+    this.router.navigate([
+      ORGANIZER_ORDER_SUMMARY_PATH.replace(':eventId', eventId.toString()),
     ]);
   }
 }

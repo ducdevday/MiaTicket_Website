@@ -26,6 +26,7 @@ import { OrganizerDashboardComponent } from './component/organizer-dashboard/org
 import { EventMemberComponent } from './component/event-member/event-member.component';
 import { EventCheckInComponent } from './component/event-check-in/event-check-in.component';
 import { OrderReportComponent } from './component/order-report/order-report.component';
+import { OrderSummaryComponent } from './component/order-summary/order-summary.component';
 
 export const HOME_PATH: string = '';
 export const LOGIN_PATH: string = 'login';
@@ -60,6 +61,8 @@ export const ORGANIZER_CHECK_IN_PATH: string =
   'organizer/events/:eventId/checkin';
 export const ORGANIZER_ORDER_REPORT_PATH: string =
   'organizer/events/:eventId/order-report';
+export const ORGANIZER_ORDER_SUMMARY_PATH: string =
+  'organizer/events/:eventId/summary';
 export const routes: Routes = [
   {
     path: '',
@@ -198,6 +201,11 @@ export const routes: Routes = [
       {
         path: ORGANIZER_ORDER_REPORT_PATH,
         component: OrderReportComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: ORGANIZER_ORDER_SUMMARY_PATH,
+        component: OrderSummaryComponent,
         canActivate: [AuthGuardService],
       },
     ],
