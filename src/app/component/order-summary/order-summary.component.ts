@@ -135,7 +135,6 @@ export class OrderSummaryComponent {
   }
   onDateTimeRangeChange(newRange: Date[]) {
     this.rangeDates = newRange;
-    console.log(this.rangeDates);
     if (this.rangeDates.length == 2 && this.rangeDates[0] && this.rangeDates[1])
       this.fetchOrderSummaryFigure();
   }
