@@ -1,9 +1,11 @@
 import { KeyValue } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { Role } from '../dto/enum/role';
 
 const USER_ID_KEY: string = 'user_id';
 const ACCESS_TOKEN_KEY: string = 'access_token';
 const IS_AUTHENTICATED: string = 'is_authenticated';
+const ROLE_KEY: string = 'role';
 const CART_ITEM_EVENT: string = 'event_id';
 const CART_ITEM_SHOWTIME: string = 'show_time';
 const CART_ITEM_TICKETS: string = 'ticket_list';
@@ -57,6 +59,19 @@ export class LocalStorageService {
       return JSON.parse(accessToken);
     }
 
+    return null;
+  }
+
+  public saveRole(role: Role): void {
+    window.localStorage.removeItem(ROLE_KEY);
+    window.localStorage.setItem(ROLE_KEY, JSON.stringify(role));
+  }
+
+  public getRole(): Role | null {
+    const role = window.localStorage.getItem(ROLE_KEY);
+    if (role) {
+      return JSON.parse(role) as Role;
+    }
     return null;
   }
 

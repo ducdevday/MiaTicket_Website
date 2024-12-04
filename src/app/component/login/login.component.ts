@@ -12,7 +12,12 @@ import { ToastModule } from 'primeng/toast';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMAIL_VERIFY_PATH, HOME_PATH, REGISTER_PATH } from '../../app.routes';
+import {
+  EMAIL_VERIFY_PATH,
+  HOME_PATH,
+  ORGANIZER_PATH,
+  REGISTER_PATH,
+} from '../../app.routes';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../const/regex';
 import { VerifyType } from '../../dto/enum/verify-type';
 import { LoginRequest } from '../../dto/request/login-request';
@@ -21,6 +26,7 @@ import { LocalStorageService } from '../../service/local-storage.service';
 import { ToastService } from '../../service/toast.service';
 import { VerifyCodeService } from '../../service/verify-code.service';
 import SendVerifyCodeRequest from '../../dto/request/send-verify-code-request';
+import { Role } from '../../dto/enum/role';
 
 @Component({
   selector: 'app-login',
@@ -67,9 +73,8 @@ export class LoginComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    const token = this.localStorageService.getAccessToken();
-    if (token !== null && token !== undefined && token.length > 0)
-      this.router.navigate(['']);
+    const isAuthenticated = this.localStorageService.getIsAuthenticated();
+    if (isAuthenticated) this.router.navigate(['']);
   }
 
   onLogin() {
@@ -86,6 +91,7 @@ export class LoginComponent implements OnInit {
           this.localStorageService.saveIsAuthenticated(true);
           this.localStorageService.saveUserId(response.data.userId);
           this.localStorageService.saveAccessToken(response.data.accessToken);
+          this.localStorageService.saveRole(response.data.role);
           this.onHandleNavigate();
         },
         error: (err) => {
@@ -106,8 +112,13 @@ export class LoginComponent implements OnInit {
   }
 
   onHandleNavigate() {
+    console.log('onHandleNavigate');
+    const path =
+      this.localStorageService.getRole() == Role.Organizer
+        ? ORGANIZER_PATH
+        : HOME_PATH;
     const redirectUrl =
-      this.route.snapshot.queryParamMap.get('redirectUrl') || HOME_PATH;
+      this.route.snapshot.queryParamMap.get('redirectUrl') || path;
     this.router.navigate([redirectUrl]);
   }
 
